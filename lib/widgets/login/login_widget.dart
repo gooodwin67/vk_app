@@ -127,7 +127,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                   child: TextButton(
                     onPressed: _onResetPassword,
                     child: const Text('Забыли?',
-                        style: TextStyle(color: Color(0xaaffffff))),
+                        style: TextStyle(
+                            color: Color(0xaaffffff),
+                            decoration: TextDecoration.underline)),
                   ),
                 ),
                 const SizedBox(height: 50),
