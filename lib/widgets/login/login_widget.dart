@@ -1,28 +1,27 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
-class LoginWidget extends StatefulWidget {
-  const LoginWidget({Key? key}) : super(key: key);
+class LoginScreenWidget extends StatefulWidget {
+  const LoginScreenWidget({Key? key}) : super(key: key);
 
   @override
-  State<LoginWidget> createState() => _LoginWidgetState();
+  State<LoginScreenWidget> createState() => _LoginScreenWidgetState();
 }
 
-class _LoginWidgetState extends State<LoginWidget> {
+class _LoginScreenWidgetState extends State<LoginScreenWidget> {
   final _loginTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
 
   String textInvalidLogin = '';
 
   void _onResetPassword() {
-    print('resetPassword');
+    Navigator.pushNamed(context, '/reset-password');
   }
 
   void _onEnter() {
     if (_loginTextController.text == 'admin' &&
         _passwordTextController.text == 'admin') {
       textInvalidLogin = '';
+      Navigator.pushNamed(context, '/main');
     } else {
       textInvalidLogin = 'Не верный логин или пароль';
     }
@@ -30,7 +29,7 @@ class _LoginWidgetState extends State<LoginWidget> {
   }
 
   void _onRegister() {
-    print('Register');
+    Navigator.pushNamed(context, '/register');
   }
 
   @override
