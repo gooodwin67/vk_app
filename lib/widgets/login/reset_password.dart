@@ -10,9 +10,15 @@ class ResetPasswordScreenWidget extends StatefulWidget {
 
 class _ResetPasswordScreenWidgetState extends State<ResetPasswordScreenWidget> {
   final _resetPasswordTextController = TextEditingController();
+  static Color colorBorder = Color(0xff5D99DD);
 
   void _onResetPassword() {
-    print('resetPass');
+    if (_resetPasswordTextController.text.length > 0) {
+      Navigator.pushNamed(context, '/confirm-send');
+    } else {
+      colorBorder = Color(0xFFFF0000);
+    }
+    setState(() {});
   }
 
   @override
@@ -32,10 +38,16 @@ class _ResetPasswordScreenWidgetState extends State<ResetPasswordScreenWidget> {
             const SizedBox(height: 30),
             TextField(
               controller: _resetPasswordTextController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: colorBorder, width: 2),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(50),
+                  ),
+                ),
                 border: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.all(
+                  borderSide: BorderSide(color: colorBorder, width: 2),
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(50),
                   ),
                 ),
