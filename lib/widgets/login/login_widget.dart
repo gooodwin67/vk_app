@@ -68,6 +68,7 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
                       ),
                 TextField(
                   controller: _loginTextController,
+                  textInputAction: TextInputAction.next,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(
                       borderSide: BorderSide.none,
@@ -95,6 +96,7 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
                 const SizedBox(height: 25),
                 TextField(
                   controller: _passwordTextController,
+                  textInputAction: TextInputAction.next,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(
                       borderSide: BorderSide.none,
