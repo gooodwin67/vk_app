@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vk_app/widgets/friends/friends_list.dart';
 
 class MainScreenWidget extends StatefulWidget {
   const MainScreenWidget({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
       child: const Text('Home'),
     ),
     Container(
-      child: const Text('Friends'),
+      child: const FriendsWidget(),
     ),
     Container(
       child: const Text('Groups'),
