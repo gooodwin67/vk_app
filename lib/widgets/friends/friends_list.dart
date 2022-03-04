@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Friend extends StatelessWidget {
-  Image avatar;
-  String name;
-  Friend({Key? key, required this.avatar, required this.name})
+  final Image avatar;
+  final String name;
+  const Friend({Key? key, required this.avatar, required this.name})
       : super(key: key);
 
   @override
@@ -44,7 +44,7 @@ class Friend extends StatelessWidget {
   }
 }
 
-List<Widget> listFriends = <Widget>[
+List<Friend> listFriends = <Friend>[
   Friend(avatar: Image.asset('images/ava.jpg'), name: 'Иван Иванов'),
   Friend(avatar: Image.asset('images/ava.jpg'), name: 'Петр Петров'),
   Friend(avatar: Image.asset('images/ava.jpg'), name: 'Сергей Сергеев'),
@@ -59,25 +59,58 @@ List<Widget> listFriends = <Widget>[
   Friend(avatar: Image.asset('images/ava.jpg'), name: 'Сергей Сергеев'),
 ];
 
-class FriendsWidget extends StatelessWidget {
+List<Friend> listFriendsAfterSearch = <Friend>[];
+List<Friend> TestlistFriendsAfterSearch = <Friend>[];
+
+class FriendsWidget extends StatefulWidget {
   const FriendsWidget({Key? key}) : super(key: key);
+
+  @override
+  State<FriendsWidget> createState() => _FriendsWidgetState();
+}
+
+class _FriendsWidgetState extends State<FriendsWidget> {
+  final searchController = TextEditingController();
+
+  @override
+  void initState() {
+    _onChangedSearchField();
+    searchController.addListener((_onChangedSearchField));
+    super.initState();
+  }
+
+  void _onChangedSearchField() {
+    if (searchController.text.toString().isNotEmpty) {
+      listFriendsAfterSearch = listFriends.where((el) {
+        return el.name
+            .toLowerCase()
+            .contains(searchController.text.toString().toLowerCase());
+      }).toList();
+    } else {
+      listFriendsAfterSearch = listFriends;
+    }
+
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         ListView.builder(
-            itemCount: listFriends.length,
+            itemCount: listFriendsAfterSearch.length,
             itemBuilder: (BuildContext context, int index) {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: listFriends[index],
+                child: listFriendsAfterSearch[index],
               );
             }),
-        const Padding(
-          padding: EdgeInsets.all(10.0),
-          child: const TextField(
-            decoration: InputDecoration(
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: TextField(
+            controller: searchController,
+            //onChanged: onChangedSearchField,
+            decoration: const InputDecoration(
               border: const OutlineInputBorder(),
               filled: true,
               fillColor: Color(0xeeffffff),
