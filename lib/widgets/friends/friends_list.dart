@@ -3,10 +3,12 @@
 import 'package:flutter/material.dart';
 
 class Friend extends StatelessWidget {
+  int id;
   Image avatar;
   String name;
   Friend({
     Key? key,
+    required this.id,
     required this.avatar,
     required this.name,
   }) : super(key: key);
@@ -20,7 +22,10 @@ class Friend extends StatelessWidget {
         children: [
           Expanded(
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, '/main/people-profile',
+                    arguments: id);
+              },
               child: Row(
                 children: [
                   ClipRRect(
@@ -49,18 +54,18 @@ class Friend extends StatelessWidget {
 }
 
 List<Friend> listFriend = <Friend>[
-  Friend(avatar: Image.asset('images/ava.jpg'), name: 'Иван Иванов'),
-  Friend(avatar: Image.asset('images/ava.jpg'), name: 'Петр Петров'),
-  Friend(avatar: Image.asset('images/ava.jpg'), name: 'Андрей Андреев'),
-  Friend(avatar: Image.asset('images/ava.jpg'), name: 'Иван Иванов'),
-  Friend(avatar: Image.asset('images/ava.jpg'), name: 'Петр Петров'),
-  Friend(avatar: Image.asset('images/ava.jpg'), name: 'Андрей Андреев'),
-  Friend(avatar: Image.asset('images/ava.jpg'), name: 'Иван Иванов'),
-  Friend(avatar: Image.asset('images/ava.jpg'), name: 'Петр Петров'),
-  Friend(avatar: Image.asset('images/ava.jpg'), name: 'Андрей Андреев'),
-  Friend(avatar: Image.asset('images/ava.jpg'), name: 'Иван Иванов'),
-  Friend(avatar: Image.asset('images/ava.jpg'), name: 'Петр Петров'),
-  Friend(avatar: Image.asset('images/ava.jpg'), name: 'Андрей Андреев'),
+  Friend(id: 1, avatar: Image.asset('images/ava.jpg'), name: 'Иван Иванов'),
+  Friend(id: 2, avatar: Image.asset('images/ava.jpg'), name: 'Петр Петров'),
+  Friend(id: 3, avatar: Image.asset('images/ava.jpg'), name: 'Андрей Андреев'),
+  Friend(id: 4, avatar: Image.asset('images/ava.jpg'), name: 'Иван Иванов'),
+  Friend(id: 5, avatar: Image.asset('images/ava.jpg'), name: 'Петр Петров'),
+  Friend(id: 6, avatar: Image.asset('images/ava.jpg'), name: 'Андрей Андреев'),
+  Friend(id: 7, avatar: Image.asset('images/ava.jpg'), name: 'Иван Иванов'),
+  Friend(id: 8, avatar: Image.asset('images/ava.jpg'), name: 'Петр Петров'),
+  Friend(id: 9, avatar: Image.asset('images/ava.jpg'), name: 'Андрей Андреев'),
+  Friend(id: 10, avatar: Image.asset('images/ava.jpg'), name: 'Иван Иванов'),
+  Friend(id: 11, avatar: Image.asset('images/ava.jpg'), name: 'Петр Петров'),
+  Friend(id: 12, avatar: Image.asset('images/ava.jpg'), name: 'Андрей Андреев'),
 ];
 
 List<Friend> listFriendAfterSearch = <Friend>[];
