@@ -163,8 +163,10 @@ class PeopleProfileInfo extends StatelessWidget {
           children: [
             Icon(Icons.sports_rugby_rounded, color: Colors.grey[500]),
             SizedBox(width: 8),
-            Text('Место учебы: Смоленский Гумманитарный университет',
-                style: TextStyle(color: Colors.grey[500])),
+            Flexible(
+              child: Text('Место учебы: Смоленский Гумманитарный университет',
+                  style: TextStyle(color: Colors.grey[500], height: 1.5)),
+            ),
           ],
         ),
         const SizedBox(height: 7),

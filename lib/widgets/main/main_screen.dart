@@ -10,7 +10,7 @@ class MainScreenWidget extends StatefulWidget {
 }
 
 class _MainScreenWidgetState extends State<MainScreenWidget> {
-  int _currentItemInBar = 2;
+  int _currentItemInBar = 0;
 
   var listItemsBar = <Widget>[
     Container(
