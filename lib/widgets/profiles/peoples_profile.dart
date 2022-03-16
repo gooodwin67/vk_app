@@ -45,7 +45,7 @@ class PeopleProfileWidget extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               children: [
                 Expanded(
@@ -60,15 +60,15 @@ class PeopleProfileWidget extends StatelessWidget {
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(13.0),
+                          borderRadius: BorderRadius.circular(11.0),
                         )),
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Color(0xff2d81e0)),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            const Color(0xff2d81e0)),
                         padding: MaterialStateProperty.all(
-                            EdgeInsets.symmetric(vertical: 20))),
+                            const EdgeInsets.symmetric(vertical: 15))),
                   ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {},
@@ -83,48 +83,54 @@ class PeopleProfileWidget extends StatelessWidget {
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(13.0),
+                          borderRadius: BorderRadius.circular(11.0),
                         )),
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Color(0xFFE4E4E4)),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            const Color(0xFFE4E4E4)),
                         padding: MaterialStateProperty.all(
-                            EdgeInsets.symmetric(vertical: 20))),
+                            const EdgeInsets.symmetric(vertical: 15))),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 15),
             Row(
               // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Expanded(
-                  child: Column(
-                    children: const [
-                      Icon(Icons.money, color: Colors.blue, size: 40),
-                      SizedBox(height: 5),
-                      Text('Деньги', style: TextStyle(color: Colors.blue)),
-                    ],
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Column(
+                      children: const [
+                        Icon(Icons.money, color: Colors.blue, size: 40),
+                        SizedBox(height: 5),
+                        Text('Деньги', style: TextStyle(color: Colors.blue)),
+                      ],
+                    ),
                   ),
                 ),
                 Expanded(
-                  child: Column(
-                    children: const [
-                      Icon(Icons.card_giftcard, color: Colors.blue, size: 40),
-                      SizedBox(height: 5),
-                      Text('Подарок', style: TextStyle(color: Colors.blue)),
-                    ],
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Column(
+                      children: const [
+                        Icon(Icons.card_giftcard, color: Colors.blue, size: 40),
+                        SizedBox(height: 5),
+                        Text('Подарок', style: TextStyle(color: Colors.blue)),
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 15),
             Container(
               height: 1,
               width: double.infinity,
               color: Colors.grey[300],
             ),
             const SizedBox(height: 25),
-            PeopleProfileInfo(),
+            const PeopleProfileInfo(),
             const SizedBox(height: 25),
             Container(
               height: 1,
@@ -146,7 +152,7 @@ class PeopleProfileInfo extends StatelessWidget {
         Row(
           children: [
             Icon(Icons.manage_accounts_outlined, color: Colors.grey[500]),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Text('118 друзей', style: TextStyle(color: Colors.grey[500])),
           ],
         ),
@@ -154,7 +160,7 @@ class PeopleProfileInfo extends StatelessWidget {
         Row(
           children: [
             Icon(Icons.home, color: Colors.grey[500]),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Text('Город: Москва', style: TextStyle(color: Colors.grey[500])),
           ],
         ),
@@ -162,7 +168,7 @@ class PeopleProfileInfo extends StatelessWidget {
         Row(
           children: [
             Icon(Icons.sports_rugby_rounded, color: Colors.grey[500]),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Flexible(
               child: Text('Место учебы: Смоленский Гумманитарный университет',
                   style: TextStyle(color: Colors.grey[500], height: 1.5)),
@@ -173,18 +179,21 @@ class PeopleProfileInfo extends StatelessWidget {
         Row(
           children: [
             Icon(Icons.open_in_new, color: Colors.grey[500]),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Text('Открытый профиль', style: TextStyle(color: Colors.grey[500])),
           ],
         ),
         const SizedBox(height: 11),
         Row(
-          children: const [
-            Icon(Icons.info, color: Colors.blue),
-            SizedBox(width: 8),
-            Text('Подробная информация',
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.blue)),
+          children: [
+            const Icon(Icons.info, color: Colors.blue),
+            const SizedBox(width: 8),
+            TextButton(
+              onPressed: () {},
+              child: const Text('Подробная информация',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.blue)),
+            )
           ],
         ),
       ],
