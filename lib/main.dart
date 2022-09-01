@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vk_app/widgets/login/login_model.dart';
 import 'package:vk_app/widgets/login/login_widget.dart';
 import 'package:vk_app/widgets/login/register_user.dart';
 import 'package:vk_app/widgets/login/confirm-send.dart';
@@ -17,9 +18,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       //home: LoginScreenWidget(),
-      initialRoute: '/main',
+      initialRoute: '/login',
       routes: {
-        '/': (context) => LoginScreenWidget(),
+        '/login': (context) => LoginProvider(
+            model: LoginModel(), child: const LoginScreenWidget()),
         '/main': (context) => MainScreenWidget(),
         '/main/people-profile': (context) => PeopleProfileWidget(),
         '/reset-password': (context) => ResetPasswordScreenWidget(),

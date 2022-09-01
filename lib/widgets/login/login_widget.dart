@@ -1,39 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:vk_app/widgets/login/login_model.dart';
 
-class LoginScreenWidget extends StatefulWidget {
+class LoginScreenWidget extends StatelessWidget {
   const LoginScreenWidget({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreenWidget> createState() => _LoginScreenWidgetState();
-}
-
-class _LoginScreenWidgetState extends State<LoginScreenWidget> {
-  final _loginTextController = TextEditingController(text: 'admin');
-  final _passwordTextController = TextEditingController(text: 'admin');
-
-  String textInvalidLogin = '';
-
-  void _onResetPassword() {
-    Navigator.pushNamed(context, '/reset-password');
-  }
-
-  void _onEnter() {
-    if (_loginTextController.text == 'admin' &&
-        _passwordTextController.text == 'admin') {
-      textInvalidLogin = '';
-      Navigator.pushNamed(context, '/main');
-    } else {
-      textInvalidLogin = 'Не верный логин или пароль';
-    }
-    setState(() {});
-  }
-
-  void _onRegister() {
-    Navigator.pushNamed(context, '/register');
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final model = LoginProvider.of(context)?.model;
     return Scaffold(
       backgroundColor: const Color(0xff4680C2),
       body: Padding(
@@ -55,19 +28,9 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                textInvalidLogin == ''
-                    ? SizedBox()
-                    : Align(
-                        alignment: Alignment.center,
-                        heightFactor: 1.3,
-                        child: Text(
-                          textInvalidLogin,
-                          style:
-                              TextStyle(color: Colors.red[200], fontSize: 20),
-                        ),
-                      ),
+                _ErrorLoginMessage(),
                 TextField(
-                  controller: _loginTextController,
+                  controller: model?.loginTextController,
                   textInputAction: TextInputAction.next,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(
@@ -95,7 +58,7 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
                 ),
                 const SizedBox(height: 25),
                 TextField(
-                  controller: _passwordTextController,
+                  controller: model?.passwordTextController,
                   textInputAction: TextInputAction.next,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(
@@ -126,7 +89,7 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: TextButton(
-                    onPressed: _onResetPassword,
+                    onPressed: () {}, //_onResetPassword,
                     child: const Text('Забыли?',
                         style: TextStyle(
                             color: Color(0xaaffffff),
@@ -140,29 +103,14 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
                     width: double.infinity,
                     child: ButtonTheme(
                       minWidth: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: _onEnter,
-                        style: ElevatedButton.styleFrom(
-                            primary: Colors.white,
-                            shape: const StadiumBorder()),
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          child: Text(
-                            'Войти',
-                            style: TextStyle(
-                              color: Color(0xff4680C2),
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
-                      ),
+                      child: LoginBtn(),
                     ),
                   ),
                 ),
                 const SizedBox(height: 50),
                 Center(
                   child: TextButton(
-                    onPressed: _onRegister,
+                    onPressed: () {}, //_onRegister,
                     child: const Text('Зарегистрироваться',
                         style: TextStyle(
                             color: Color(0xffffffff),
@@ -179,3 +127,68 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
     );
   }
 }
+
+class LoginBtn extends StatelessWidget {
+  const LoginBtn({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final model = LoginProvider.of(context)?.model;
+    return ElevatedButton(
+      onPressed: model?.canStartLogin == true
+          ? () => model?.login(context)
+          : null, //_onEnter,
+      style: ElevatedButton.styleFrom(
+          primary: Colors.white, shape: const StadiumBorder()),
+      child: const Padding(
+        padding: EdgeInsets.symmetric(vertical: 15),
+        child: Text(
+          'Войти',
+          style: TextStyle(
+            color: Color(0xff4680C2),
+            fontSize: 20,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ErrorLoginMessage extends StatelessWidget {
+  const _ErrorLoginMessage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final errorMessage = LoginProvider.of(context)?.model.textInvalidLogin;
+    if (errorMessage == null) return SizedBox();
+    return Text(
+      errorMessage,
+      style: TextStyle(color: Colors.red[200], fontSize: 20),
+    );
+  }
+}
+
+
+/*
+  void _onResetPassword() {
+    Navigator.pushNamed(context, '/reset-password');
+  }
+
+  void _onEnter() {
+    if (_loginTextController.text == 'admin' &&
+        _passwordTextController.text == 'admin') {
+      textInvalidLogin = '';
+      Navigator.pushNamed(context, '/main');
+    } else {
+      textInvalidLogin = 'Не верный логин или пароль';
+    }
+    setState(() {});
+  }
+
+  void _onRegister() {
+    Navigator.pushNamed(context, '/register');
+  }
+*/
+  
