@@ -138,7 +138,7 @@ class LoginBtn extends StatelessWidget {
     final model = LoginProvider.of(context)?.model;
     return ElevatedButton(
       onPressed: model?.canStartLogin == true
-          ? () => model?.login(context)
+          ? () => model?.logginIn(context)
           : null, //_onEnter,
       style: ElevatedButton.styleFrom(
           primary: Colors.white, shape: const StadiumBorder()),

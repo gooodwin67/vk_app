@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vk_app/widgets/friends/friends_list.dart';
 import 'package:vk_app/widgets/groups/groups_list.dart';
+import 'package:vk_app/widgets/main/main_screen_model.dart';
 
 class MainScreenWidget extends StatefulWidget {
   const MainScreenWidget({Key? key}) : super(key: key);
@@ -12,24 +13,6 @@ class MainScreenWidget extends StatefulWidget {
 class _MainScreenWidgetState extends State<MainScreenWidget> {
   int _currentItemInBar = 0;
 
-  var listItemsBar = <Widget>[
-    Container(
-      child: const Text('Home'),
-    ),
-    Container(
-      child: const FriendsWidget(),
-    ),
-    Container(
-      child: GroupsListWidget(),
-    ),
-    Container(
-      child: ElevatedButton(
-        onPressed: () {},
-        child: Text('Exit'),
-      ),
-    ),
-  ];
-
   void _selectItemBottomBar(index) {
     setState(() {
       _currentItemInBar = index;
@@ -38,6 +21,27 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
 
   @override
   Widget build(BuildContext context) {
+    //final model = MainScreenProvider.of(context)?.model;
+    //MainScreenProvider.of(context)?.model.Ressss();
+    final resss = MainScreenProvider.of(context)?.model.resss;
+
+    var listItemsBar = <Widget>[
+      Container(
+        child: Text(resss.toString()),
+      ),
+      Container(
+        child: const FriendsWidget(),
+      ),
+      Container(
+        child: GroupsListWidget(),
+      ),
+      Container(
+        child: ElevatedButton(
+          onPressed: () {},
+          child: Text('Exit'),
+        ),
+      ),
+    ];
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
