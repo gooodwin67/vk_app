@@ -52,7 +52,7 @@ class ApiClient {
         var response = await http.get(Uri.parse(
             'https://api.vk.com/method/users.get?user_ids=569374, 606812&fields=photo_100&v=5.131&access_token=${token}'));
         var responseMap = jsonDecode(response.body);
-        //print(responseMap);
+        print(responseMap);
       }
     } else {
       // Log in failed

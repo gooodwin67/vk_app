@@ -9,6 +9,7 @@ import 'package:vk_app/widgets/main/main_screen_model.dart';
 import 'package:vk_app/widgets/profiles/peoples_profile.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
