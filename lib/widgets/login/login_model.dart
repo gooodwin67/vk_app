@@ -6,6 +6,7 @@ class LoginModel extends ChangeNotifier {
   final passwordTextController = TextEditingController();
   final apiClient = ApiClient();
   final login = ApiClient().login;
+  final getInfo = ApiClient().getInfo;
 
   String _textInvalidLogin = '';
   String get textInvalidLogin => _textInvalidLogin;

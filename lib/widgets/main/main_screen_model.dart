@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:vk_app/domain/api_client/api_client.dart';
 
 class MainScreenModel extends ChangeNotifier {
-  String resss = '1';
+  final apiClient = ApiClient();
+  int info = 0;
 
-  Future Ressss() async {
-    resss = ApiClient().resss;
+  Future<void> loadInfo() async {
+    final infoResponse = await apiClient.getInfo();
+    info = infoResponse.id;
     notifyListeners();
+    print(info);
   }
 }
 

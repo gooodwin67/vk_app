@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vk_app/domain/api_client/api_client.dart';
 import 'package:vk_app/widgets/friends/friends_list.dart';
 import 'package:vk_app/widgets/groups/groups_list.dart';
 import 'package:vk_app/widgets/main/main_screen_model.dart';
@@ -12,6 +13,7 @@ class MainScreenWidget extends StatefulWidget {
 
 class _MainScreenWidgetState extends State<MainScreenWidget> {
   int _currentItemInBar = 0;
+  final mainScreenModel = MainScreenModel();
 
   void _selectItemBottomBar(index) {
     setState(() {
@@ -20,14 +22,22 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    mainScreenModel.loadInfo();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    //final model = MainScreenProvider.of(context)?.model;
-    //MainScreenProvider.of(context)?.model.Ressss();
-    final resss = MainScreenProvider.of(context)?.model.resss;
+    final model = MainScreenProvider.of(context)?.model;
+    if (model != null) print(model.info.toString());
 
     var listItemsBar = <Widget>[
-      Container(
-        child: Text(resss.toString()),
+      MainScreenProvider(
+        model: mainScreenModel,
+        child: Container(
+          child: model != null ? Text(model.info.toString()) : Text('111'),
+        ),
       ),
       Container(
         child: const FriendsWidget(),
