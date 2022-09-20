@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vk_app/domain/api_client/api_client.dart';
+import 'package:vk_app/services/bottom_bar.dart';
 import 'package:vk_app/widgets/friends/friends_list.dart';
 import 'package:vk_app/widgets/groups/groups_list.dart';
 import 'package:vk_app/widgets/main/main_screen_model.dart';
@@ -13,57 +14,41 @@ class MainScreenWidget extends StatefulWidget {
 
 class _MainScreenWidgetState extends State<MainScreenWidget> {
   int _currentItemInBar = 0;
-  final mainScreenModel = MainScreenModel();
-
-  void _selectItemBottomBar(index) {
-    setState(() {
-      _currentItemInBar = index;
-    });
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    mainScreenModel.loadInfo();
+  _selectItemBottomBar(index) {
+    Navigator.pushNamed(context, '/friends');
   }
 
   @override
   Widget build(BuildContext context) {
-    final model = MainScreenProvider.of(context)?.model;
-    if (model != null) print(model.info.toString());
+    return MaterialApp(home: Scaf(currentItemInBar: _currentItemInBar));
+  }
+}
 
-    var listItemsBar = <Widget>[
-      MainScreenProvider(
-        model: mainScreenModel,
-        child: Container(
-          child: model != null ? Text(model.info.toString()) : Text('111'),
-        ),
-      ),
-      Container(
-        child: const FriendsWidget(),
-      ),
-      Container(
-        child: GroupsListWidget(),
-      ),
-      Container(
-        child: ElevatedButton(
-          onPressed: () {},
-          child: Text('Exit'),
-        ),
-      ),
-    ];
+class Scaf extends StatelessWidget {
+  const Scaf({
+    Key? key,
+    required int currentItemInBar,
+  })  : _currentItemInBar = currentItemInBar,
+        super(key: key);
+
+  final int _currentItemInBar;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
       ),
-      body: Center(child: listItemsBar[_currentItemInBar]),
+      body: const Center(child: Text('111')),
       bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           backgroundColor: const Color(0xff4680C2),
           selectedItemColor: Colors.white,
           unselectedItemColor: const Color.fromARGB(255, 207, 206, 206),
           currentIndex: _currentItemInBar,
-          onTap: _selectItemBottomBar,
+          onTap: (index) {
+            Navigator.of(context).pushNamed('/friends');
+          },
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),

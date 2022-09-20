@@ -1,32 +1,50 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:vk_app/domain/api_client/api_client.dart';
 
 class MainScreenModel extends ChangeNotifier {
-  final apiClient = ApiClient();
-  int info = 0;
+  Widget _mainScreen = CircularProgressIndicator();
+  String? _userName = '1';
+  String? get userName => _userName;
+  Widget get mainScreen => _mainScreen;
 
-  Future<void> loadInfo() async {
-    final infoResponse = await apiClient.getInfo();
-    info = infoResponse.id;
+  Future getUserInfo(token) async {
+    var getUserInfo = await http.get(Uri.parse(
+        'https://api.vk.com/method/users.get?v=5.131&access_token=${token}'));
+
+    var userInfoMap = jsonDecode(getUserInfo.body);
+    var userInfoResponse = Response.fromJson(userInfoMap);
+    var userInfoResponseMap = jsonEncode(userInfoResponse.response);
+    var userInfoResponseMap2 = jsonDecode(userInfoResponseMap);
+
+    var userInfo = UserInfo.fromJson(userInfoResponseMap2[0]);
+    _userName = userInfo.firstName;
+    _mainScreen = Text(_userName.toString());
+    //print(userInfo.firstName);
     notifyListeners();
-    print(info);
   }
 }
 
-class MainScreenProvider extends InheritedNotifier {
-  MainScreenProvider({
-    Key? key,
-    required Widget child,
-    required this.model,
-  }) : super(
-          key: key,
-          child: child,
-          notifier: model,
-        );
+class Response {
+  final List response;
 
-  final MainScreenModel model;
+  Response({required this.response});
 
-  static MainScreenProvider? of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<MainScreenProvider>();
+  factory Response.fromJson(Map<String, dynamic> json) {
+    return Response(
+      response: json['response'],
+    );
+  }
+}
+
+class UserInfo {
+  final String firstName;
+
+  UserInfo({required this.firstName});
+
+  factory UserInfo.fromJson(Map<String, dynamic> json) {
+    return UserInfo(
+      firstName: json['first_name'],
+    );
   }
 }
