@@ -19,8 +19,9 @@ class MainScreenModel extends ChangeNotifier {
 
     var userInfo = UserInfo.fromJson(userInfoResponseMap2[0]);
     _userName = userInfo.firstName;
-    _mainScreen = Text(_userName.toString());
+    //_mainScreen = Text(_userName.toString());
     //print(userInfo.firstName);
+    print(_userName);
     notifyListeners();
   }
 }

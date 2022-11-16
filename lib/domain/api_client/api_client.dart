@@ -4,6 +4,7 @@ import 'package:flutter_login_vk/flutter_login_vk.dart';
 class ApiClient extends ChangeNotifier {
   String? _token = '';
   String? get token => _token;
+  bool isLogin = false;
 
   Future<void> login() async {
     final vk = VKLogin();
@@ -16,6 +17,7 @@ class ApiClient extends ChangeNotifier {
     if (res.isValue) {
       final VKLoginResult data = res.asValue!.value;
       print('логин');
+      isLogin = true;
 
       if (data.isCanceled) {
         print('юзер отменил');
