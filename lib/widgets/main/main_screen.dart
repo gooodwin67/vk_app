@@ -11,20 +11,13 @@ class MainScreenWidget extends StatelessWidget {
     context
         .read<MainScreenModel>()
         .getUserInfo(context.read<ApiClient>().token);
+    print('build');
     return Scaffold(
-      body: !context.watch<ApiClient>().isLogin
-          ? Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              color: Colors.white,
-              alignment: Alignment.center,
-              child: Text('Loading...'),
-            )
-          : Container(
-              child: Center(
-                child: Text('Main'),
-              ),
-            ),
+      body: Container(
+        child: Center(
+          child: Text(context.watch<MainScreenModel>().userName.toString()),
+        ),
+      ),
     );
   }
 }
