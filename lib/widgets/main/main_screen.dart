@@ -8,9 +8,9 @@ class MainScreenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context
-        .read<MainScreenModel>()
-        .getUserInfo(context.read<ApiClient>().token);
+    // context
+    //     .read<MainScreenModel>()
+    //     .getUserInfo(context.read<ApiClient>().token);
     print('build');
     return Scaffold(
       body: Container(

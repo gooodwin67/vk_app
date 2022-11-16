@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/domain/api_client/api_client.dart';
+import 'package:vk_app/widgets/main/main_screen_model.dart';
 
 class LoginScreenWidget extends StatelessWidget {
   const LoginScreenWidget({Key? key}) : super(key: key);
@@ -14,10 +15,12 @@ class LoginScreenWidget extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                context
-                    .read<ApiClient>()
-                    .login()
-                    .then((value) => Navigator.pushNamed(context, '/main'));
+                context.read<ApiClient>().login().then((value) {
+                  context
+                      .read<MainScreenModel>()
+                      .getUserInfo(context.read<ApiClient>().token)
+                      .then((value) => Navigator.pushNamed(context, '/main'));
+                });
               },
               child: Text('Login'),
             ),
