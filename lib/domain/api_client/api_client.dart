@@ -4,7 +4,13 @@ import 'package:flutter_login_vk/flutter_login_vk.dart';
 class ApiClient extends ChangeNotifier {
   String? _token = '';
   String? get token => _token;
+  bool isLogining = false;
   bool isLogin = false;
+
+  void logining() {
+    isLogining = true;
+    notifyListeners();
+  }
 
   Future<void> login() async {
     final vk = VKLogin();

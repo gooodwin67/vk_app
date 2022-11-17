@@ -10,7 +10,7 @@ class MainScreenModel extends ChangeNotifier {
 
   Future getUserInfo(token) async {
     var getUserInfo = await http.get(Uri.parse(
-        'https://api.vk.com/method/users.get?v=5.131&access_token=${token}'));
+        'https://api.vk.com/method/users.get?v=5.131&access_token=${token}&fields=city,bdate'));
 
     var userInfoMap = jsonDecode(getUserInfo.body);
     var userInfoResponse = Response.fromJson(userInfoMap);
@@ -23,7 +23,7 @@ class MainScreenModel extends ChangeNotifier {
 
     //_mainScreen = Text(_userName.toString());
     //print(userInfo.firstName);
-    print(_userName);
+    print(userInfoResponseMap2);
     notifyListeners();
   }
 }
