@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
-class MainScreenModel extends ChangeNotifier {
+class ProfileScreenModel extends ChangeNotifier {
   Widget _mainScreen = CircularProgressIndicator();
   String? _userName = '1';
   String? get userName => _userName;
@@ -14,16 +14,11 @@ class MainScreenModel extends ChangeNotifier {
 
     var userInfoMap = jsonDecode(getUserInfo.body);
     var userInfoResponse = Response.fromJson(userInfoMap);
-    var userInfoResponseMap = jsonEncode(userInfoResponse.response);
-    var userInfoResponseMap2 = jsonDecode(userInfoResponseMap);
-    if (userInfoResponseMap2 != null) {
-      var userInfo = UserInfo.fromJson(userInfoResponseMap2[0]);
-      _userName = userInfo.firstName;
-    }
 
-    //_mainScreen = Text(_userName.toString());
-    //print(userInfo.firstName);
-    print(userInfoResponseMap2);
+    var userInfo = UserInfo.fromJson(userInfoResponse.response.first);
+    _userName = userInfo.firstName;
+
+    //print(userInfoResponse.response);
     notifyListeners();
   }
 }

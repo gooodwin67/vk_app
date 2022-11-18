@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/domain/api_client/api_client.dart';
-import 'package:vk_app/widgets/main/main_screen_model.dart';
+import 'package:vk_app/widgets/menu-screens/profile-screen/profile-screen-model.dart';
 
 class LoginScreenWidget extends StatelessWidget {
   const LoginScreenWidget({Key? key}) : super(key: key);
@@ -23,7 +23,7 @@ class LoginScreenWidget extends StatelessWidget {
                     onPressed: () {
                       context.read<ApiClient>().login().then((value) {
                         context
-                            .read<MainScreenModel>()
+                            .read<ProfileScreenModel>()
                             .getUserInfo(context.read<ApiClient>().token)
                             .then((value) =>
                                 Navigator.pushNamed(context, '/main'));

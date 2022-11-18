@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/domain/api_client/api_client.dart';
-import 'package:vk_app/widgets/main/main_screen_model.dart';
+import 'package:vk_app/widgets/menu-screens/profile-screen/profile-screen-model.dart';
 
-class MainScreenWidget extends StatelessWidget {
-  const MainScreenWidget({Key? key}) : super(key: key);
+class ProfileScreenWidget extends StatelessWidget {
+  const ProfileScreenWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class MainScreenWidget extends StatelessWidget {
     return Scaffold(
       body: Container(
         child: Center(
-          child: Text(context.watch<MainScreenModel>().userName.toString()),
+          child: Text(context.watch<ProfileScreenModel>().userName.toString()),
         ),
       ),
     );
