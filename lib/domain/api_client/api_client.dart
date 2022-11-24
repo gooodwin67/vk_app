@@ -18,6 +18,7 @@ class ApiClient extends ChangeNotifier {
 
     final res = await vk.logIn(scope: [
       VKScope.friends,
+      VKScope.photos,
     ]);
 
     if (res.isValue) {

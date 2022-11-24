@@ -25,6 +25,9 @@ class LoginScreenWidget extends StatelessWidget {
                         context
                             .read<ProfileScreenModel>()
                             .getUserInfo(context.read<ApiClient>().token)
+                            .then((value) => context
+                                .read<ProfileScreenModel>()
+                                .getUserPhotos(context.read<ApiClient>().token))
                             .then((value) =>
                                 Navigator.pushNamed(context, '/main'));
                       });

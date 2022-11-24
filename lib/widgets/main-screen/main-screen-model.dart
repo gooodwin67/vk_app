@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:vk_app/widgets/menu-screens/messages-screen/messages-screen.dart';
 import 'package:vk_app/widgets/menu-screens/news-screen/news-screen.dart';
 import 'package:vk_app/widgets/menu-screens/notifications-screen/notifications-screen.dart';
