@@ -20,6 +20,7 @@ class ProfileScreenWidget extends StatelessWidget {
     String city = context.read<ProfileScreenModel>().city;
     Image photo = Image.network(context.read<ProfileScreenModel>().photo);
     BoxDecoration online = context.read<ProfileScreenModel>().online;
+    List listPhotos = context.read<ProfileScreenModel>().urls;
 
     return Scaffold(
       body: SafeArea(
@@ -174,89 +175,94 @@ class ProfileScreenWidget extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 10),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: constants.mainPadding, vertical: 15),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '161 друг',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Container(
-                        width: 80,
-                        height: 30,
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              left: 50,
-                              child: Container(
-                                width: 30,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  border: Border.all(
-                                    width: 2,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: Image.asset(
-                                    'assets/images/no-avatar.png',
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              left: 25,
-                              child: Container(
-                                width: 30,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  border: Border.all(
-                                    width: 2,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: Image.asset(
-                                    'assets/images/no-avatar.png',
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              width: 30,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                border: Border.all(
-                                  width: 2,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(50),
-                                child: Image.asset(
-                                  'assets/images/no-avatar.png',
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                            ),
-                          ],
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/main/friends');
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: constants.mainPadding, vertical: 15),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '161 друг',
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                      )
-                    ],
+                        Container(
+                          width: 80,
+                          height: 30,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 50,
+                                child: Container(
+                                  width: 30,
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    border: Border.all(
+                                      width: 2,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: Image.asset(
+                                      'assets/images/no-avatar.png',
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 25,
+                                child: Container(
+                                  width: 30,
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    border: Border.all(
+                                      width: 2,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: Image.asset(
+                                      'assets/images/no-avatar.png',
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  border: Border.all(
+                                    width: 2,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: Image.asset(
+                                    'assets/images/no-avatar.png',
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(height: 10),
@@ -300,38 +306,54 @@ class ProfileScreenWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                         child: Container(
                           height: 241,
-                          child: GridView.count(
-                            primary: false,
-                            crossAxisCount: 3,
-                            crossAxisSpacing: 5,
-                            mainAxisSpacing: 5,
-                            children: [
-                              Container(
-                                child:
-                                    Image.asset('assets/images/no-avatar.png'),
+                          child: GridView.builder(
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                mainAxisSpacing: 5,
+                                crossAxisSpacing: 5,
                               ),
-                              Container(
-                                child:
-                                    Image.asset('assets/images/no-avatar.png'),
-                              ),
-                              Container(
-                                child:
-                                    Image.asset('assets/images/no-avatar.png'),
-                              ),
-                              Container(
-                                child:
-                                    Image.asset('assets/images/no-avatar.png'),
-                              ),
-                              Container(
-                                child:
-                                    Image.asset('assets/images/no-avatar.png'),
-                              ),
-                              Container(
-                                child:
-                                    Image.asset('assets/images/no-avatar.png'),
-                              ),
-                            ],
-                          ),
+                              itemCount: listPhotos.length,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  child: Image.network(
+                                    listPhotos[index].toString(),
+                                    fit: BoxFit.cover,
+                                  ),
+                                );
+                              }),
+                          // child: GridView.count(
+                          //   primary: false,
+                          //   crossAxisCount: 3,
+                          //   crossAxisSpacing: 5,
+                          //   mainAxisSpacing: 5,
+                          //   children: [
+                          //     Container(
+                          //       child:
+                          //           Image.asset('assets/images/no-avatar.png'),
+                          //     ),
+                          //     Container(
+                          //       child:
+                          //           Image.asset('assets/images/no-avatar.png'),
+                          //     ),
+                          //     Container(
+                          //       child:
+                          //           Image.asset('assets/images/no-avatar.png'),
+                          //     ),
+                          //     Container(
+                          //       child:
+                          //           Image.asset('assets/images/no-avatar.png'),
+                          //     ),
+                          //     Container(
+                          //       child:
+                          //           Image.asset('assets/images/no-avatar.png'),
+                          //     ),
+                          //     Container(
+                          //       child:
+                          //           Image.asset('assets/images/no-avatar.png'),
+                          //     ),
+                          //   ],
+                          // ),
                         ),
                       ),
                       SizedBox(height: 10),

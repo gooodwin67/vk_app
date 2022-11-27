@@ -15,6 +15,7 @@ class ApiClient extends ChangeNotifier {
   Future<void> login() async {
     final vk = VKLogin();
     await vk.initSdk();
+    print('TEEEEEEEEEEEEEEEEEEST ${vk.getUserProfile()}');
 
     final res = await vk.logIn(scope: [
       VKScope.friends,
@@ -31,6 +32,7 @@ class ApiClient extends ChangeNotifier {
       } else {
         final VKAccessToken? accessToken = data.accessToken;
         _token = accessToken?.token;
+        print("тооооооооокен $_token");
         notifyListeners();
       }
     } else {

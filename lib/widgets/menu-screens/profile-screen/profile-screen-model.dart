@@ -66,15 +66,17 @@ class ProfileScreenModel extends ChangeNotifier {
     var userPhotoResponseItems =
         PhotosItems.fromJson(userPhotosResponse.response);
 
-    List userPhotoResponseItemsList = userPhotoResponseItems.items
-        .map((e) => PhotosItemsSizes.fromJson(e))
+    var userPhotoResponseItemsSizes = userPhotoResponseItems.items
+        .map((e) => PhotosItemsResponse.fromJson(e))
         .toList();
 
-    List photosUrls = userPhotoResponseItemsList
-        .map((e) => PhotosItemsSizeItem.fromJson(e))
-        .toList();
+    var listSizes = userPhotoResponseItemsSizes.map((e) {
+      return PhotosItemsSizesItems.fromJson(e.sizes[7]);
+    }).toList();
 
-    print(userPhotoResponseItemsList);
+    _urls = listSizes.map((e) => PhotosItemsUrl.fromJson(e.size).url).toList();
+
+    //print(_urls[0]);
 
     notifyListeners();
   }
@@ -142,6 +144,8 @@ class City {
   }
 }
 
+/* /////////////////////////////////////////////////////// */
+
 class PhotosResponse {
   final Map<String, dynamic> response;
 
@@ -166,26 +170,28 @@ class PhotosItems {
   }
 }
 
-class PhotosItemsSizes {
+class PhotosItemsResponse {
+  final String id;
   final List sizes;
 
-  PhotosItemsSizes({required this.sizes});
+  PhotosItemsResponse({required this.id, required this.sizes});
 
-  factory PhotosItemsSizes.fromJson(Map<String, dynamic> json) {
-    return PhotosItemsSizes(
+  factory PhotosItemsResponse.fromJson(Map<String, dynamic> json) {
+    return PhotosItemsResponse(
+      id: json['id'].toString(),
       sizes: json['sizes'],
     );
   }
 }
 
-class PhotosItemsSizeItem {
-  final Map<int, dynamic> sizeItem;
+class PhotosItemsSizesItems {
+  final Map<String, dynamic> size;
 
-  PhotosItemsSizeItem({required this.sizeItem});
+  PhotosItemsSizesItems({required this.size});
 
-  factory PhotosItemsSizeItem.fromJson(Map<int, dynamic> json) {
-    return PhotosItemsSizeItem(
-      sizeItem: json[0],
+  factory PhotosItemsSizesItems.fromJson(json) {
+    return PhotosItemsSizesItems(
+      size: json,
     );
   }
 }

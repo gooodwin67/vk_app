@@ -4,6 +4,8 @@ import 'package:vk_app/domain/api_client/api_client.dart';
 import 'package:vk_app/widgets/login-screen/login-screen.dart';
 import 'package:vk_app/widgets/main-screen/main-screen-model.dart';
 import 'package:vk_app/widgets/main-screen/main-screen.dart';
+import 'package:vk_app/widgets/menu-screens/profile-screen/friends_screen/friends_screen.dart';
+import 'package:vk_app/widgets/menu-screens/profile-screen/friends_screen/friends_screen_model.dart';
 import 'package:vk_app/widgets/menu-screens/profile-screen/profile-screen-model.dart';
 
 void main() {
@@ -13,6 +15,7 @@ void main() {
       ChangeNotifierProvider(create: (_) => ApiClient()),
       ChangeNotifierProvider(create: (_) => ProfileScreenModel()),
       ChangeNotifierProvider(create: (_) => MainScreenModel()),
+      ChangeNotifierProvider(create: (_) => FriendsScreenModel()),
     ],
     child: const MyApp(),
   ));
@@ -29,6 +32,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => LoginScreenWidget(),
         '/main': (context) => MainScreenWidget(),
+        '/main/friends': (context) => FriendsScreenWidget(),
       },
     );
   }

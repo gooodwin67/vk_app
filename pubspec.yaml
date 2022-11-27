@@ -29,7 +29,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_login_vk: ^2.2.1
+  flutter_login_vk: ^2.2.1+1
   http: ^0.13.4
   shared_preferences: ^2.0.15
   provider: ^6.0.3
