@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:vk_app/constants/constants.dart';
+import 'package:vk_app/widgets/menu-screens/profile-screen/friends_screen/friends_screen_model.dart';
 
 class FriendsScreenWidget extends StatelessWidget {
   const FriendsScreenWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    List friendsList = context.read<FriendsScreenModel>().userFriendsListInfo;
+    int count = context.read<FriendsScreenModel>().count;
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -76,7 +80,7 @@ class FriendsScreenWidget extends StatelessWidget {
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: 5,
+                    itemCount: count,
                     itemBuilder: (context, index) {
                       return Container(
                         margin: EdgeInsets.only(bottom: constants.mainPadding),
@@ -90,15 +94,15 @@ class FriendsScreenWidget extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(50),
                                 ),
-                                child: Image.asset(
-                                  'assets/images/no-avatar.png',
+                                child: Image.network(
+                                  friendsList[index].photo,
                                   fit: BoxFit.cover,
                                 ),
                               ),
                             ),
                             SizedBox(width: 10),
                             Text(
-                              'Андрей Алейник',
+                              '${friendsList[index].firstName} ${friendsList[index].lastName}',
                               style: TextStyle(fontSize: 17),
                             ),
                             Spacer(),
