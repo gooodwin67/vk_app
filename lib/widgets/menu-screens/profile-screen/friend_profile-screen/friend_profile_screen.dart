@@ -1,13 +1,11 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/constants/constants.dart';
-import 'package:vk_app/domain/api_client/api_client.dart';
-import 'package:vk_app/widgets/menu-screens/profile-screen/profile-screen-model.dart';
+import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friend_profile-screen-model.dart';
 
-class ProfileScreenWidget extends StatelessWidget {
-  const ProfileScreenWidget({Key? key}) : super(key: key);
+class FriendProfileScreenWidget extends StatelessWidget {
+  const FriendProfileScreenWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +13,12 @@ class ProfileScreenWidget extends StatelessWidget {
     double height = 400;
     double widthImage = 100;
 
-    String firstName = context.read<ProfileScreenModel>().firstName;
-    String secondName = context.read<ProfileScreenModel>().secondName;
-    String city = context.read<ProfileScreenModel>().city;
-    Image photo = Image.network(context.read<ProfileScreenModel>().photo);
-    BoxDecoration online = context.read<ProfileScreenModel>().online;
-    List listPhotos = context.read<ProfileScreenModel>().urls;
+    String firstName = context.read<FriendProfileScreenModel>().firstName;
+    String secondName = context.read<FriendProfileScreenModel>().secondName;
+    String city = context.read<FriendProfileScreenModel>().city;
+    Image photo = Image.network(context.read<FriendProfileScreenModel>().photo);
+    BoxDecoration online = context.read<FriendProfileScreenModel>().online;
+    List listPhotos = context.read<FriendProfileScreenModel>().urls;
 
     return Scaffold(
       body: SafeArea(
@@ -40,6 +38,27 @@ class ProfileScreenWidget extends StatelessWidget {
                           color: Colors.grey,
                           height: height / 2 + 12, //cover borderRadius
                           width: width,
+                        ),
+                      ),
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            margin: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: constants.secondColor.withAlpha(170),
+                            ),
+                            padding: EdgeInsets.all(5),
+                            child: Icon(
+                              Icons.arrow_back,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
                       Positioned(

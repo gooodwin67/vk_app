@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
-class ProfileScreenModel extends ChangeNotifier {
+class FriendProfileScreenModel extends ChangeNotifier {
   String _firstName = 'firstname';
   String _secondName = 'lastname';
   String _city = 'city';
@@ -36,9 +36,9 @@ class ProfileScreenModel extends ChangeNotifier {
     }
   }
 
-  Future getUserInfo(token) async {
+  Future getUserInfo(token, id) async {
     var getUserInfo = await http.get(Uri.parse(
-        'https://api.vk.com/method/users.get?v=5.131&access_token=$token&fields=city,photo_100,online'));
+        'https://api.vk.com/method/users.get?v=5.131&access_token=$token&user_ids=$id&fields=city,photo_100,online'));
 
     var userInfoMap = jsonDecode(getUserInfo.body);
     var userInfoResponse = ResponseInfo.fromJson(userInfoMap);
@@ -53,13 +53,13 @@ class ProfileScreenModel extends ChangeNotifier {
     _photo = userInfo.photo;
     _online = userInfo.online;
 
-    //print(userInfoMap);
+    print(id);
     notifyListeners();
   }
 
-  Future getUserPhotos(token) async {
+  Future getUserPhotos(token, id) async {
     var getUserPhotos = await http.get(Uri.parse(
-        'https://api.vk.com/method/photos.getAll?v=5.131&access_token=${token}&count=6'));
+        'https://api.vk.com/method/photos.getAll?v=5.131&access_token=${token}&owner_id=$id&count=6'));
 
     var userPhotosMap = jsonDecode(getUserPhotos.body);
     var userPhotosResponse = PhotosResponse.fromJson(userPhotosMap);
@@ -76,7 +76,7 @@ class ProfileScreenModel extends ChangeNotifier {
 
     _urls = listSizes.map((e) => PhotosItemsUrl.fromJson(e.size).url).toList();
 
-    //print(_urls[0]);
+    //print(id);
 
     notifyListeners();
   }
