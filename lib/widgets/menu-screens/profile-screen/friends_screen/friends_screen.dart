@@ -64,9 +64,16 @@ class FriendsScreenWidget extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Container(
-                        color: constants.secondColor.withAlpha(100),
+                        //color: constants.secondColor.withAlpha(100),
                         width: MediaQuery.of(context).size.width,
                         height: 50,
+                        child: const TextField(
+                          decoration: InputDecoration(
+                            labelText: 'Поиск',
+                            prefixIcon: Icon(Icons.search),
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(height: constants.mainPadding),
