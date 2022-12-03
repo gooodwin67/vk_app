@@ -21,6 +21,8 @@ class FriendProfileScreenWidget extends StatelessWidget {
     List listPhotos = context.read<FriendProfileScreenModel>().urls;
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      //https://stackoverflow.com/questions/68640078/tabbarview-inside-sliver-with-stickyheader
       body: SafeArea(
         child: SingleChildScrollView(
           physics: ScrollPhysics(parent: BouncingScrollPhysics()),
