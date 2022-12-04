@@ -20,11 +20,38 @@ class FriendProfileScreenWidget extends StatelessWidget {
     BoxDecoration online = context.read<FriendProfileScreenModel>().online;
     List listPhotos = context.read<FriendProfileScreenModel>().urls;
 
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      //https://stackoverflow.com/questions/68640078/tabbarview-inside-sliver-with-stickyheader
-      body: SafeArea(
-        child: SingleChildScrollView(
+    return SafeArea(
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          toolbarHeight: 40,
+          leadingWidth: 40,
+          leading: Container(
+            margin: EdgeInsets.only(left: 10, top: 10),
+            child: InkWell(
+              customBorder: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  color: constants.secondColor.withAlpha(170),
+                ),
+                child: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white.withAlpha(230),
+                  size: 17,
+                ),
+              ),
+            ),
+          ),
+        ),
+        body: SingleChildScrollView(
           physics: ScrollPhysics(parent: BouncingScrollPhysics()),
           child: Container(
             color: constants.backColor,
@@ -40,27 +67,6 @@ class FriendProfileScreenWidget extends StatelessWidget {
                           color: Colors.grey,
                           height: height / 2 + 12, //cover borderRadius
                           width: width,
-                        ),
-                      ),
-                      Positioned(
-                        top: 0,
-                        left: 0,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                            margin: EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: constants.secondColor.withAlpha(170),
-                            ),
-                            padding: EdgeInsets.all(5),
-                            child: Icon(
-                              Icons.arrow_back,
-                              color: Colors.white,
-                            ),
-                          ),
                         ),
                       ),
                       Positioned(
@@ -131,35 +137,78 @@ class FriendProfileScreenWidget extends StatelessWidget {
                                 ],
                               ),
                               SizedBox(height: 10),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    primary: constants.backColor,
-                                    elevation: 0.0,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10))),
-                                onPressed: () {},
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.add_circle_outline_outlined,
-                                        color: constants.mainColor,
-                                      ),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        'Опубликовать',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: constants.mainColor,
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: constants.mainColor,
+                                          elevation: 0.0,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10))),
+                                      onPressed: () {},
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 10),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: const [
+                                            Icon(
+                                              Icons.message_outlined,
+                                              color: Colors.white,
+                                            ),
+                                            SizedBox(width: 10),
+                                            Text(
+                                              'Сообщение',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                ),
+                                  SizedBox(width: 10),
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: constants.backColor,
+                                        elevation: 0.0,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10))),
+                                    onPressed: () {},
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 0, vertical: 10),
+                                      child: Icon(
+                                        Icons.group_remove_outlined,
+                                        color: constants.mainColor,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 10),
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: constants.backColor,
+                                        elevation: 0.0,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10))),
+                                    onPressed: () {},
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 0, vertical: 10),
+                                      child: Icon(
+                                        Icons.more_horiz_outlined,
+                                        color: constants.mainColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
