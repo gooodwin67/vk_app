@@ -53,7 +53,7 @@ class FriendProfileScreenModel extends ChangeNotifier {
     _photo = userInfo.photo;
     _online = userInfo.online;
 
-    print(id);
+    print(userInfoMap);
     notifyListeners();
   }
 
@@ -207,23 +207,3 @@ class PhotosItemsUrl {
     );
   }
 }
-
-
-/*
-{
-"response":{
-  "count":46
-  "items":[
-    0:{
-    "album_id":-7
-    "date":1574251850
-    "id":457241926
-    "owner_id":5169164
-    "sizes":[
-      0:{
-      "height":130
-      "type":"m"
-      "width":130
-      "url":"https://sun9-25.userapi.com/impg/c855220/v855220740/17c780/-MnuNYxPK7M.jpg?size=130x130&quality=96&sign=f2086c16b4fa47b750a784cab4edd2ff&c_uniq_tag=uCxE_ozYYiQCpZnhxERg6UYjz4YCLVZY08__S4fBTZo&type=album"
-      }
-*/

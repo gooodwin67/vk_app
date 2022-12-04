@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +19,7 @@ class FriendProfileScreenWidget extends StatelessWidget {
     String city = context.read<FriendProfileScreenModel>().city;
     Image photo = Image.network(context.read<FriendProfileScreenModel>().photo);
     BoxDecoration online = context.read<FriendProfileScreenModel>().online;
+
     List listPhotos = context.read<FriendProfileScreenModel>().urls;
 
     return SafeArea(
@@ -249,7 +251,8 @@ class FriendProfileScreenWidget extends StatelessWidget {
                 SizedBox(height: 10),
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, '/main/friends');
+                    Navigator.pushNamed(
+                        context, '/main/friends/profile/friends');
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(
@@ -379,9 +382,10 @@ class FriendProfileScreenWidget extends StatelessWidget {
                         child: Container(
                           height: 241,
                           child: GridView.builder(
+                              scrollDirection: Axis.horizontal,
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3,
+                                crossAxisCount: 2,
                                 mainAxisSpacing: 5,
                                 crossAxisSpacing: 5,
                               ),

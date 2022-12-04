@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:vk_app/constants/constants.dart';
 import 'package:vk_app/domain/api_client/api_client.dart';
 import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friend_profile-screen-model.dart';
+import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friends_profile_screen/friends_profile_screen_model.dart';
 import 'package:vk_app/widgets/menu-screens/profile-screen/friends_screen/friends_screen_model.dart';
 
 class FriendsScreenWidget extends StatelessWidget {
@@ -102,6 +103,11 @@ class FriendsScreenWidget extends StatelessWidget {
                                 .then((value) => context
                                     .read<FriendProfileScreenModel>()
                                     .getUserPhotos(
+                                        context.read<ApiClient>().token,
+                                        friendsList[index].id.toString()))
+                                .then((value) => context
+                                    .read<ProfileFriendsScreenModel>()
+                                    .getUserFriends(
                                         context.read<ApiClient>().token,
                                         friendsList[index].id.toString()))
                                 .then((value) => Navigator.pushNamed(

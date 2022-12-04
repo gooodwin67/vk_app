@@ -6,6 +6,8 @@ import 'package:vk_app/widgets/main-screen/main-screen-model.dart';
 import 'package:vk_app/widgets/main-screen/main-screen.dart';
 import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friend_profile-screen-model.dart';
 import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friend_profile_screen.dart';
+import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friends_profile_screen/friends_profile_screen.dart';
+import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friends_profile_screen/friends_profile_screen_model.dart';
 import 'package:vk_app/widgets/menu-screens/profile-screen/friends_screen/friends_screen.dart';
 import 'package:vk_app/widgets/menu-screens/profile-screen/friends_screen/friends_screen_model.dart';
 import 'package:vk_app/widgets/menu-screens/profile-screen/profile-screen-model.dart';
@@ -19,6 +21,7 @@ void main() {
       ChangeNotifierProvider(create: (_) => MainScreenModel()),
       ChangeNotifierProvider(create: (_) => FriendsScreenModel()),
       ChangeNotifierProvider(create: (_) => FriendProfileScreenModel()),
+      ChangeNotifierProvider(create: (_) => ProfileFriendsScreenModel()),
     ],
     child: const MyApp(),
   ));
@@ -37,6 +40,8 @@ class MyApp extends StatelessWidget {
         '/main': (context) => MainScreenWidget(),
         '/main/friends': (context) => FriendsScreenWidget(),
         '/main/friends/profile': (context) => FriendProfileScreenWidget(),
+        '/main/friends/profile/friends': (context) =>
+            ProfileFriendsScreenWidget(),
       },
     );
   }

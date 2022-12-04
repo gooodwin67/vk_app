@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/constants/constants.dart';
-import 'package:vk_app/widgets/menu-screens/profile-screen/friends_screen/friends_screen_model.dart';
+import 'package:vk_app/domain/api_client/api_client.dart';
+import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friend_profile-screen-model.dart';
+import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friends_profile_screen/friends_profile_screen_model.dart';
 
-class FriendsScreenWidget extends StatelessWidget {
-  const FriendsScreenWidget({Key? key}) : super(key: key);
+class ProfileFriendsScreenWidget extends StatelessWidget {
+  const ProfileFriendsScreenWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List friendsList = context.read<FriendsScreenModel>().userFriendsListInfo;
-    int count = context.read<FriendsScreenModel>().count;
+    List friendsList =
+        context.read<ProfileFriendsScreenModel>().userFriendsListInfo;
+    int count = context.read<ProfileFriendsScreenModel>().count;
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -84,33 +87,54 @@ class FriendsScreenWidget extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return Container(
                         margin: EdgeInsets.only(bottom: constants.mainPadding),
-                        child: Row(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(50),
-                              child: Container(
-                                width: 50,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                                child: Image.network(
-                                  friendsList[index].photo,
-                                  fit: BoxFit.cover,
+                        child: InkWell(
+                          onTap: () {
+                            print(friendsList[index].id.toString());
+                            context
+                                .read<FriendProfileScreenModel>()
+                                .getUserInfo(context.read<ApiClient>().token,
+                                    friendsList[index].id.toString())
+                                .then((value) => context
+                                    .read<FriendProfileScreenModel>()
+                                    .getUserPhotos(
+                                        context.read<ApiClient>().token,
+                                        friendsList[index].id.toString()))
+                                .then((value) => context
+                                    .read<ProfileFriendsScreenModel>()
+                                    .getUserFriends(
+                                        context.read<ApiClient>().token,
+                                        friendsList[index].id.toString()))
+                                .then((value) => Navigator.pushNamed(
+                                    context, '/main/friends/profile'));
+                          },
+                          child: Row(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: Container(
+                                  width: 50,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  child: Image.network(
+                                    friendsList[index].photo,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              '${friendsList[index].firstName} ${friendsList[index].lastName}',
-                              style: TextStyle(fontSize: 17),
-                            ),
-                            Spacer(),
-                            Icon(
-                              Icons.message_outlined,
-                              color: constants.mainColor,
-                            )
-                          ],
+                              SizedBox(width: 10),
+                              Text(
+                                '${friendsList[index].firstName} ${friendsList[index].lastName}',
+                                style: TextStyle(fontSize: 17),
+                              ),
+                              Spacer(),
+                              Icon(
+                                Icons.message_outlined,
+                                color: constants.mainColor,
+                              )
+                            ],
+                          ),
                         ),
                       );
                     },
