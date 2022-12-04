@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 class FriendProfileScreenModel extends ChangeNotifier {
+  String _deactivated = '0';
   String _firstName = 'firstname';
   String _secondName = 'lastname';
   String _city = 'city';
@@ -10,6 +11,7 @@ class FriendProfileScreenModel extends ChangeNotifier {
   int _online = 0;
   List _urls = [];
 
+  String get deactivated => _deactivated;
   String get firstName => _firstName;
   String get secondName => _secondName;
   String get city => _city;
@@ -45,47 +47,61 @@ class FriendProfileScreenModel extends ChangeNotifier {
 
     var userInfo = UserInfo.fromJson(userInfoResponse.response.first);
 
-    var cityInfoResponse = City.fromJson(userInfo.city);
+    var cityInfoResponse;
 
-    _firstName = userInfo.firstName;
-    _secondName = userInfo.secondName;
-    _city = cityInfoResponse.title;
-    _photo = userInfo.photo;
-    _online = userInfo.online;
+    if (userInfo.deactivated == '0') {
+      cityInfoResponse = City.fromJson(userInfo.city);
+      _firstName = userInfo.firstName;
+      _secondName = userInfo.secondName;
+      _city = cityInfoResponse.title;
+      _photo = userInfo.photo;
+      _online = userInfo.online;
+    } else {
+      _firstName = 'Deleted';
+      _secondName = 'Deleted';
+      _city = 'Deleted';
+      _photo = 'assets/images/no-avatar.png';
+      _online = 0;
+      _deactivated = 'deleted';
+    }
 
-    print(userInfoMap);
+    //print(userInfoMap);
+    //print(userInfo.deactivated);
     notifyListeners();
   }
 
   Future getUserPhotos(token, id) async {
-    var getUserPhotos = await http.get(Uri.parse(
-        'https://api.vk.com/method/photos.getAll?v=5.131&access_token=${token}&owner_id=$id&count=6'));
+    if (_deactivated == '0') {
+      var getUserPhotos = await http.get(Uri.parse(
+          'https://api.vk.com/method/photos.getAll?v=5.131&access_token=${token}&owner_id=$id&count=6'));
 
-    var userPhotosMap = jsonDecode(getUserPhotos.body);
-    var userPhotosResponse = PhotosResponse.fromJson(userPhotosMap);
-    var userPhotoResponseItems =
-        PhotosItems.fromJson(userPhotosResponse.response);
+      var userPhotosMap = jsonDecode(getUserPhotos.body);
+      var userPhotosResponse = PhotosResponse.fromJson(userPhotosMap);
+      var userPhotoResponseItems =
+          PhotosItems.fromJson(userPhotosResponse.response);
 
-    var userPhotoResponseItemsSizes = userPhotoResponseItems.items
-        .map((e) => PhotosItemsResponse.fromJson(e))
-        .toList();
+      var userPhotoResponseItemsSizes = userPhotoResponseItems.items
+          .map((e) => PhotosItemsResponse.fromJson(e))
+          .toList();
 
-    var listSizes = userPhotoResponseItemsSizes.map((e) {
-      return PhotosItemsSizesItems.fromJson(e.sizes.last);
-    }).toList();
+      var listSizes = userPhotoResponseItemsSizes.map((e) {
+        return PhotosItemsSizesItems.fromJson(e.sizes.last);
+      }).toList();
 
-    _urls = listSizes.map((e) => PhotosItemsUrl.fromJson(e.size).url).toList();
+      _urls =
+          listSizes.map((e) => PhotosItemsUrl.fromJson(e.size).url).toList();
 
-    //print(id);
+      //print(id);
 
-    notifyListeners();
+      notifyListeners();
+    }
   }
 }
 
 class ResponseInfo {
   final List response;
 
-  ResponseInfo({required this.response});
+  ResponseInfo({required this.response, deactivated});
 
   factory ResponseInfo.fromJson(Map<String, dynamic> json) {
     return ResponseInfo(
@@ -95,6 +111,7 @@ class ResponseInfo {
 }
 
 class UserInfo {
+  final String deactivated;
   final String firstName;
   final String secondName;
   final String photo;
@@ -102,6 +119,7 @@ class UserInfo {
   int online = 0;
 
   UserInfo({
+    required this.deactivated,
     required this.firstName,
     required this.secondName,
     required this.photo,
@@ -111,6 +129,7 @@ class UserInfo {
 
   factory UserInfo.fromJson(Map<String, dynamic> json) {
     return UserInfo(
+      deactivated: json['deactivated'] ?? '0',
       firstName: json['first_name'],
       secondName: json['last_name'],
       photo: json['photo_100'],

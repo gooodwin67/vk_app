@@ -6,20 +6,26 @@ import 'package:flutter/material.dart';
 class ProfileFriendsScreenModel extends ChangeNotifier {
   int count = 50;
   List userFriendsListInfo = [];
-  Future getUserFriends(token, id) async {
-    var getUserFriends = await http.get(Uri.parse(
-        'https://api.vk.com/method/friends.get?v=5.131&access_token=${token}&user_id=$id&count=${count}&fields=photo_100'));
-    var userFriendsMap = jsonDecode(getUserFriends.body);
+  Future getUserFriends(token, id, deactivated) async {
+    if (deactivated == '0') {
+      var getUserFriends = await http.get(Uri.parse(
+          'https://api.vk.com/method/friends.get?v=5.131&access_token=${token}&user_id=$id&count=${count}&fields=photo_100'));
+      var userFriendsMap = jsonDecode(getUserFriends.body);
 
-    var userFriendsResponse = Response.fromJson(userFriendsMap);
+      var userFriendsResponse = Response.fromJson(userFriendsMap);
 
-    var userFriendsList = FriendsList.fromJson(userFriendsResponse.response);
+      var userFriendsList = FriendsList.fromJson(userFriendsResponse.response);
 
-    userFriendsListInfo =
-        userFriendsList.items.map((e) => FriendsListInfo.fromJson(e)).toList();
+      userFriendsListInfo = userFriendsList.items
+          .map((e) => FriendsListInfo.fromJson(e))
+          .toList();
 
-    //print(userFriendsListInfo[0].firstName);
-    notifyListeners();
+      //print(userFriendsMap);
+
+      notifyListeners();
+    } else {
+      userFriendsListInfo = [];
+    }
   }
 }
 

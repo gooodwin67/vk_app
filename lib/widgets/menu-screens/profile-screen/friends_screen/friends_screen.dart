@@ -109,7 +109,10 @@ class FriendsScreenWidget extends StatelessWidget {
                                     .read<ProfileFriendsScreenModel>()
                                     .getUserFriends(
                                         context.read<ApiClient>().token,
-                                        friendsList[index].id.toString()))
+                                        friendsList[index].id.toString(),
+                                        context
+                                            .read<FriendProfileScreenModel>()
+                                            .deactivated))
                                 .then((value) => Navigator.pushNamed(
                                     context, '/main/friends/profile'));
                           },

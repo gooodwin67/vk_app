@@ -89,7 +89,7 @@ class ProfileFriendsScreenWidget extends StatelessWidget {
                         margin: EdgeInsets.only(bottom: constants.mainPadding),
                         child: InkWell(
                           onTap: () {
-                            print(friendsList[index].id.toString());
+                            //print(friendsList[index].id.toString());
                             context
                                 .read<FriendProfileScreenModel>()
                                 .getUserInfo(context.read<ApiClient>().token,
@@ -103,7 +103,10 @@ class ProfileFriendsScreenWidget extends StatelessWidget {
                                     .read<ProfileFriendsScreenModel>()
                                     .getUserFriends(
                                         context.read<ApiClient>().token,
-                                        friendsList[index].id.toString()))
+                                        friendsList[index].id.toString(),
+                                        context
+                                            .read<FriendProfileScreenModel>()
+                                            .deactivated))
                                 .then((value) => Navigator.pushNamed(
                                     context, '/main/friends/profile'));
                           },
