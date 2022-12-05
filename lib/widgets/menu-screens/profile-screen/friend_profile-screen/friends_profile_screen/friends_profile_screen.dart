@@ -106,7 +106,10 @@ class ProfileFriendsScreenWidget extends StatelessWidget {
                                         friendsList[index].id.toString(),
                                         context
                                             .read<FriendProfileScreenModel>()
-                                            .deactivated))
+                                            .deactivated,
+                                        context
+                                            .read<FriendProfileScreenModel>()
+                                            .canAccess))
                                 .then((value) => Navigator.pushNamed(
                                     context, '/main/friends/profile'));
                           },

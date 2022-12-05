@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class FriendProfileScreenModel extends ChangeNotifier {
   String _deactivated = '0';
+  bool _canAccess = true;
   String _firstName = 'firstname';
   String _secondName = 'lastname';
   String _city = 'city';
@@ -12,6 +13,7 @@ class FriendProfileScreenModel extends ChangeNotifier {
   List _urls = [];
 
   String get deactivated => _deactivated;
+  bool get canAccess => _canAccess;
   String get firstName => _firstName;
   String get secondName => _secondName;
   String get city => _city;
@@ -50,13 +52,25 @@ class FriendProfileScreenModel extends ChangeNotifier {
     var cityInfoResponse;
 
     if (userInfo.deactivated == '0') {
-      cityInfoResponse = City.fromJson(userInfo.city);
-      _firstName = userInfo.firstName;
-      _secondName = userInfo.secondName;
-      _city = cityInfoResponse.title;
-      _photo = userInfo.photo;
-      _online = userInfo.online;
-      _deactivated = '0';
+      if (userInfo.canAccess == true) {
+        cityInfoResponse = City.fromJson(userInfo.city);
+        _firstName = userInfo.firstName;
+        _secondName = userInfo.secondName;
+        _city = cityInfoResponse.title;
+        _photo = userInfo.photo;
+        _online = userInfo.online;
+        _deactivated = '0';
+        _canAccess = true;
+      } else {
+        cityInfoResponse = City.fromJson(userInfo.city);
+        _firstName = userInfo.firstName;
+        _secondName = userInfo.secondName;
+        _city = cityInfoResponse.title;
+        _photo = userInfo.photo;
+        _online = userInfo.online;
+        _deactivated = '0';
+        _canAccess = false;
+      }
     } else {
       _firstName = 'Deleted';
       _secondName = 'Deleted';
@@ -72,7 +86,7 @@ class FriendProfileScreenModel extends ChangeNotifier {
   }
 
   Future getUserPhotos(token, id) async {
-    if (_deactivated == '0') {
+    if (_deactivated == '0' && _canAccess == true) {
       var getUserPhotos = await http.get(Uri.parse(
           'https://api.vk.com/method/photos.getAll?v=5.131&access_token=${token}&owner_id=$id&count=6'));
 
@@ -123,6 +137,7 @@ class ResponseInfo {
 
 class UserInfo {
   final String deactivated;
+  final bool canAccess;
   final String firstName;
   final String secondName;
   final String photo;
@@ -131,6 +146,7 @@ class UserInfo {
 
   UserInfo({
     required this.deactivated,
+    required this.canAccess,
     required this.firstName,
     required this.secondName,
     required this.photo,
@@ -141,6 +157,7 @@ class UserInfo {
   factory UserInfo.fromJson(Map<String, dynamic> json) {
     return UserInfo(
       deactivated: json['deactivated'] ?? '0',
+      canAccess: json['can_access_closed'] ?? true,
       firstName: json['first_name'],
       secondName: json['last_name'],
       photo: json['photo_100'],

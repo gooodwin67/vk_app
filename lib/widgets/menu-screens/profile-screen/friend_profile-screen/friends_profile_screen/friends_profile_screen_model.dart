@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 class ProfileFriendsScreenModel extends ChangeNotifier {
   int count = 50;
   List userFriendsListInfo = [];
-  Future getUserFriends(token, id, deactivated) async {
-    if (deactivated == '0') {
+  Future getUserFriends(token, id, deactivated, canAccess) async {
+    if (deactivated == '0' && canAccess == true) {
       var getUserFriends = await http.get(Uri.parse(
           'https://api.vk.com/method/friends.get?v=5.131&access_token=${token}&user_id=$id&count=${count}&fields=photo_100'));
       var userFriendsMap = jsonDecode(getUserFriends.body);
