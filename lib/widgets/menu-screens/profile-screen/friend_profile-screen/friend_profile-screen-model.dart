@@ -56,6 +56,7 @@ class FriendProfileScreenModel extends ChangeNotifier {
       _city = cityInfoResponse.title;
       _photo = userInfo.photo;
       _online = userInfo.online;
+      _deactivated = '0';
     } else {
       _firstName = 'Deleted';
       _secondName = 'Deleted';
@@ -93,6 +94,16 @@ class FriendProfileScreenModel extends ChangeNotifier {
 
       //print(id);
 
+      notifyListeners();
+    } else {
+      _urls = [
+        'assets/images/no-avatar.png',
+        'assets/images/no-avatar.png',
+        'assets/images/no-avatar.png',
+        'assets/images/no-avatar.png',
+        'assets/images/no-avatar.png',
+        'assets/images/no-avatar.png'
+      ];
       notifyListeners();
     }
   }

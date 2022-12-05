@@ -17,9 +17,15 @@ class FriendProfileScreenWidget extends StatelessWidget {
     String firstName = context.read<FriendProfileScreenModel>().firstName;
     String secondName = context.read<FriendProfileScreenModel>().secondName;
     String city = context.read<FriendProfileScreenModel>().city;
-    Image photo = Image.network(context.read<FriendProfileScreenModel>().photo);
-    BoxDecoration online = context.read<FriendProfileScreenModel>().online;
+    Image photo = Image.asset('assets/images/no-avatar.png');
+    //print(context.read<FriendProfileScreenModel>().deactivated);
+    if (context.read<FriendProfileScreenModel>().deactivated == '0') {
+      photo = Image.network(context.read<FriendProfileScreenModel>().photo);
+    } else {
+      Image.asset('ssets/images/no-avatar.png');
+    }
 
+    BoxDecoration online = context.read<FriendProfileScreenModel>().online;
     List listPhotos = context.read<FriendProfileScreenModel>().urls;
 
     return SafeArea(
@@ -392,9 +398,18 @@ class FriendProfileScreenWidget extends StatelessWidget {
                               itemCount: listPhotos.length,
                               itemBuilder: (context, index) {
                                 return Container(
-                                  child: Image.network(
-                                    listPhotos[index].toString(),
+                                  child: FadeInImage(
                                     fit: BoxFit.cover,
+                                    image: NetworkImage(
+                                        listPhotos[index].toString()),
+                                    placeholder: const AssetImage(
+                                        'assets/images/no-avatar.png'),
+                                    imageErrorBuilder:
+                                        (context, error, stackTrace) {
+                                      print(error); //do something
+                                      return Image.asset(
+                                          'assets/images/no-avatar.png');
+                                    },
                                   ),
                                 );
                               }),
