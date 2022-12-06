@@ -29,10 +29,10 @@ class LoginScreenWidget extends StatelessWidget {
                             .then((value) => context
                                 .read<ProfileScreenModel>()
                                 .getUserPhotos(context.read<ApiClient>().token))
-                            .then((value) => context
-                                .read<FriendsScreenModel>()
-                                .getUserFriends(
-                                    context.read<ApiClient>().token))
+                            // .then((value) => context
+                            //     .read<FriendsScreenModel>()
+                            //     .getUserFriends(
+                            //         context.read<ApiClient>().token))
                             .then((value) =>
                                 Navigator.pushNamed(context, '/main'));
                       });

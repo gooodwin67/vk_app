@@ -11,8 +11,8 @@ class FriendsScreenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List friendsList = context.read<FriendsScreenModel>().userFriendsListInfo;
-    int count = context.read<FriendsScreenModel>().count;
+    List friendsList = context.watch<FriendsScreenModel>().userFriendsListInfo;
+    int count = friendsList.length;
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -85,74 +85,80 @@ class FriendsScreenWidget extends StatelessWidget {
             ),
             SliverList(
               delegate: SliverChildBuilderDelegate(
-                (context, index) => Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: count,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin: EdgeInsets.only(bottom: constants.mainPadding),
-                        child: InkWell(
-                          onTap: () {
-                            context
+                (context, index) {
+                  context.read<FriendsScreenModel>().showFriendIndex(index);
+                  return Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    margin: EdgeInsets.only(bottom: constants.mainPadding),
+                    child: InkWell(
+                      onTap: () {
+                        context
+                            .read<FriendProfileScreenModel>()
+                            .getUserInfo(context.read<ApiClient>().token,
+                                friendsList[index].id.toString())
+                            .then((value) => context
                                 .read<FriendProfileScreenModel>()
-                                .getUserInfo(context.read<ApiClient>().token,
-                                    friendsList[index].id.toString())
-                                .then((value) => context
-                                    .read<FriendProfileScreenModel>()
-                                    .getUserPhotos(
-                                        context.read<ApiClient>().token,
-                                        friendsList[index].id.toString()))
-                                .then((value) => context
-                                    .read<ProfileFriendsScreenModel>()
-                                    .getUserFriends(
-                                        context.read<ApiClient>().token,
-                                        friendsList[index].id.toString(),
-                                        context
-                                            .read<FriendProfileScreenModel>()
-                                            .deactivated,
-                                        context
-                                            .read<FriendProfileScreenModel>()
-                                            .canAccess))
-                                .then((value) => Navigator.pushNamed(
-                                    context, '/main/friends/profile'));
-                          },
-                          child: Row(
-                            children: [
-                              ClipRRect(
+                                .getUserPhotos(context.read<ApiClient>().token,
+                                    friendsList[index].id.toString()))
+                            .then((value) => context
+                                .read<ProfileFriendsScreenModel>()
+                                .getUserFriends(
+                                    context.read<ApiClient>().token,
+                                    friendsList[index].id.toString(),
+                                    context
+                                        .read<FriendProfileScreenModel>()
+                                        .deactivated,
+                                    context
+                                        .read<FriendProfileScreenModel>()
+                                        .canAccess))
+                            .then((value) => Navigator.pushNamed(
+                                context, '/main/friends/profile'));
+                      },
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(50),
-                                child: Container(
-                                  width: 50,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                  ),
-                                  child: Image.network(
-                                    friendsList[index].photo,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
                               ),
-                              SizedBox(width: 10),
-                              Text(
-                                '${friendsList[index].firstName} ${friendsList[index].lastName}',
-                                style: TextStyle(fontSize: 17),
+                              // child: Image.network(
+                              //   friendsList[index].photo,
+                              //   fit: BoxFit.cover,
+                              // ),
+                              child: FadeInImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                    friendsList[index].photo.toString()),
+                                placeholder: const AssetImage(
+                                    'assets/images/loading.gif'),
+                                imageErrorBuilder:
+                                    (context, error, stackTrace) {
+                                  print(error); //do something
+                                  return Image.asset(
+                                      'assets/images/no-avatar.png');
+                                },
                               ),
-                              Spacer(),
-                              Icon(
-                                Icons.message_outlined,
-                                color: constants.mainColor,
-                              )
-                            ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                childCount: 1,
+                          SizedBox(width: 10),
+                          Text(
+                            '${friendsList[index].firstName} ${friendsList[index].lastName}',
+                            style: TextStyle(fontSize: 17),
+                          ),
+                          Spacer(),
+                          Icon(
+                            Icons.message_outlined,
+                            color: constants.mainColor,
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                childCount: count,
               ),
             ),
           ],
