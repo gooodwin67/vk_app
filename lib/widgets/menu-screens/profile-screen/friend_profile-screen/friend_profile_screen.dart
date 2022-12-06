@@ -28,6 +28,9 @@ class FriendProfileScreenWidget extends StatelessWidget {
     BoxDecoration online = context.read<FriendProfileScreenModel>().online;
     List listPhotos = context.read<FriendProfileScreenModel>().urls;
 
+    String deactivated = context.read<FriendProfileScreenModel>().deactivated;
+    bool canAccess = context.read<FriendProfileScreenModel>().canAccess;
+
     return SafeArea(
       child: Scaffold(
         extendBodyBehindAppBar: true,
@@ -145,10 +148,7 @@ class FriendProfileScreenWidget extends StatelessWidget {
                                 ],
                               ),
                               SizedBox(height: 10),
-                              context
-                                          .read<FriendProfileScreenModel>()
-                                          .deactivated ==
-                                      '0'
+                              deactivated == '0'
                                   ? Row(
                                       children: [
                                         Expanded(
@@ -267,9 +267,7 @@ class FriendProfileScreenWidget extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 10),
-                context.read<FriendProfileScreenModel>().deactivated == '0' &&
-                        context.read<FriendProfileScreenModel>().canAccess ==
-                            true
+                deactivated == '0' && canAccess == true
                     ? InkWell(
                         onTap: () {
                           Navigator.pushNamed(
@@ -366,10 +364,16 @@ class FriendProfileScreenWidget extends StatelessWidget {
                         ),
                       )
                     : SizedBox(),
+                deactivated == '0' && canAccess == false
+                    ? Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Text('Профиль закрыт'),
+                        ),
+                      )
+                    : SizedBox(),
                 SizedBox(height: 10),
-                context.read<FriendProfileScreenModel>().deactivated == '0' &&
-                        context.read<FriendProfileScreenModel>().canAccess ==
-                            true
+                deactivated == '0' && canAccess == true
                     ? Container(
                         padding: EdgeInsets.symmetric(
                             horizontal: constants.mainPadding, vertical: 10),
@@ -427,7 +431,7 @@ class FriendProfileScreenWidget extends StatelessWidget {
                                           image: NetworkImage(
                                               listPhotos[index].toString()),
                                           placeholder: const AssetImage(
-                                              'assets/images/no-avatar.png'),
+                                              'assets/images/loading.gif'),
                                           imageErrorBuilder:
                                               (context, error, stackTrace) {
                                             print(error); //do something
@@ -473,7 +477,7 @@ class FriendProfileScreenWidget extends StatelessWidget {
                       )
                     : SizedBox(),
                 SizedBox(height: 10),
-                context.read<FriendProfileScreenModel>().deactivated == '0'
+                deactivated == '0' && canAccess == true
                     ? Container(
                         padding: EdgeInsets.symmetric(
                             horizontal: constants.mainPadding, vertical: 10),
