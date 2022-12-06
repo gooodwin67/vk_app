@@ -4,21 +4,35 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 class ProfileFriendsScreenModel extends ChangeNotifier {
-  int count = 50;
+  bool isLoadingProgress = false;
+  int count = 20;
   List userFriendsListInfo = [];
+  int offset = 0;
+  var allToken;
+  int allFriends = 0;
+  var allId;
+  var allDeactivated;
+  var allCanAccess;
   Future getUserFriends(token, id, deactivated, canAccess) async {
+    print(userFriendsListInfo.length);
     if (deactivated == '0' && canAccess == true) {
       var getUserFriends = await http.get(Uri.parse(
-          'https://api.vk.com/method/friends.get?v=5.131&access_token=${token}&user_id=$id&count=${count}&fields=photo_100'));
+          'https://api.vk.com/method/friends.get?v=5.131&access_token=${token}&user_id=$id&count=${count}&offset=$offset&fields=photo_100'));
+      allToken = token;
+      allId = id;
+      allDeactivated = deactivated;
+      allCanAccess = canAccess;
       var userFriendsMap = jsonDecode(getUserFriends.body);
 
       var userFriendsResponse = Response.fromJson(userFriendsMap);
 
       var userFriendsList = FriendsList.fromJson(userFriendsResponse.response);
+      allFriends = userFriendsList.count;
 
-      userFriendsListInfo = userFriendsList.items
+      var userFriendsListInfo1 = userFriendsList.items
           .map((e) => FriendsListInfo.fromJson(e))
           .toList();
+      userFriendsListInfo.addAll(userFriendsListInfo1);
 
       //print(userFriendsMap);
 
@@ -26,6 +40,17 @@ class ProfileFriendsScreenModel extends ChangeNotifier {
     } else {
       userFriendsListInfo = [];
     }
+  }
+
+  void showFriendIndex(int index) {
+    //print(index);
+    if (index < userFriendsListInfo.length - 1 ||
+        index == allFriends - 1 ||
+        isLoadingProgress) return;
+    isLoadingProgress = true;
+    offset = offset + count;
+    getUserFriends(allToken, allId, allDeactivated, allCanAccess);
+    isLoadingProgress = false;
   }
 }
 
@@ -43,12 +68,14 @@ class Response {
 
 class FriendsList {
   final List items;
+  final int count;
 
-  FriendsList({required this.items});
+  FriendsList({required this.items, required this.count});
 
   factory FriendsList.fromJson(Map<String, dynamic> json) {
     return FriendsList(
       items: json['items'],
+      count: json['count'],
     );
   }
 }

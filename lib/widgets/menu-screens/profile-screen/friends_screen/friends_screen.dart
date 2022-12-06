@@ -124,10 +124,6 @@ class FriendsScreenWidget extends StatelessWidget {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(50),
                               ),
-                              // child: Image.network(
-                              //   friendsList[index].photo,
-                              //   fit: BoxFit.cover,
-                              // ),
                               child: FadeInImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
