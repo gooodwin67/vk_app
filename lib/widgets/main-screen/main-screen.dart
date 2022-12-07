@@ -15,7 +15,7 @@ class MainScreenWidget extends StatelessWidget {
           height: 55,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
+            children: const [
               MenuItemWidget(linkIndex: 0, icon: Icons.newspaper_outlined),
               MenuItemWidget(linkIndex: 1, icon: Icons.search_outlined),
               MenuItemWidget(linkIndex: 2, icon: Icons.message_outlined),

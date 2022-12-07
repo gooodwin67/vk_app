@@ -276,15 +276,18 @@ class FriendProfileScreenWidget extends StatelessWidget {
                         onTap: () {
                           context
                               .read<ProfileFriendsScreenModel>()
-                              .getUserFriends(
-                                  context.read<ApiClient>().token,
-                                  id,
-                                  context
-                                      .read<FriendProfileScreenModel>()
-                                      .deactivated,
-                                  context
-                                      .read<FriendProfileScreenModel>()
-                                      .canAccess);
+                              .resetUserFriendsList()
+                              .then((value) => context
+                                  .read<ProfileFriendsScreenModel>()
+                                  .getUserFriends(
+                                      context.read<ApiClient>().token,
+                                      id,
+                                      context
+                                          .read<FriendProfileScreenModel>()
+                                          .deactivated,
+                                      context
+                                          .read<FriendProfileScreenModel>()
+                                          .canAccess));
                           Navigator.pushNamed(
                               context, '/main/friends/profile/friends');
                         },

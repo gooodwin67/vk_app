@@ -40,10 +40,11 @@ class ProfileFriendsScreenModel extends ChangeNotifier {
       notifyListeners();
     } else {
       userFriendsListInfo = [];
+      offset = 0;
     }
   }
 
-  resetUserFriendsList() {
+  Future resetUserFriendsList() async {
     userFriendsListInfo = [];
   }
 

@@ -90,28 +90,18 @@ class ProfileFriendsScreenWidget extends StatelessWidget {
                       onTap: () {
                         context
                             .read<ProfileFriendsScreenModel>()
-                            .resetUserFriendsList();
-                        context
-                            .read<FriendProfileScreenModel>()
-                            .getUserInfo(context.read<ApiClient>().token,
-                                friendsList[index].id.toString())
+                            .resetUserFriendsList()
                             .then((value) => context
                                 .read<FriendProfileScreenModel>()
-                                .getUserPhotos(context.read<ApiClient>().token,
-                                    friendsList[index].id.toString()))
-                            // .then((value) => context
-                            //     .read<ProfileFriendsScreenModel>()
-                            //     .getUserFriends(
-                            //         context.read<ApiClient>().token,
-                            //         friendsList[index].id.toString(),
-                            //         context
-                            //             .read<FriendProfileScreenModel>()
-                            //             .deactivated,
-                            //         context
-                            //             .read<FriendProfileScreenModel>()
-                            //             .canAccess))
-                            .then((value) => Navigator.pushNamed(
-                                context, '/main/friends/profile'));
+                                .getUserInfo(context.read<ApiClient>().token,
+                                    friendsList[index].id.toString())
+                                .then((value) => context
+                                    .read<FriendProfileScreenModel>()
+                                    .getUserPhotos(
+                                        context.read<ApiClient>().token,
+                                        friendsList[index].id.toString()))
+                                .then((value) => Navigator.pushNamed(
+                                    context, '/main/friends/profile')));
                       },
                       child: Row(
                         children: [
