@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:vk_app/domain/api_client/api_client.dart';
 
 class FriendsScreenModel extends ChangeNotifier {
   bool isLoadingProgress = false;
