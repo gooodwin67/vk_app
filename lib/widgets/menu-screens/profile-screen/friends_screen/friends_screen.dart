@@ -100,17 +100,17 @@ class FriendsScreenWidget extends StatelessWidget {
                                 .read<FriendProfileScreenModel>()
                                 .getUserPhotos(context.read<ApiClient>().token,
                                     friendsList[index].id.toString()))
-                            .then((value) => context
-                                .read<ProfileFriendsScreenModel>()
-                                .getUserFriends(
-                                    context.read<ApiClient>().token,
-                                    friendsList[index].id.toString(),
-                                    context
-                                        .read<FriendProfileScreenModel>()
-                                        .deactivated,
-                                    context
-                                        .read<FriendProfileScreenModel>()
-                                        .canAccess))
+                            // .then((value) => context
+                            //     .read<ProfileFriendsScreenModel>()
+                            //     .getUserFriends(
+                            //         context.read<ApiClient>().token,
+                            //         friendsList[index].id.toString(),
+                            //         context
+                            //             .read<FriendProfileScreenModel>()
+                            //             .deactivated,
+                            //         context
+                            //             .read<FriendProfileScreenModel>()
+                            //             .canAccess))
                             .then((value) => Navigator.pushNamed(
                                 context, '/main/friends/profile'));
                       },

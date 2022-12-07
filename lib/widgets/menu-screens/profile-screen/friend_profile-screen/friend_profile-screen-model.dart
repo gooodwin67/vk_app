@@ -11,6 +11,7 @@ class FriendProfileScreenModel extends ChangeNotifier {
   String _photo = 'assets/images/no-avatar.png';
   int _online = 0;
   List _urls = [];
+  int _id = 0;
 
   String get deactivated => _deactivated;
   bool get canAccess => _canAccess;
@@ -19,6 +20,7 @@ class FriendProfileScreenModel extends ChangeNotifier {
   String get city => _city;
   String get photo => _photo;
   List get urls => _urls;
+  int get id => _id;
 
   BoxDecoration get online {
     if (_online == 0) {
@@ -56,6 +58,7 @@ class FriendProfileScreenModel extends ChangeNotifier {
         cityInfoResponse = City.fromJson(userInfo.city);
         _firstName = userInfo.firstName;
         _secondName = userInfo.secondName;
+        _id = userInfo.id;
         _city = cityInfoResponse.title;
         _photo = userInfo.photo;
         _online = userInfo.online;
@@ -65,6 +68,7 @@ class FriendProfileScreenModel extends ChangeNotifier {
         cityInfoResponse = City.fromJson(userInfo.city);
         _firstName = userInfo.firstName;
         _secondName = userInfo.secondName;
+        _id = userInfo.id;
         _city = cityInfoResponse.title;
         _photo = userInfo.photo;
         _online = userInfo.online;
@@ -74,12 +78,12 @@ class FriendProfileScreenModel extends ChangeNotifier {
     } else {
       _firstName = 'Deleted';
       _secondName = 'Deleted';
+      _id = userInfo.id;
       _city = 'Deleted';
       _photo = 'assets/images/no-avatar.png';
       _online = 0;
       _deactivated = 'deleted';
     }
-
     //print(userInfoMap);
     //print(userInfo.deactivated);
     notifyListeners();
@@ -136,6 +140,7 @@ class ResponseInfo {
 }
 
 class UserInfo {
+  final int id;
   final String deactivated;
   final bool canAccess;
   final String firstName;
@@ -145,6 +150,7 @@ class UserInfo {
   int online = 0;
 
   UserInfo({
+    required this.id,
     required this.deactivated,
     required this.canAccess,
     required this.firstName,
@@ -156,6 +162,7 @@ class UserInfo {
 
   factory UserInfo.fromJson(Map<String, dynamic> json) {
     return UserInfo(
+      id: json['id'],
       deactivated: json['deactivated'] ?? '0',
       canAccess: json['can_access_closed'] ?? true,
       firstName: json['first_name'],

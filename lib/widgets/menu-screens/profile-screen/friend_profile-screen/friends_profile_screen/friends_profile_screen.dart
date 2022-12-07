@@ -12,6 +12,7 @@ class ProfileFriendsScreenWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     List friendsList =
         context.watch<ProfileFriendsScreenModel>().userFriendsListInfo;
+    print(friendsList.length.toString());
     int count = friendsList.length;
     return Scaffold(
       body: SafeArea(
@@ -88,6 +89,9 @@ class ProfileFriendsScreenWidget extends StatelessWidget {
                     child: InkWell(
                       onTap: () {
                         context
+                            .read<ProfileFriendsScreenModel>()
+                            .resetUserFriendsList();
+                        context
                             .read<FriendProfileScreenModel>()
                             .getUserInfo(context.read<ApiClient>().token,
                                 friendsList[index].id.toString())
@@ -95,17 +99,17 @@ class ProfileFriendsScreenWidget extends StatelessWidget {
                                 .read<FriendProfileScreenModel>()
                                 .getUserPhotos(context.read<ApiClient>().token,
                                     friendsList[index].id.toString()))
-                            .then((value) => context
-                                .read<ProfileFriendsScreenModel>()
-                                .getUserFriends(
-                                    context.read<ApiClient>().token,
-                                    friendsList[index].id.toString(),
-                                    context
-                                        .read<FriendProfileScreenModel>()
-                                        .deactivated,
-                                    context
-                                        .read<FriendProfileScreenModel>()
-                                        .canAccess))
+                            // .then((value) => context
+                            //     .read<ProfileFriendsScreenModel>()
+                            //     .getUserFriends(
+                            //         context.read<ApiClient>().token,
+                            //         friendsList[index].id.toString(),
+                            //         context
+                            //             .read<FriendProfileScreenModel>()
+                            //             .deactivated,
+                            //         context
+                            //             .read<FriendProfileScreenModel>()
+                            //             .canAccess))
                             .then((value) => Navigator.pushNamed(
                                 context, '/main/friends/profile'));
                       },

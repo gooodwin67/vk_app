@@ -3,7 +3,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/constants/constants.dart';
+import 'package:vk_app/domain/api_client/api_client.dart';
 import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friend_profile-screen-model.dart';
+import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friends_profile_screen/friends_profile_screen_model.dart';
+import 'package:vk_app/widgets/menu-screens/profile-screen/friends_screen/friends_screen_model.dart';
 
 class FriendProfileScreenWidget extends StatelessWidget {
   const FriendProfileScreenWidget({Key? key}) : super(key: key);
@@ -30,6 +33,7 @@ class FriendProfileScreenWidget extends StatelessWidget {
 
     String deactivated = context.read<FriendProfileScreenModel>().deactivated;
     bool canAccess = context.read<FriendProfileScreenModel>().canAccess;
+    int id = context.read<FriendProfileScreenModel>().id;
 
     return SafeArea(
       child: Scaffold(
@@ -270,6 +274,17 @@ class FriendProfileScreenWidget extends StatelessWidget {
                 deactivated == '0' && canAccess == true
                     ? InkWell(
                         onTap: () {
+                          context
+                              .read<ProfileFriendsScreenModel>()
+                              .getUserFriends(
+                                  context.read<ApiClient>().token,
+                                  id,
+                                  context
+                                      .read<FriendProfileScreenModel>()
+                                      .deactivated,
+                                  context
+                                      .read<FriendProfileScreenModel>()
+                                      .canAccess);
                           Navigator.pushNamed(
                               context, '/main/friends/profile/friends');
                         },

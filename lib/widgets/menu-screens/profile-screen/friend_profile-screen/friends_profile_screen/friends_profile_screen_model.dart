@@ -14,7 +14,8 @@ class ProfileFriendsScreenModel extends ChangeNotifier {
   var allDeactivated;
   var allCanAccess;
   Future getUserFriends(token, id, deactivated, canAccess) async {
-    print(userFriendsListInfo.length);
+    //print(userFriendsListInfo);
+
     if (deactivated == '0' && canAccess == true) {
       var getUserFriends = await http.get(Uri.parse(
           'https://api.vk.com/method/friends.get?v=5.131&access_token=${token}&user_id=$id&count=${count}&offset=$offset&fields=photo_100'));
@@ -40,6 +41,10 @@ class ProfileFriendsScreenModel extends ChangeNotifier {
     } else {
       userFriendsListInfo = [];
     }
+  }
+
+  void resetUserFriendsList() {
+    userFriendsListInfo = [];
   }
 
   void showFriendIndex(int index) {
