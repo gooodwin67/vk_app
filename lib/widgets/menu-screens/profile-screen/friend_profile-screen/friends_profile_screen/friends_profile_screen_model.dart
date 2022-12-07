@@ -43,7 +43,7 @@ class ProfileFriendsScreenModel extends ChangeNotifier {
     }
   }
 
-  void resetUserFriendsList() {
+  resetUserFriendsList() {
     userFriendsListInfo = [];
   }
 
