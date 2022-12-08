@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/constants/constants.dart';
 import 'package:vk_app/domain/api_client/api_client.dart';
+import 'package:vk_app/entities/get_user_info_entity.dart';
 import 'package:vk_app/widgets/menu-screens/notifications-screen/test_friend/test_friend_profile_screen_model.dart';
 
 class TestFriendProfileWidget extends StatelessWidget {
