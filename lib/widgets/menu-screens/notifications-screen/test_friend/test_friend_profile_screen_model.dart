@@ -6,7 +6,7 @@ import 'package:vk_app/domain/api_client/api_client.dart';
 import 'package:vk_app/entities/get_user_info_entity.dart';
 
 class TestFriensProfiledModel extends ChangeNotifier {
-  var _userInfo;
+  UserInfo? _userInfo;
 
   get userInfo => _userInfo;
 
