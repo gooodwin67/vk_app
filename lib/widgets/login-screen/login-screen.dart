@@ -36,9 +36,6 @@ class LoginScreenWidget extends StatelessWidget {
                     },
                     child: Text('Login'),
                   ),
-                  !context.watch<ApiClient>().isLogin
-                      ? Text('off')
-                      : Text('on'),
                 ],
               ),
             ),
