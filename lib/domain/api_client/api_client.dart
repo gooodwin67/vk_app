@@ -6,6 +6,8 @@ class ApiClient extends ChangeNotifier {
   String? get token => _token;
   bool isLogining = false;
   bool isLogin = false;
+  var vk;
+  int userId = 0;
 
   void logining() {
     isLogining = true;
@@ -13,11 +15,12 @@ class ApiClient extends ChangeNotifier {
   }
 
   Future<void> login() async {
-    final vk = VKLogin();
+    vk = VKLogin();
     await vk.initSdk();
 
     final res = await vk.logIn(scope: [
       /*VKScope.offline,*/
+      VKScope.email,
       VKScope.friends,
       VKScope.photos,
     ]);
@@ -33,11 +36,25 @@ class ApiClient extends ChangeNotifier {
       } else {
         final VKAccessToken? accessToken = data.accessToken;
         _token = accessToken?.token;
+        //final profile = await vk.getUserProfile();
+        //await _updateLoginInfo();
+        final profile = _token != null ? await vk.getUserProfile() : null;
+
+        print(
+            'Hello, ${profile.value.firstName}! You ID: ${profile.value.userId}');
+        userId = profile.value.userId;
         notifyListeners();
       }
     } else {
       final errorRes = res.asError;
       print('Error while log in Ошибка: ${errorRes}');
     }
+  }
+
+  Future<void> _updateLoginInfo() async {
+    //await vk.getUserProfile();
+    final profile = _token != null ? await vk.getUserProfile() : null;
+
+    print(profile.value.userId);
   }
 }

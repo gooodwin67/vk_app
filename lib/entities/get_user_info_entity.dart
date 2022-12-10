@@ -44,3 +44,27 @@ class UserInfo {
     );
   }
 }
+
+class CityResponse {
+  final City cityresponse;
+
+  CityResponse({required this.cityresponse});
+
+  factory CityResponse.fromJson(Map<int, dynamic> json) {
+    return CityResponse(
+      cityresponse: json[0],
+    );
+  }
+}
+
+class City {
+  String title = '';
+
+  City({required this.title});
+
+  factory City.fromJson(Map<String, dynamic> json) {
+    return City(
+      title: json['title'] ?? '',
+    );
+  }
+}
