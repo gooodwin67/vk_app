@@ -32,7 +32,10 @@ class LoginScreenWidget extends StatelessWidget {
                               .getUserInfo(
                                   context, context.read<ApiClient>().userId))
                           .then(
-                              (value) => Navigator.pushNamed(context, '/main'));
+                              (value) => Navigator.pushNamed(context, '/main'))
+                          .then((value) => context
+                              .read<ApiClient>()
+                              .logining()); //logining false
                       //   context
                       //       .read<ProfileScreenModel>()
                       //       .getUserInfo(context.read<ApiClient>().token)

@@ -1,12 +1,10 @@
-import 'dart:async';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/constants/constants.dart';
 import 'package:vk_app/domain/api_client/api_client.dart';
-import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friend_profile-screen-model.dart';
-import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friends_profile_screen/friends_profile_screen_model.dart';
-import 'package:vk_app/widgets/menu-screens/profile-screen/friends_screen/friends_screen_model.dart';
+import 'package:vk_app/entities/get_user_info_entity.dart';
+import 'package:vk_app/entities/models/get_user_friends_list_model.dart';
+import 'package:vk_app/entities/models/get_user_info_model.dart';
 
 class FriendProfileScreenWidget extends StatelessWidget {
   const FriendProfileScreenWidget({Key? key}) : super(key: key);
@@ -17,23 +15,20 @@ class FriendProfileScreenWidget extends StatelessWidget {
     double height = 400;
     double widthImage = 100;
 
-    String firstName = context.read<FriendProfileScreenModel>().firstName;
-    String secondName = context.read<FriendProfileScreenModel>().secondName;
-    String city = context.read<FriendProfileScreenModel>().city;
+    UserInfo userInfo = context.watch<GetUserInfoModel>().userInfo;
+    String city = context.watch<GetUserInfoModel>().city;
+
     Image photo = Image.asset('assets/images/no-avatar.png');
-    //print(context.read<FriendProfileScreenModel>().deactivated);
-    if (context.read<FriendProfileScreenModel>().deactivated == '0') {
-      photo = Image.network(context.read<FriendProfileScreenModel>().photo);
+
+    if (context.read<GetUserInfoModel>().userInfo.deactivated == '0') {
+      photo = Image.network(context.read<GetUserInfoModel>().userInfo.photo);
     } else {
       Image.asset('ssets/images/no-avatar.png');
     }
 
-    BoxDecoration online = context.read<FriendProfileScreenModel>().online;
-    List listPhotos = context.read<FriendProfileScreenModel>().urls;
-
-    String deactivated = context.read<FriendProfileScreenModel>().deactivated;
-    bool canAccess = context.read<FriendProfileScreenModel>().canAccess;
-    int id = context.read<FriendProfileScreenModel>().id;
+    String deactivated = context.read<GetUserInfoModel>().userInfo.deactivated;
+    bool canAccess = context.read<GetUserInfoModel>().userInfo.canAccess;
+    int id = context.read<GetUserInfoModel>().userInfo.id;
 
     return SafeArea(
       child: Scaffold(
@@ -102,7 +97,7 @@ class FriendProfileScreenWidget extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                "$firstName $secondName",
+                                "${userInfo.firstName} ${userInfo.secondName}",
                                 style: const TextStyle(
                                   fontSize: 23,
                                   fontWeight: FontWeight.w500,
@@ -123,7 +118,7 @@ class FriendProfileScreenWidget extends StatelessWidget {
                                             ),
                                             SizedBox(width: 3),
                                             Text(
-                                              city,
+                                              city.toString(),
                                               style: TextStyle(
                                                   color: constants.secondColor
                                                       .withAlpha(180)),
@@ -261,7 +256,7 @@ class FriendProfileScreenWidget extends StatelessWidget {
                               child: Container(
                                 width: 17,
                                 height: 17,
-                                decoration: online,
+                                color: Colors.red,
                               ),
                             )
                           ],
@@ -275,21 +270,10 @@ class FriendProfileScreenWidget extends StatelessWidget {
                     ? InkWell(
                         onTap: () {
                           context
-                              .read<ProfileFriendsScreenModel>()
-                              .resetUserFriendsList()
-                              .then((value) => context
-                                  .read<ProfileFriendsScreenModel>()
-                                  .getUserFriends(
-                                      context.read<ApiClient>().token,
-                                      id,
-                                      context
-                                          .read<FriendProfileScreenModel>()
-                                          .deactivated,
-                                      context
-                                          .read<FriendProfileScreenModel>()
-                                          .canAccess));
-                          Navigator.pushNamed(
-                              context, '/main/friends/profile/friends');
+                              .read<FriendsScreenModel>()
+                              .getUserFriends(context, userInfo.id)
+                              .then((value) => Navigator.pushNamed(
+                                  context, '/main/friends'));
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(
@@ -441,23 +425,23 @@ class FriendProfileScreenWidget extends StatelessWidget {
                                       mainAxisSpacing: 5,
                                       crossAxisSpacing: 5,
                                     ),
-                                    itemCount: listPhotos.length,
+                                    itemCount: /*listPhotos.length*/ 6,
                                     itemBuilder: (context, index) {
                                       return Container(
-                                        child: FadeInImage(
-                                          fit: BoxFit.cover,
-                                          image: NetworkImage(
-                                              listPhotos[index].toString()),
-                                          placeholder: const AssetImage(
-                                              'assets/images/loading.gif'),
-                                          imageErrorBuilder:
-                                              (context, error, stackTrace) {
-                                            print(error); //do something
-                                            return Image.asset(
-                                                'assets/images/no-avatar.png');
-                                          },
-                                        ),
-                                      );
+                                          // child: FadeInImage(
+                                          //   fit: BoxFit.cover,
+                                          //   image: NetworkImage(
+                                          //       listPhotos[index].toString()),
+                                          //   placeholder: const AssetImage(
+                                          //       'assets/images/loading.gif'),
+                                          //   imageErrorBuilder:
+                                          //       (context, error, stackTrace) {
+                                          //     print(error); //do something
+                                          //     return Image.asset(
+                                          //         'assets/images/no-avatar.png');
+                                          //   },
+                                          // ),
+                                          );
                                     }),
                               ),
                             ),

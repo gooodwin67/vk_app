@@ -10,7 +10,7 @@ class ApiClient extends ChangeNotifier {
   int userId = 0;
 
   void logining() {
-    isLogining = true;
+    isLogining == true ? isLogining = false : isLogining = true;
     notifyListeners();
   }
 
@@ -36,25 +36,18 @@ class ApiClient extends ChangeNotifier {
       } else {
         final VKAccessToken? accessToken = data.accessToken;
         _token = accessToken?.token;
-        //final profile = await vk.getUserProfile();
-        //await _updateLoginInfo();
+
         final profile = _token != null ? await vk.getUserProfile() : null;
 
         print(
             'Hello, ${profile.value.firstName}! You ID: ${profile.value.userId}');
         userId = profile.value.userId;
+        //isLogining = false;
         notifyListeners();
       }
     } else {
       final errorRes = res.asError;
       print('Error while log in Ошибка: ${errorRes}');
     }
-  }
-
-  Future<void> _updateLoginInfo() async {
-    //await vk.getUserProfile();
-    final profile = _token != null ? await vk.getUserProfile() : null;
-
-    print(profile.value.userId);
   }
 }
