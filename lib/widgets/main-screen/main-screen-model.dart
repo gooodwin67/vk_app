@@ -6,7 +6,7 @@ import 'package:vk_app/widgets/menu-screens/profile-screen/profile-screen.dart';
 import 'package:vk_app/widgets/menu-screens/search-screen/search-screen.dart';
 
 class MainScreenModel with ChangeNotifier {
-  final List menuScreens = [
+  final List menuScreens = const [
     NewsScreenWidget(),
     SearchScreenWidget(),
     MessagesScreenWidget(),

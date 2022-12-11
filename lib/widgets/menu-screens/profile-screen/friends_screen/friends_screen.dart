@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/constants/constants.dart';
-import 'package:vk_app/domain/api_client/api_client.dart';
-import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friend_profile-screen-model.dart';
-import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friends_profile_screen/friends_profile_screen_model.dart';
-import 'package:vk_app/widgets/menu-screens/profile-screen/friends_screen/friends_screen_model.dart';
+import 'package:vk_app/entities/models/get_user_friends_list_model.dart';
+import 'package:vk_app/entities/models/get_user_info_model.dart';
 
 class FriendsScreenWidget extends StatelessWidget {
   const FriendsScreenWidget({Key? key}) : super(key: key);
@@ -12,7 +10,8 @@ class FriendsScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List friendsList = context.watch<FriendsScreenModel>().userFriendsListInfo;
-    int count = friendsList.length;
+    int count = context.watch<FriendsScreenModel>().count;
+
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -42,7 +41,7 @@ class FriendsScreenWidget extends StatelessWidget {
                     ),
                     SizedBox(width: 5),
                     Text(
-                      '162',
+                      count.toString(),
                       style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w300,
@@ -86,33 +85,38 @@ class FriendsScreenWidget extends StatelessWidget {
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  context.read<FriendsScreenModel>().showFriendIndex(index);
+                  //context.read<FriendsScreenModel>().showFriendIndex(index);
                   return Container(
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     margin: EdgeInsets.only(bottom: constants.mainPadding),
                     child: InkWell(
                       onTap: () {
                         context
-                            .read<FriendProfileScreenModel>()
-                            .getUserInfo(context.read<ApiClient>().token,
-                                friendsList[index].id.toString())
-                            .then((value) => context
-                                .read<FriendProfileScreenModel>()
-                                .getUserPhotos(context.read<ApiClient>().token,
-                                    friendsList[index].id.toString()))
-                            // .then((value) => context
-                            //     .read<ProfileFriendsScreenModel>()
-                            //     .getUserFriends(
-                            //         context.read<ApiClient>().token,
-                            //         friendsList[index].id.toString(),
-                            //         context
-                            //             .read<FriendProfileScreenModel>()
-                            //             .deactivated,
-                            //         context
-                            //             .read<FriendProfileScreenModel>()
-                            //             .canAccess))
-                            .then((value) => Navigator.pushNamed(
-                                context, '/main/friends/profile'));
+                            .read<GetUserInfoModel>()
+                            .getUserInfo(context, friendsList[index].id)
+                            .then((value) =>
+                                Navigator.pushNamed(context, '/main'));
+                        // context
+                        //     .read<FriendProfileScreenModel>()
+                        //     .getUserInfo(context.read<ApiClient>().token,
+                        //         friendsList[index].id.toString())
+                        //     .then((value) => context
+                        //         .read<FriendProfileScreenModel>()
+                        //         .getUserPhotos(context.read<ApiClient>().token,
+                        //             friendsList[index].id.toString()))
+                        //     // .then((value) => context
+                        //     //     .read<ProfileFriendsScreenModel>()
+                        //     //     .getUserFriends(
+                        //     //         context.read<ApiClient>().token,
+                        //     //         friendsList[index].id.toString(),
+                        //     //         context
+                        //     //             .read<FriendProfileScreenModel>()
+                        //     //             .deactivated,
+                        //     //         context
+                        //     //             .read<FriendProfileScreenModel>()
+                        //     //             .canAccess))
+                        //     .then((value) => Navigator.pushNamed(
+                        //         context, '/main/friends/profile'));
                       },
                       child: Row(
                         children: [
