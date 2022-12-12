@@ -5,12 +5,16 @@ import 'package:vk_app/domain/api_client/api_client.dart';
 import 'package:vk_app/entities/get_user_info_entity.dart';
 import 'package:vk_app/entities/models/get_user_friends_list_model.dart';
 import 'package:vk_app/entities/models/get_user_info_model.dart';
+import 'package:vk_app/routes/routes.dart';
 
 class ProfileScreenWidget extends StatelessWidget {
   const ProfileScreenWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final arg = ModalRoute.of(context)!.settings.arguments as Map;
+    final navId = arg['id'];
+    print(navId.toString());
     var width = MediaQuery.of(context).size.width;
     double height = 400;
     double widthImage = 100;
@@ -271,10 +275,15 @@ class ProfileScreenWidget extends StatelessWidget {
                         onTap: () {
                           context
                               .read<FriendsScreenModel>()
-                              .getUserFriends(
-                                  context, context.read<ApiClient>().userId)
-                              .then((value) => Navigator.pushNamed(
-                                  context, '/main/friends'));
+                              .getUserFriends(context,
+                                  /*context.read<ApiClient>().userId*/ navId)
+                              // .then((value) => Navigator.pushNamed(
+                              //     context, '/main/friends'));
+                              .then((value) => context
+                                  .read<AllRoutesModel>()
+                                  .goToRoute(
+                                      context.read<AllRoutesModel>().myFriends,
+                                      navId));
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:vk_app/domain/api_client/api_client.dart';
 import 'package:vk_app/entities/models/get_user_friends_list_model.dart';
 import 'package:vk_app/entities/models/get_user_info_model.dart';
+import 'package:vk_app/routes/routes.dart';
 import 'package:vk_app/widgets/login-screen/login-screen.dart';
 import 'package:vk_app/widgets/main-screen/main-screen-model.dart';
 import 'package:vk_app/widgets/main-screen/main-screen.dart';
@@ -26,28 +27,76 @@ void main() {
       ChangeNotifierProvider(create: (_) => ProfileFriendsScreenModel()),
       ChangeNotifierProvider(create: (_) => TestFriensProfiledModel()),
       ChangeNotifierProvider(create: (_) => GetUserInfoModel()),
+      ChangeNotifierProvider(create: (_) => AllRoutesModel()),
     ],
     child: const MyApp(),
   ));
 }
 
 //test
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  // String thisRoute = AllRoutes.login;
+  // bool is404 = false;
+
+  // void goToRoute(route) {
+  //   setState(() {
+  //     thisRoute = route;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginScreenWidget(),
-      routes: {
+      home: Navigator(
+        pages: [
+          MaterialPage(
+            child: LoginScreenWidget(),
+          ),
+          if (context.watch<AllRoutesModel>().thisRoute ==
+              context.watch<AllRoutesModel>().main)
+            MaterialPage(
+              arguments: {'id': context.watch<AllRoutesModel>().userId},
+              child: MainScreenWidget(),
+            ),
+          if (context.watch<AllRoutesModel>().thisRoute ==
+              context.watch<AllRoutesModel>().myFriends)
+            MaterialPage(
+              arguments: {'id': context.watch<AllRoutesModel>().userId},
+              child: FriendsScreenWidget(),
+            ),
+          if (context.watch<AllRoutesModel>().is404 == true)
+            const MaterialPage(
+              child: Scaffold(
+                body: Center(
+                  child: Text('Страница не найдена'),
+                ),
+              ),
+            ),
+        ],
+        onPopPage: (route, result) {
+          // if (!route.didPop(result)) {
+          //   return false;
+          // }
+          return true;
+        },
+      ),
+      //home: LoginScreenWidget(),
+      /*routes: {
         '/login': (context) => LoginScreenWidget(),
         '/main': (context) => MainScreenWidget(),
         '/main/friends': (context) => FriendsScreenWidget(),
         '/main/friends/profile': (context) => FriendProfileScreenWidget(),
         '/main/friends/profile/friends': (context) =>
             ProfileFriendsScreenWidget(),
-      },
+      },*/
     );
   }
 }
