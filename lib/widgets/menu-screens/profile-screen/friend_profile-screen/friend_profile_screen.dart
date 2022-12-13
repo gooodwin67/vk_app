@@ -5,12 +5,15 @@ import 'package:vk_app/domain/api_client/api_client.dart';
 import 'package:vk_app/entities/get_user_info_entity.dart';
 import 'package:vk_app/entities/models/get_user_friends_list_model.dart';
 import 'package:vk_app/entities/models/get_user_info_model.dart';
+import 'package:vk_app/routes/routes.dart';
 
 class FriendProfileScreenWidget extends StatelessWidget {
   const FriendProfileScreenWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // final arg = ModalRoute.of(context)!.settings.arguments as Map;
+    // final navId = arg['id'];
     var width = MediaQuery.of(context).size.width;
     double height = 400;
     double widthImage = 100;
@@ -269,11 +272,19 @@ class FriendProfileScreenWidget extends StatelessWidget {
                 deactivated == '0' && canAccess == true
                     ? InkWell(
                         onTap: () {
-                          context
+                          /*context
                               .read<FriendsScreenModel>()
                               .getUserFriends(context, userInfo.id)
                               .then((value) => Navigator.pushNamed(
-                                  context, '/main/friends'));
+                                  context, '/main/friends'));*/
+                          context
+                              .read<FriendsScreenModel>()
+                              .getUserFriends(context, id)
+                              .then((value) => context
+                                  .read<AllRoutesModel>()
+                                  .goToRoute(
+                                      context.read<AllRoutesModel>().myFriends,
+                                      id));
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(

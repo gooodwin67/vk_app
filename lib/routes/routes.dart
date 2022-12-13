@@ -4,6 +4,7 @@ class AllRoutesModel extends ChangeNotifier {
   String login = '/login';
   String main = '/main';
   String myFriends = '/main/friends';
+  String userProfile = '/main/friends/user-profile';
 
   String thisRoute = '/login';
   bool is404 = false;

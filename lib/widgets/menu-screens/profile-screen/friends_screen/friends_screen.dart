@@ -3,12 +3,15 @@ import 'package:provider/provider.dart';
 import 'package:vk_app/constants/constants.dart';
 import 'package:vk_app/entities/models/get_user_friends_list_model.dart';
 import 'package:vk_app/entities/models/get_user_info_model.dart';
+import 'package:vk_app/routes/routes.dart';
 
 class FriendsScreenWidget extends StatelessWidget {
   const FriendsScreenWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final arg = ModalRoute.of(context)!.settings.arguments as Map;
+    final navId = arg['id'];
     List friendsList = context.watch<FriendsScreenModel>().userFriendsListInfo;
     int count = context.watch<FriendsScreenModel>().count;
 
@@ -94,8 +97,12 @@ class FriendsScreenWidget extends StatelessWidget {
                         context
                             .read<GetUserInfoModel>()
                             .getUserInfo(context, friendsList[index].id)
-                            .then((value) => Navigator.pushNamed(
-                                context, '/main/friends/profile'));
+                            .then((value) => context
+                                .read<AllRoutesModel>()
+                                .goToRoute(
+                                    context.read<AllRoutesModel>().userProfile,
+                                    navId));
+
                         // context
                         //     .read<FriendProfileScreenModel>()
                         //     .getUserInfo(context.read<ApiClient>().token,

@@ -72,6 +72,12 @@ class _MyAppState extends State<MyApp> {
               arguments: {'id': context.watch<AllRoutesModel>().userId},
               child: FriendsScreenWidget(),
             ),
+          if (context.watch<AllRoutesModel>().thisRoute ==
+              context.watch<AllRoutesModel>().userProfile)
+            MaterialPage(
+              arguments: {'id': context.watch<AllRoutesModel>().userId},
+              child: FriendProfileScreenWidget(),
+            ),
           if (context.watch<AllRoutesModel>().is404 == true)
             const MaterialPage(
               child: Scaffold(
@@ -85,7 +91,18 @@ class _MyAppState extends State<MyApp> {
           // if (!route.didPop(result)) {
           //   return false;
           // }
-          return true;
+          // return true;
+          final bool success = route.didPop(result);
+          if (success) {
+            context
+                .read<GetUserInfoModel>()
+                .getUserInfo(context, context.read<ApiClient>().userId)
+                .then(context.read<AllRoutesModel>().goToRoute(
+                    context.read<AllRoutesModel>().main,
+                    context.read<ApiClient>().userId));
+            //notifyListeners();
+          }
+          return success;
         },
       ),
       //home: LoginScreenWidget(),
