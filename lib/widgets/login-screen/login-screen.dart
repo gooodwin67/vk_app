@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/domain/api_client/api_client.dart';
 import 'package:vk_app/entities/models/get_user_info_model.dart';
@@ -12,7 +13,6 @@ class LoginScreenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var allRoutes = AllRoutesModel();
     return Scaffold(
       body: context.watch<ApiClient>().isLogining == true
           ? Container(
@@ -33,25 +33,10 @@ class LoginScreenWidget extends StatelessWidget {
                               .read<GetUserInfoModel>()
                               .getUserInfo(
                                   context, context.read<ApiClient>().userId))
+                          .then((value) => context.read<ApiClient>().logining())
                           .then(
-                              //(value) => Navigator.pushNamed(context, '/main'))
-                              (value) => context
-                                  .read<AllRoutesModel>()
-                                  .goToRoute(
-                                      context.read<AllRoutesModel>().main,
-                                      context.read<ApiClient>().userId))
-                          .then((value) => context
-                              .read<ApiClient>()
-                              .logining()); //logining false
-                      //   context
-                      //       .read<ProfileScreenModel>()
-                      //       .getUserInfo(context.read<ApiClient>().token)
-                      //       .then((value) => context
-                      //           .read<ProfileScreenModel>()
-                      //           .getUserPhotos(context.read<ApiClient>().token))
-                      //       .then((value) =>
-                      //           Navigator.pushNamed(context, '/main'));
-                      // );
+                              (value) => context.go('/main')); //logining false
+
                       context.read<ApiClient>().logining();
                     },
                     child: Text('Login'),

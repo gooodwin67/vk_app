@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/constants/constants.dart';
 import 'package:vk_app/entities/models/get_user_friends_list_model.dart';
@@ -97,33 +98,8 @@ class FriendsScreenWidget extends StatelessWidget {
                         context
                             .read<GetUserInfoModel>()
                             .getUserInfo(context, friendsList[index].id)
-                            .then((value) => context
-                                .read<AllRoutesModel>()
-                                .goToRoute(
-                                    context.read<AllRoutesModel>().userProfile,
-                                    navId));
-
-                        // context
-                        //     .read<FriendProfileScreenModel>()
-                        //     .getUserInfo(context.read<ApiClient>().token,
-                        //         friendsList[index].id.toString())
-                        //     .then((value) => context
-                        //         .read<FriendProfileScreenModel>()
-                        //         .getUserPhotos(context.read<ApiClient>().token,
-                        //             friendsList[index].id.toString()))
-                        //     // .then((value) => context
-                        //     //     .read<ProfileFriendsScreenModel>()
-                        //     //     .getUserFriends(
-                        //     //         context.read<ApiClient>().token,
-                        //     //         friendsList[index].id.toString(),
-                        //     //         context
-                        //     //             .read<FriendProfileScreenModel>()
-                        //     //             .deactivated,
-                        //     //         context
-                        //     //             .read<FriendProfileScreenModel>()
-                        //     //             .canAccess))
-                        //     .then((value) => Navigator.pushNamed(
-                        //         context, '/main/friends/profile'));
+                            .then((value) =>
+                                context.go('/main/friends/user-profile'));
                       },
                       child: Row(
                         children: [

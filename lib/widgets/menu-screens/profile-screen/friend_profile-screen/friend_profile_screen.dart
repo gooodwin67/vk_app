@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/constants/constants.dart';
 import 'package:vk_app/domain/api_client/api_client.dart';
@@ -272,19 +273,13 @@ class FriendProfileScreenWidget extends StatelessWidget {
                 deactivated == '0' && canAccess == true
                     ? InkWell(
                         onTap: () {
-                          /*context
-                              .read<FriendsScreenModel>()
-                              .getUserFriends(context, userInfo.id)
-                              .then((value) => Navigator.pushNamed(
-                                  context, '/main/friends'));*/
+                          /*
                           context
                               .read<FriendsScreenModel>()
                               .getUserFriends(context, id)
-                              .then((value) => context
-                                  .read<AllRoutesModel>()
-                                  .goToRoute(
-                                      context.read<AllRoutesModel>().myFriends,
-                                      id));
+                              .then((value) => context.go(
+                                  '/main/friends/user-profile/user-profile-friends'));
+                                  */
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(

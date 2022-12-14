@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/constants/constants.dart';
 import 'package:vk_app/domain/api_client/api_client.dart';
@@ -275,15 +276,8 @@ class ProfileScreenWidget extends StatelessWidget {
                         onTap: () {
                           context
                               .read<FriendsScreenModel>()
-                              .getUserFriends(context,
-                                  /*context.read<ApiClient>().userId*/ navId)
-                              // .then((value) => Navigator.pushNamed(
-                              //     context, '/main/friends'));
-                              .then((value) => context
-                                  .read<AllRoutesModel>()
-                                  .goToRoute(
-                                      context.read<AllRoutesModel>().myFriends,
-                                      navId));
+                              .getUserFriends(context, id)
+                              .then((value) => context.go('/main/friends'));
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(

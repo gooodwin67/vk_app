@@ -27,85 +27,25 @@ void main() {
       ChangeNotifierProvider(create: (_) => ProfileFriendsScreenModel()),
       ChangeNotifierProvider(create: (_) => TestFriensProfiledModel()),
       ChangeNotifierProvider(create: (_) => GetUserInfoModel()),
-      ChangeNotifierProvider(create: (_) => AllRoutesModel()),
     ],
     child: const MyApp(),
   ));
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  // String thisRoute = AllRoutes.login;
-  // bool is404 = false;
-
-  // void goToRoute(route) {
-  //   setState(() {
-  //     thisRoute = route;
-  //   });
-  // }
-
-  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      home: Navigator(
-        pages: [
-          MaterialPage(
-            child: LoginScreenWidget(),
-          ),
-          if (context.watch<AllRoutesModel>().thisRoute ==
-              context.watch<AllRoutesModel>().main)
-            MaterialPage(
-              arguments: {'id': context.watch<AllRoutesModel>().userId},
-              child: MainScreenWidget(),
-            ),
-          if (context.watch<AllRoutesModel>().thisRoute ==
-              context.watch<AllRoutesModel>().myFriends)
-            MaterialPage(
-              arguments: {'id': context.watch<AllRoutesModel>().userId},
-              child: FriendsScreenWidget(),
-            ),
-          if (context.watch<AllRoutesModel>().thisRoute ==
-              context.watch<AllRoutesModel>().userProfile)
-            MaterialPage(
-              arguments: {'id': context.watch<AllRoutesModel>().userId},
-              child: FriendProfileScreenWidget(),
-            ),
-          if (context.watch<AllRoutesModel>().is404 == true)
-            const MaterialPage(
-              child: Scaffold(
-                body: Center(
-                  child: Text('Страница не найдена'),
-                ),
-              ),
-            ),
-        ],
-        onPopPage: (route, result) {
-          // if (!route.didPop(result)) {
-          //   return false;
-          // }
-          // return true;
-          final bool success = route.didPop(result);
-          if (success) {
-            context
-                .read<GetUserInfoModel>()
-                .getUserInfo(context, context.read<ApiClient>().userId)
-                .then(context.read<AllRoutesModel>().goToRoute(
-                    context.read<AllRoutesModel>().main,
-                    context.read<ApiClient>().userId));
-            //notifyListeners();
-          }
-          return success;
-        },
-      ),
-      //home: LoginScreenWidget(),
-      /*routes: {
+      routeInformationParser: router.routeInformationParser,
+      routeInformationProvider: router.routeInformationProvider,
+      routerDelegate: router.routerDelegate,
+    );
+
+    //home: LoginScreenWidget(),
+    /*routes: {
         '/login': (context) => LoginScreenWidget(),
         '/main': (context) => MainScreenWidget(),
         '/main/friends': (context) => FriendsScreenWidget(),
@@ -113,6 +53,5 @@ class _MyAppState extends State<MyApp> {
         '/main/friends/profile/friends': (context) =>
             ProfileFriendsScreenWidget(),
       },*/
-    );
   }
 }
