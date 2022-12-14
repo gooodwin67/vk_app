@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/domain/api_client/api_client.dart';
+import 'package:vk_app/entities/models/get_my_friends_list_model.dart';
+import 'package:vk_app/entities/models/get_my_info_model.dart';
 import 'package:vk_app/entities/models/get_user_friends_list_model.dart';
 import 'package:vk_app/entities/models/get_user_info_model.dart';
 import 'package:vk_app/routes/routes.dart';
@@ -27,6 +29,8 @@ void main() {
       ChangeNotifierProvider(create: (_) => ProfileFriendsScreenModel()),
       ChangeNotifierProvider(create: (_) => TestFriensProfiledModel()),
       ChangeNotifierProvider(create: (_) => GetUserInfoModel()),
+      ChangeNotifierProvider(create: (_) => GetMyInfoModel()),
+      ChangeNotifierProvider(create: (_) => MyFriendsScreenModel()),
     ],
     child: const MyApp(),
   ));

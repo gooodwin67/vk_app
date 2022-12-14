@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:vk_app/constants/constants.dart';
 import 'package:vk_app/domain/api_client/api_client.dart';
 import 'package:vk_app/entities/get_user_info_entity.dart';
+import 'package:vk_app/entities/models/get_my_friends_list_model.dart';
+import 'package:vk_app/entities/models/get_my_info_model.dart';
 import 'package:vk_app/entities/models/get_user_friends_list_model.dart';
 import 'package:vk_app/entities/models/get_user_info_model.dart';
 import 'package:vk_app/routes/routes.dart';
@@ -15,25 +17,25 @@ class ProfileScreenWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final arg = ModalRoute.of(context)!.settings.arguments as Map;
     final navId = arg['id'];
-    print(navId.toString());
+    //print(navId.toString());
     var width = MediaQuery.of(context).size.width;
     double height = 400;
     double widthImage = 100;
 
-    UserInfo userInfo = context.watch<GetUserInfoModel>().userInfo;
-    String city = context.watch<GetUserInfoModel>().city;
+    UserInfo userInfo = context.watch<GetMyInfoModel>().userInfo;
+    String city = context.watch<GetMyInfoModel>().city;
 
     Image photo = Image.asset('assets/images/no-avatar.png');
 
-    if (context.read<GetUserInfoModel>().userInfo.deactivated == '0') {
-      photo = Image.network(context.read<GetUserInfoModel>().userInfo.photo);
+    if (context.read<GetMyInfoModel>().userInfo.deactivated == '0') {
+      photo = Image.network(context.read<GetMyInfoModel>().userInfo.photo);
     } else {
       Image.asset('ssets/images/no-avatar.png');
     }
 
-    String deactivated = context.read<GetUserInfoModel>().userInfo.deactivated;
-    bool canAccess = context.read<GetUserInfoModel>().userInfo.canAccess;
-    int id = context.read<GetUserInfoModel>().userInfo.id;
+    String deactivated = context.read<GetMyInfoModel>().userInfo.deactivated;
+    bool canAccess = context.read<GetMyInfoModel>().userInfo.canAccess;
+    int id = context.read<GetMyInfoModel>().userInfo.id;
 
     return SafeArea(
       child: Scaffold(
@@ -275,8 +277,8 @@ class ProfileScreenWidget extends StatelessWidget {
                     ? InkWell(
                         onTap: () {
                           context
-                              .read<FriendsScreenModel>()
-                              .getUserFriends(context, id)
+                              .read<MyFriendsScreenModel>()
+                              .getMyFriends(context)
                               .then((value) => context.go('/main/friends'));
                         },
                         child: Container(

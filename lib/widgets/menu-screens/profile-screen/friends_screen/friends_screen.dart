@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/constants/constants.dart';
+import 'package:vk_app/entities/models/get_my_friends_list_model.dart';
 import 'package:vk_app/entities/models/get_user_friends_list_model.dart';
 import 'package:vk_app/entities/models/get_user_info_model.dart';
 import 'package:vk_app/routes/routes.dart';
@@ -13,8 +14,9 @@ class FriendsScreenWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final arg = ModalRoute.of(context)!.settings.arguments as Map;
     final navId = arg['id'];
-    List friendsList = context.watch<FriendsScreenModel>().userFriendsListInfo;
-    int count = context.watch<FriendsScreenModel>().count;
+    List friendsList =
+        context.watch<MyFriendsScreenModel>().userFriendsListInfo;
+    int count = context.watch<MyFriendsScreenModel>().count;
 
     return Scaffold(
       body: SafeArea(
@@ -89,7 +91,6 @@ class FriendsScreenWidget extends StatelessWidget {
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  //context.read<FriendsScreenModel>().showFriendIndex(index);
                   return Container(
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     margin: EdgeInsets.only(bottom: constants.mainPadding),
@@ -98,8 +99,8 @@ class FriendsScreenWidget extends StatelessWidget {
                         context
                             .read<GetUserInfoModel>()
                             .getUserInfo(context, friendsList[index].id)
-                            .then((value) =>
-                                context.go('/main/friends/user-profile'));
+                            .then((value) => context
+                                .go('/main/friends/${friendsList[index].id}'));
                       },
                       child: Row(
                         children: [

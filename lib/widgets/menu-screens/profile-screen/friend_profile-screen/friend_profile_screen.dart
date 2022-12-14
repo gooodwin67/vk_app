@@ -9,7 +9,8 @@ import 'package:vk_app/entities/models/get_user_info_model.dart';
 import 'package:vk_app/routes/routes.dart';
 
 class FriendProfileScreenWidget extends StatelessWidget {
-  const FriendProfileScreenWidget({Key? key}) : super(key: key);
+  var userId;
+  FriendProfileScreenWidget({required this.userId, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class FriendProfileScreenWidget extends StatelessWidget {
 
     String deactivated = context.read<GetUserInfoModel>().userInfo.deactivated;
     bool canAccess = context.read<GetUserInfoModel>().userInfo.canAccess;
-    int id = context.read<GetUserInfoModel>().userInfo.id;
+    //int id = context.read<GetUserInfoModel>().userInfo.id;
 
     return SafeArea(
       child: Scaffold(
@@ -273,13 +274,11 @@ class FriendProfileScreenWidget extends StatelessWidget {
                 deactivated == '0' && canAccess == true
                     ? InkWell(
                         onTap: () {
-                          /*
                           context
                               .read<FriendsScreenModel>()
-                              .getUserFriends(context, id)
-                              .then((value) => context.go(
-                                  '/main/friends/user-profile/user-profile-friends'));
-                                  */
+                              .getUserFriends(context, userId)
+                              .then((value) => context
+                                  .go('/main/friends/${userId}/friends'));
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(

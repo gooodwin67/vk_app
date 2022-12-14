@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:vk_app/widgets/login-screen/login-screen.dart';
 import 'package:vk_app/widgets/main-screen/main-screen.dart';
 import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friend_profile_screen.dart';
+import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friends_profile_screen/friends_profile_screen.dart';
 import 'package:vk_app/widgets/menu-screens/profile-screen/friends_screen/friends_screen.dart';
 
 get router => _router;
@@ -29,10 +30,19 @@ final _router = GoRouter(
               },
               routes: [
                 GoRoute(
-                  path: 'user-profile',
+                  path: ':userId',
                   builder: (BuildContext context, GoRouterState state) {
-                    return const FriendProfileScreenWidget();
+                    return FriendProfileScreenWidget(
+                        userId: state.params['userId']);
                   },
+                  routes: [
+                    GoRoute(
+                      path: 'friends',
+                      builder: (BuildContext context, GoRouterState state) {
+                        return ProfileFriendsScreenWidget();
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),

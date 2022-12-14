@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/constants/constants.dart';
-import 'package:vk_app/domain/api_client/api_client.dart';
-import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friend_profile-screen-model.dart';
-import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friends_profile_screen/friends_profile_screen_model.dart';
+import 'package:vk_app/entities/models/get_my_friends_list_model.dart';
+import 'package:vk_app/entities/models/get_user_friends_list_model.dart';
+import 'package:vk_app/entities/models/get_user_info_model.dart';
+import 'package:vk_app/routes/routes.dart';
 
 class ProfileFriendsScreenWidget extends StatelessWidget {
   const ProfileFriendsScreenWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List friendsList =
-        context.watch<ProfileFriendsScreenModel>().userFriendsListInfo;
-    print(friendsList.length.toString());
-    int count = friendsList.length;
+    final arg = ModalRoute.of(context)!.settings.arguments as Map;
+    final navId = arg['id'];
+    List friendsList = context.watch<FriendsScreenModel>().userFriendsListInfo;
+    int count = context.watch<FriendsScreenModel>().count;
+
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -43,7 +46,7 @@ class ProfileFriendsScreenWidget extends StatelessWidget {
                     ),
                     SizedBox(width: 5),
                     Text(
-                      '162',
+                      count.toString(),
                       style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w300,
@@ -66,9 +69,16 @@ class ProfileFriendsScreenWidget extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Container(
-                        color: constants.secondColor.withAlpha(100),
+                        //color: constants.secondColor.withAlpha(100),
                         width: MediaQuery.of(context).size.width,
                         height: 50,
+                        child: const TextField(
+                          decoration: InputDecoration(
+                            labelText: 'Поиск',
+                            prefixIcon: Icon(Icons.search),
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(height: constants.mainPadding),
@@ -80,28 +90,16 @@ class ProfileFriendsScreenWidget extends StatelessWidget {
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  context
-                      .read<ProfileFriendsScreenModel>()
-                      .showFriendIndex(index);
                   return Container(
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     margin: EdgeInsets.only(bottom: constants.mainPadding),
                     child: InkWell(
                       onTap: () {
                         context
-                            .read<ProfileFriendsScreenModel>()
-                            .resetUserFriendsList()
+                            .read<GetUserInfoModel>()
+                            .getUserInfo(context, friendsList[index].id)
                             .then((value) => context
-                                .read<FriendProfileScreenModel>()
-                                .getUserInfo(context.read<ApiClient>().token,
-                                    friendsList[index].id.toString())
-                                .then((value) => context
-                                    .read<FriendProfileScreenModel>()
-                                    .getUserPhotos(
-                                        context.read<ApiClient>().token,
-                                        friendsList[index].id.toString()))
-                                .then((value) => Navigator.pushNamed(
-                                    context, '/main/friends/profile')));
+                                .go('/main/friends/${friendsList[index].id}'));
                       },
                       child: Row(
                         children: [
@@ -129,13 +127,9 @@ class ProfileFriendsScreenWidget extends StatelessWidget {
                             ),
                           ),
                           SizedBox(width: 10),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.7,
-                            child: Text(
-                              '${friendsList[index].firstName} ${friendsList[index].lastName}',
-                              style: TextStyle(fontSize: 17),
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                          Text(
+                            '${friendsList[index].firstName} ${friendsList[index].lastName}',
+                            style: TextStyle(fontSize: 17),
                           ),
                           Spacer(),
                           Icon(
