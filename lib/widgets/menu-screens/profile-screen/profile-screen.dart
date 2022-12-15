@@ -2,22 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/constants/constants.dart';
-import 'package:vk_app/domain/api_client/api_client.dart';
+
 import 'package:vk_app/entities/get_user_info_entity.dart';
 import 'package:vk_app/entities/models/get_my_friends_list_model.dart';
 import 'package:vk_app/entities/models/get_my_info_model.dart';
-import 'package:vk_app/entities/models/get_user_friends_list_model.dart';
-import 'package:vk_app/entities/models/get_user_info_model.dart';
-import 'package:vk_app/routes/routes.dart';
+import 'package:vk_app/entities/models/get_my_photos_model.dart';
 
 class ProfileScreenWidget extends StatelessWidget {
   const ProfileScreenWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final arg = ModalRoute.of(context)!.settings.arguments as Map;
-    final navId = arg['id'];
-    //print(navId.toString());
+    //final arg = ModalRoute.of(context)!.settings.arguments as Map;
+
     var width = MediaQuery.of(context).size.width;
     double height = 400;
     double widthImage = 100;
@@ -36,6 +33,8 @@ class ProfileScreenWidget extends StatelessWidget {
     String deactivated = context.read<GetMyInfoModel>().userInfo.deactivated;
     bool canAccess = context.read<GetMyInfoModel>().userInfo.canAccess;
     int id = context.read<GetMyInfoModel>().userInfo.id;
+
+    List listUrlsPhotos = context.watch<MyPhotosModel>().urls;
 
     return SafeArea(
       child: Scaffold(
@@ -434,20 +433,20 @@ class ProfileScreenWidget extends StatelessWidget {
                                     itemCount: /*listPhotos.length*/ 6,
                                     itemBuilder: (context, index) {
                                       return Container(
-                                          // child: FadeInImage(
-                                          //   fit: BoxFit.cover,
-                                          //   image: NetworkImage(
-                                          //       listPhotos[index].toString()),
-                                          //   placeholder: const AssetImage(
-                                          //       'assets/images/loading.gif'),
-                                          //   imageErrorBuilder:
-                                          //       (context, error, stackTrace) {
-                                          //     print(error); //do something
-                                          //     return Image.asset(
-                                          //         'assets/images/no-avatar.png');
-                                          //   },
-                                          // ),
-                                          );
+                                        child: FadeInImage(
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(
+                                              listUrlsPhotos[index].toString()),
+                                          placeholder: const AssetImage(
+                                              'assets/images/loading.gif'),
+                                          imageErrorBuilder:
+                                              (context, error, stackTrace) {
+                                            print(error); //do something
+                                            return Image.asset(
+                                                'assets/images/no-avatar.png');
+                                          },
+                                        ),
+                                      );
                                     }),
                               ),
                             ),

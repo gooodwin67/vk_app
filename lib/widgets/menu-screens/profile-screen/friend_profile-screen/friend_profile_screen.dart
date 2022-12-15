@@ -6,6 +6,7 @@ import 'package:vk_app/domain/api_client/api_client.dart';
 import 'package:vk_app/entities/get_user_info_entity.dart';
 import 'package:vk_app/entities/models/get_user_friends_list_model.dart';
 import 'package:vk_app/entities/models/get_user_info_model.dart';
+import 'package:vk_app/entities/models/get_user_photos_model.dart';
 import 'package:vk_app/routes/routes.dart';
 
 class FriendProfileScreenWidget extends StatelessWidget {
@@ -33,7 +34,8 @@ class FriendProfileScreenWidget extends StatelessWidget {
 
     String deactivated = context.read<GetUserInfoModel>().userInfo.deactivated;
     bool canAccess = context.read<GetUserInfoModel>().userInfo.canAccess;
-    //int id = context.read<GetUserInfoModel>().userInfo.id;
+
+    List listUrlsPhotos = context.watch<UserPhotosModel>().urls;
 
     return SafeArea(
       child: Scaffold(
@@ -430,23 +432,23 @@ class FriendProfileScreenWidget extends StatelessWidget {
                                       mainAxisSpacing: 5,
                                       crossAxisSpacing: 5,
                                     ),
-                                    itemCount: /*listPhotos.length*/ 6,
+                                    itemCount: listUrlsPhotos.length, // 6
                                     itemBuilder: (context, index) {
                                       return Container(
-                                          // child: FadeInImage(
-                                          //   fit: BoxFit.cover,
-                                          //   image: NetworkImage(
-                                          //       listPhotos[index].toString()),
-                                          //   placeholder: const AssetImage(
-                                          //       'assets/images/loading.gif'),
-                                          //   imageErrorBuilder:
-                                          //       (context, error, stackTrace) {
-                                          //     print(error); //do something
-                                          //     return Image.asset(
-                                          //         'assets/images/no-avatar.png');
-                                          //   },
-                                          // ),
-                                          );
+                                        child: FadeInImage(
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(
+                                              listUrlsPhotos[index].toString()),
+                                          placeholder: const AssetImage(
+                                              'assets/images/loading.gif'),
+                                          imageErrorBuilder:
+                                              (context, error, stackTrace) {
+                                            print(error); //do something
+                                            return Image.asset(
+                                                'assets/images/no-avatar.png');
+                                          },
+                                        ),
+                                      );
                                     }),
                               ),
                             ),

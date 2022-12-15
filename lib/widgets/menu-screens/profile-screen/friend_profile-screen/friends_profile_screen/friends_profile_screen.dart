@@ -5,6 +5,7 @@ import 'package:vk_app/constants/constants.dart';
 import 'package:vk_app/entities/models/get_my_friends_list_model.dart';
 import 'package:vk_app/entities/models/get_user_friends_list_model.dart';
 import 'package:vk_app/entities/models/get_user_info_model.dart';
+import 'package:vk_app/entities/models/get_user_photos_model.dart';
 import 'package:vk_app/routes/routes.dart';
 
 class ProfileFriendsScreenWidget extends StatelessWidget {
@@ -98,6 +99,10 @@ class ProfileFriendsScreenWidget extends StatelessWidget {
                         context
                             .read<GetUserInfoModel>()
                             .getUserInfo(context, friendsList[index].id)
+                            .then((value) => context
+                                .read<UserPhotosModel>()
+                                .getUserPhotos(
+                                    context, friendsList[index].id, 6))
                             .then((value) => context.go(
                                 '/main/my-friends/${friendsList[index].id}'));
                       },
