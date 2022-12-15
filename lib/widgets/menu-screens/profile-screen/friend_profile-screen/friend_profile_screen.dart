@@ -277,8 +277,8 @@ class FriendProfileScreenWidget extends StatelessWidget {
                           context
                               .read<FriendsScreenModel>()
                               .getUserFriends(context, userId)
-                              .then((value) =>
-                                  context.go('/main/${userId}/friends'));
+                              .then((value) => context
+                                  .go('/main/my-friends/${userId}/friends'));
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(

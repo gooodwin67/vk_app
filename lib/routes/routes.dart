@@ -24,24 +24,26 @@ final _router = GoRouter(
           },
           routes: [
             GoRoute(
-              path: 'friends',
+              path: 'my-friends',
               builder: (BuildContext context, GoRouterState state) {
                 return const FriendsScreenWidget();
               },
-            ),
-            GoRoute(
-              path: ':userId',
-              builder: (BuildContext context, GoRouterState state) {
-                return FriendProfileScreenWidget(
-                  userId: state.params['userId'],
-                );
-              },
               routes: [
                 GoRoute(
-                  path: 'friends',
+                  path: ':userId',
                   builder: (BuildContext context, GoRouterState state) {
-                    return ProfileFriendsScreenWidget();
+                    return FriendProfileScreenWidget(
+                      userId: state.params['userId'],
+                    );
                   },
+                  routes: [
+                    GoRoute(
+                      path: 'friends',
+                      builder: (BuildContext context, GoRouterState state) {
+                        return ProfileFriendsScreenWidget();
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
