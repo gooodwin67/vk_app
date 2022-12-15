@@ -3,11 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/domain/api_client/api_client.dart';
 import 'package:vk_app/entities/models/get_my_info_model.dart';
-import 'package:vk_app/entities/models/get_user_info_model.dart';
+
 import 'package:vk_app/routes/routes.dart';
-import 'package:vk_app/widgets/menu-screens/notifications-screen/test_friend/test_friend_profile_screen_model.dart';
-import 'package:vk_app/widgets/menu-screens/profile-screen/friends_screen/friends_screen_model.dart';
-import 'package:vk_app/widgets/menu-screens/profile-screen/profile-screen-model.dart';
 
 class LoginScreenWidget extends StatelessWidget {
   const LoginScreenWidget({Key? key}) : super(key: key);
