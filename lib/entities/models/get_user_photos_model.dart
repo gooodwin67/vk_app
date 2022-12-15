@@ -4,15 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/domain/api_client/api_client.dart';
 import 'package:vk_app/entities/get_user_photos_entity.dart';
+import 'package:vk_app/entities/models/get_user_info_model.dart';
 
 class UserPhotosModel extends ChangeNotifier {
-  String _deactivated = '0';
   bool _canAccess = true;
 
   List _urls = [];
   int _id = 0;
 
-  String get deactivated => _deactivated;
   bool get canAccess => _canAccess;
 
   List get urls => _urls;
@@ -20,12 +19,15 @@ class UserPhotosModel extends ChangeNotifier {
 
   Future getUserPhotos(BuildContext context, id, count) async {
     _urls = [];
+    String deactivated = context.read<GetUserInfoModel>().userInfo.deactivated;
+    bool canAccess = context.read<GetUserInfoModel>().userInfo.canAccess;
     final token = context.read<ApiClient>().token;
-    if (_deactivated == '0' && _canAccess == true) {
+
+    if (deactivated == '0' && canAccess == true) {
       var getUserPhotos = await http.get(Uri.parse(
           'https://api.vk.com/method/photos.getAll?v=5.131&access_token=${token}&owner_id=$id&count=$count'));
 
-      print(getUserPhotos);
+      //print(getUserPhotos);
 
       var userPhotosMap = jsonDecode(getUserPhotos.body);
       var userPhotosResponse = PhotosResponse.fromJson(userPhotosMap);
