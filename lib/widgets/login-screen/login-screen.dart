@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/domain/api_client/api_client.dart';
+import 'package:vk_app/entities/models/get_my_friends_list_model.dart';
 import 'package:vk_app/entities/models/get_my_info_model.dart';
 import 'package:vk_app/entities/models/get_my_photos_model.dart';
 
@@ -33,6 +34,9 @@ class LoginScreenWidget extends StatelessWidget {
                           .then((value) => context
                               .read<MyPhotosModel>()
                               .getMyPhotos(context, 6))
+                          .then((value) => context
+                              .read<MyFriendsScreenModel>()
+                              .getMyFriends(context))
                           .then((value) => context.read<ApiClient>().logining())
                           .then((value) => context.go('/main'));
 

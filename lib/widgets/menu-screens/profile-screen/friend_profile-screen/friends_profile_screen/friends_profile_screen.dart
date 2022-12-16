@@ -103,6 +103,9 @@ class ProfileFriendsScreenWidget extends StatelessWidget {
                                 .read<UserPhotosModel>()
                                 .getUserPhotos(
                                     context, friendsList[index].id, 6))
+                            .then((value) => context
+                                .read<FriendsScreenModel>()
+                                .getUserFriends(context, friendsList[index].id))
                             .then((value) => context.go(
                                 '/main/my-friends/${friendsList[index].id}'));
                       },
@@ -115,27 +118,35 @@ class ProfileFriendsScreenWidget extends StatelessWidget {
                               height: 50,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(50),
+                                color: constants.backColor,
                               ),
-                              child: FadeInImage(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(
-                                    friendsList[index].photo.toString()),
-                                placeholder: const AssetImage(
-                                    'assets/images/loading.gif'),
-                                imageErrorBuilder:
-                                    (context, error, stackTrace) {
-                                  print(error); //do something
-                                  return Image.asset(
-                                      'assets/images/no-avatar.png');
-                                },
-                              ),
+                              child: friendsList.length > 0
+                                  ? FadeInImage(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(
+                                          friendsList[index].photo.toString()),
+                                      placeholder: const AssetImage(
+                                          'assets/images/loading.gif'),
+                                      imageErrorBuilder:
+                                          (context, error, stackTrace) {
+                                        print(error); //do something
+                                        return Image.asset(
+                                            'assets/images/no-avatar.png');
+                                      },
+                                    )
+                                  : SizedBox(),
                             ),
                           ),
                           SizedBox(width: 10),
-                          Text(
-                            '${friendsList[index].firstName} ${friendsList[index].lastName}',
-                            style: TextStyle(fontSize: 17),
-                          ),
+                          friendsList.length > 0
+                              ? Text(
+                                  '${friendsList[index].firstName} ${friendsList[index].lastName}',
+                                  style: TextStyle(fontSize: 17),
+                                )
+                              : Text(
+                                  'Нет доступа',
+                                  style: TextStyle(fontSize: 17),
+                                ),
                           Spacer(),
                           Icon(
                             Icons.message_outlined,

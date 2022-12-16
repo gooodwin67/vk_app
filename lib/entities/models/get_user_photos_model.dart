@@ -24,10 +24,9 @@ class UserPhotosModel extends ChangeNotifier {
     final token = context.read<ApiClient>().token;
 
     if (deactivated == '0' && canAccess == true) {
+      //print('$id ---- $count');
       var getUserPhotos = await http.get(Uri.parse(
           'https://api.vk.com/method/photos.getAll?v=5.131&access_token=${token}&owner_id=$id&count=$count'));
-
-      //print(getUserPhotos);
 
       var userPhotosMap = jsonDecode(getUserPhotos.body);
       var userPhotosResponse = PhotosResponse.fromJson(userPhotosMap);

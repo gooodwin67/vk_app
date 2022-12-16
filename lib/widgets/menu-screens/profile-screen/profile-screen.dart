@@ -36,6 +36,9 @@ class ProfileScreenWidget extends StatelessWidget {
 
     List listUrlsPhotos = context.watch<MyPhotosModel>().urls;
 
+    List friendsList = context.read<MyFriendsScreenModel>().userFriendsListInfo;
+    int allFriendsCount = context.read<MyFriendsScreenModel>().count;
+
     return SafeArea(
       child: Scaffold(
         extendBodyBehindAppBar: true,
@@ -275,10 +278,7 @@ class ProfileScreenWidget extends StatelessWidget {
                 deactivated == '0' && canAccess == true
                     ? InkWell(
                         onTap: () {
-                          context
-                              .read<MyFriendsScreenModel>()
-                              .getMyFriends(context)
-                              .then((value) => context.go('/main/my-friends'));
+                          context.go('/main/my-friends');
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(
@@ -291,7 +291,7 @@ class ProfileScreenWidget extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                '161 друг',
+                                'Друзей: $allFriendsCount'.toString(),
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               Container(
@@ -315,9 +315,19 @@ class ProfileScreenWidget extends StatelessWidget {
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(50),
-                                          child: Image.asset(
-                                            'assets/images/no-avatar.png',
-                                            fit: BoxFit.contain,
+                                          child: FadeInImage(
+                                            fit: BoxFit.cover,
+                                            image: NetworkImage(friendsList[2]
+                                                .photo
+                                                .toString()),
+                                            placeholder: const AssetImage(
+                                                'assets/images/loading.gif'),
+                                            imageErrorBuilder:
+                                                (context, error, stackTrace) {
+                                              print(error); //do something
+                                              return Image.asset(
+                                                  'assets/images/no-avatar.png');
+                                            },
                                           ),
                                         ),
                                       ),
@@ -338,9 +348,19 @@ class ProfileScreenWidget extends StatelessWidget {
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(50),
-                                          child: Image.asset(
-                                            'assets/images/no-avatar.png',
-                                            fit: BoxFit.contain,
+                                          child: FadeInImage(
+                                            fit: BoxFit.cover,
+                                            image: NetworkImage(friendsList[1]
+                                                .photo
+                                                .toString()),
+                                            placeholder: const AssetImage(
+                                                'assets/images/loading.gif'),
+                                            imageErrorBuilder:
+                                                (context, error, stackTrace) {
+                                              print(error); //do something
+                                              return Image.asset(
+                                                  'assets/images/no-avatar.png');
+                                            },
                                           ),
                                         ),
                                       ),
@@ -357,9 +377,18 @@ class ProfileScreenWidget extends StatelessWidget {
                                       ),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(50),
-                                        child: Image.asset(
-                                          'assets/images/no-avatar.png',
-                                          fit: BoxFit.contain,
+                                        child: FadeInImage(
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(
+                                              friendsList[0].photo.toString()),
+                                          placeholder: const AssetImage(
+                                              'assets/images/loading.gif'),
+                                          imageErrorBuilder:
+                                              (context, error, stackTrace) {
+                                            print(error); //do something
+                                            return Image.asset(
+                                                'assets/images/no-avatar.png');
+                                          },
                                         ),
                                       ),
                                     ),
@@ -383,56 +412,66 @@ class ProfileScreenWidget extends StatelessWidget {
                 deactivated == '0' && canAccess == true
                     ? Container(
                         padding: EdgeInsets.symmetric(
-                            horizontal: constants.mainPadding, vertical: 10),
+                            horizontal: constants.mainPadding),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: Column(
                           children: [
-                            Row(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 5),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(7),
-                                      border: Border.all(
-                                          color: constants.backColor)),
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.photo_outlined,
-                                        color: constants.mainColor,
-                                      ),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        'Фото',
-                                        style: TextStyle(
-                                            color: constants.mainColor,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(7),
+                                        border: Border.all(
+                                            color: constants.backColor)),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.photo_outlined,
+                                          color: constants.mainColor,
+                                        ),
+                                        SizedBox(width: 5),
+                                        Text(
+                                          'Фото',
+                                          style: TextStyle(
+                                              color: constants.mainColor,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                            SizedBox(height: 15),
                             ClipRRect(
                               borderRadius: BorderRadius.circular(10),
-                              child: Container(
-                                height: 241,
+                              child: MediaQuery.removePadding(
+                                removeTop: true,
+                                context: context,
                                 child: GridView.builder(
-                                    scrollDirection: Axis.horizontal,
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    scrollDirection: Axis.vertical,
                                     gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
+                                        SliverGridDelegateWithMaxCrossAxisExtent(
+                                      //crossAxisCount: 3,
                                       mainAxisSpacing: 5,
                                       crossAxisSpacing: 5,
+                                      maxCrossAxisExtent:
+                                          MediaQuery.of(context).size.width / 3,
+                                      childAspectRatio: 1,
                                     ),
                                     itemCount: /*listPhotos.length*/ 6,
                                     itemBuilder: (context, index) {
                                       return Container(
+                                        color: constants.backColor,
                                         child: FadeInImage(
                                           fit: BoxFit.cover,
                                           image: NetworkImage(
