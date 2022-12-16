@@ -112,28 +112,41 @@ class FriendsScreenWidget extends StatelessWidget {
                       },
                       child: Row(
                         children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: Container(
-                              width: 50,
-                              height: 50,
-                              decoration: BoxDecoration(
+                          Stack(
+                            children: [
+                              ClipRRect(
                                 borderRadius: BorderRadius.circular(50),
+                                child: Container(
+                                  width: 50,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  child: FadeInImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(
+                                        friendsList[index].photo.toString()),
+                                    placeholder: const AssetImage(
+                                        'assets/images/loading.gif'),
+                                    imageErrorBuilder:
+                                        (context, error, stackTrace) {
+                                      print(error); //do something
+                                      return Image.asset(
+                                          'assets/images/no-avatar.png');
+                                    },
+                                  ),
+                                ),
                               ),
-                              child: FadeInImage(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(
-                                    friendsList[index].photo.toString()),
-                                placeholder: const AssetImage(
-                                    'assets/images/loading.gif'),
-                                imageErrorBuilder:
-                                    (context, error, stackTrace) {
-                                  print(error); //do something
-                                  return Image.asset(
-                                      'assets/images/no-avatar.png');
-                                },
-                              ),
-                            ),
+                              Positioned(
+                                right: 0,
+                                bottom: 0,
+                                child: friendsList[index].online == 1
+                                    ? friendsList[index].online_mobile == 1
+                                        ? MobileOnlineIcon()
+                                        : DesctopOnlineIcon()
+                                    : SizedBox(),
+                              )
+                            ],
                           ),
                           SizedBox(width: 10),
                           Text(

@@ -12,7 +12,7 @@ class MyFriendsScreenModel extends ChangeNotifier {
   Future getMyFriends(BuildContext context) async {
     final token = context.read<ApiClient>().token;
     var getUserFriends = await http.get(Uri.parse(
-        'https://api.vk.com/method/friends.get?v=5.131&access_token=${token}&fields=photo_100'));
+        'https://api.vk.com/method/friends.get?v=5.131&access_token=${token}&fields=photo_100,online'));
 
     var userFriendsMap = jsonDecode(getUserFriends.body);
 

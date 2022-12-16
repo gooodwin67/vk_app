@@ -260,13 +260,9 @@ class ProfileScreenWidget extends StatelessWidget {
                               ),
                             ),
                             Positioned(
-                              right: 9,
-                              bottom: 9,
-                              child: Container(
-                                width: 17,
-                                height: 17,
-                                color: Colors.red,
-                              ),
+                              right: 7,
+                              bottom: 7,
+                              child: MobileOnlineIcon(),
                             )
                           ],
                         ),
