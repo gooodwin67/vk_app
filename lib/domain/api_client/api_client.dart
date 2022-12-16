@@ -18,36 +18,45 @@ class ApiClient extends ChangeNotifier {
     vk = VKLogin();
     await vk.initSdk();
 
-    final res = await vk.logIn(scope: [
-      /*VKScope.offline,*/
-      VKScope.email,
-      VKScope.friends,
-      VKScope.photos,
-    ]);
+    //print(await vk.isLoggedIn);
 
-    if (res.isValue) {
-      final VKLoginResult data = res.asValue!.value;
+    if (await vk.isLoggedIn) {
+      final VKAccessToken? accessToken = await vk.accessToken;
+      _token = accessToken?.token;
 
-      print('логин $isLogining');
-      isLogin = true;
-
-      if (data.isCanceled) {
-        print('юзер отменил');
-      } else {
-        final VKAccessToken? accessToken = data.accessToken;
-        _token = accessToken?.token;
-
-        final profile = _token != null ? await vk.getUserProfile() : null;
-
-        print(
-            'Hello, ${profile.value.firstName}! You ID: ${profile.value.userId}');
-        userId = profile.value.userId;
-        //isLogining = false;
-        notifyListeners();
-      }
+      print(_token);
     } else {
-      final errorRes = res.asError;
-      print('Error while log in Ошибка: ${errorRes}');
+      final res = await vk.logIn(scope: [
+        /*VKScope.offline,*/
+        VKScope.email,
+        VKScope.friends,
+        VKScope.photos,
+      ]);
+
+      if (res.isValue) {
+        final VKLoginResult data = res.asValue!.value;
+
+        print('логин $isLogining');
+        isLogin = true;
+
+        if (data.isCanceled) {
+          print('юзер отменил');
+        } else {
+          final VKAccessToken? accessToken = data.accessToken;
+          _token = accessToken?.token;
+
+          final profile = _token != null ? await vk.getUserProfile() : null;
+
+          print(
+              'Hello, ${profile.value.firstName}! You ID: ${profile.value.userId}');
+          userId = profile.value.userId;
+          //isLogining = false;
+          notifyListeners();
+        }
+      } else {
+        final errorRes = res.asError;
+        print('Error while log in Ошибка: ${errorRes}');
+      }
     }
   }
 }
