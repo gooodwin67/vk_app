@@ -9,12 +9,18 @@ import 'package:vk_app/entities/models/get_user_info_model.dart';
 class FriendsScreenModel extends ChangeNotifier {
   int _count = 0;
   List _userFriendsListInfo = [];
+  List userFriendsListInfoAll = [];
+  String searchText = '';
 
   int get count => _count;
   List get userFriendsListInfo => _userFriendsListInfo;
 
-  Future getUserFriends(BuildContext context, id, count) async {
+  final _searchController = TextEditingController();
+  get searchController => _searchController;
+
+  Future getUserFriends(BuildContext context, id) async {
     _userFriendsListInfo = [];
+    userFriendsListInfoAll = [];
     String deactivated = context.read<GetUserInfoModel>().userInfo.deactivated;
     bool canAccess = context.read<GetUserInfoModel>().userInfo.canAccess;
     final token = context.read<ApiClient>().token;
@@ -32,12 +38,30 @@ class FriendsScreenModel extends ChangeNotifier {
       _userFriendsListInfo = userFriendsList.items
           .map((e) => FriendsListInfo.fromJson(e))
           .toList();
+      userFriendsListInfoAll = userFriendsListInfo;
       _count = userFriendsList.count;
 
       notifyListeners();
     } else {
       _userFriendsListInfo = [];
+      userFriendsListInfoAll = [];
       notifyListeners();
     }
+  }
+
+  Future editSearchText(BuildContext context) async {
+    searchText = '';
+    _userFriendsListInfo = userFriendsListInfoAll;
+    searchText = searchController.text;
+
+    List ListInfo = userFriendsListInfo.where((element) {
+      String name = element.firstName + ' ' + element.lastName;
+      return name.toLowerCase().contains(searchText.toLowerCase());
+    }).toList();
+
+    _userFriendsListInfo = ListInfo;
+    print(_userFriendsListInfo.length);
+
+    notifyListeners();
   }
 }

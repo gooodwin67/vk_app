@@ -13,11 +13,9 @@ class FriendsScreenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final arg = ModalRoute.of(context)!.settings.arguments as Map;
-    final navId = arg['id'];
     List friendsList =
         context.watch<MyFriendsScreenModel>().userFriendsListInfo;
-    int count = context.watch<MyFriendsScreenModel>().count;
+    int count = friendsList.length;
 
     return Scaffold(
       body: SafeArea(
@@ -74,8 +72,17 @@ class FriendsScreenWidget extends StatelessWidget {
                         //color: constants.secondColor.withAlpha(100),
                         width: MediaQuery.of(context).size.width,
                         height: 50,
-                        child: const TextField(
-                          decoration: InputDecoration(
+                        child: TextField(
+                          onChanged: (value) {
+                            //print(value);
+                            context
+                                .read<MyFriendsScreenModel>()
+                                .editSearchText(context);
+                          },
+                          controller: context
+                              .watch<MyFriendsScreenModel>()
+                              .searchController,
+                          decoration: const InputDecoration(
                             labelText: 'Поиск',
                             prefixIcon: Icon(Icons.search),
                             border: OutlineInputBorder(),
@@ -101,15 +108,15 @@ class FriendsScreenWidget extends StatelessWidget {
                             .read<GetUserInfoModel>()
                             .getUserInfo(context, friendsList[index].id)
                             .then((value) => context
-                                .read<FriendsScreenModel>()
-                                .getUserFriends(
-                                    context, friendsList[index].id, 3))
-                            .then((value) => context
                                 .read<UserPhotosModel>()
                                 .getUserPhotos(
                                     context, friendsList[index].id, 6))
                             .then((value) => context.go(
-                                '/main/my-friends/${friendsList[index].id}'));
+                                '/main/my-friends/${friendsList[index].id}'))
+                            .then((value) => context
+                                .read<FriendsScreenModel>()
+                                .getUserFriends(
+                                    context, friendsList[index].id));
                       },
                       child: Row(
                         children: [

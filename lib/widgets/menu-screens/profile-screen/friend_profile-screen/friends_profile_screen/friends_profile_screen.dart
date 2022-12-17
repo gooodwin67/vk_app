@@ -13,10 +13,8 @@ class ProfileFriendsScreenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final arg = ModalRoute.of(context)!.settings.arguments as Map;
-    final navId = arg['id'];
     List friendsList = context.watch<FriendsScreenModel>().userFriendsListInfo;
-    int count = context.watch<FriendsScreenModel>().count;
+    int count = friendsList.length;
 
     return Scaffold(
       body: SafeArea(
@@ -73,8 +71,16 @@ class ProfileFriendsScreenWidget extends StatelessWidget {
                         //color: constants.secondColor.withAlpha(100),
                         width: MediaQuery.of(context).size.width,
                         height: 50,
-                        child: const TextField(
-                          decoration: InputDecoration(
+                        child: TextField(
+                          onChanged: (value) {
+                            context
+                                .read<FriendsScreenModel>()
+                                .editSearchText(context);
+                          },
+                          controller: context
+                              .watch<FriendsScreenModel>()
+                              .searchController,
+                          decoration: const InputDecoration(
                             labelText: 'Поиск',
                             prefixIcon: Icon(Icons.search),
                             border: OutlineInputBorder(),
@@ -107,8 +113,8 @@ class ProfileFriendsScreenWidget extends StatelessWidget {
                                 '/main/my-friends/${friendsList[index].id}'))
                             .then((value) => context
                                 .read<FriendsScreenModel>()
-                                .getUserFriends(context, friendsList[index].id,
-                                    300)); //ПОПРАВИТЬ!
+                                .getUserFriends(context,
+                                    friendsList[index].id)); //ПОПРАВИТЬ!
                       },
                       child: friendsList.length < 1
                           ? LinearProgressIndicator(

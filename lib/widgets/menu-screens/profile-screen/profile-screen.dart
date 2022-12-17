@@ -36,7 +36,8 @@ class ProfileScreenWidget extends StatelessWidget {
 
     List listUrlsPhotos = context.watch<MyPhotosModel>().urls;
 
-    List friendsList = context.read<MyFriendsScreenModel>().userFriendsListInfo;
+    List friendsList =
+        context.read<MyFriendsScreenModel>().userFriendsListInfoAll;
     int allFriendsCount = context.read<MyFriendsScreenModel>().count;
 
     return SafeArea(
