@@ -103,57 +103,83 @@ class ProfileFriendsScreenWidget extends StatelessWidget {
                                 .read<UserPhotosModel>()
                                 .getUserPhotos(
                                     context, friendsList[index].id, 6))
+                            .then((value) => context.go(
+                                '/main/my-friends/${friendsList[index].id}'))
                             .then((value) => context
                                 .read<FriendsScreenModel>()
-                                .getUserFriends(context, friendsList[index].id))
-                            .then((value) => context.go(
-                                '/main/my-friends/${friendsList[index].id}'));
+                                .getUserFriends(context, friendsList[index].id,
+                                    300)); //ПОПРАВИТЬ!
                       },
-                      child: Row(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: Container(
-                              width: 50,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                color: constants.backColor,
-                              ),
-                              child: friendsList.length > 0
-                                  ? FadeInImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(
-                                          friendsList[index].photo.toString()),
-                                      placeholder: const AssetImage(
-                                          'assets/images/loading.gif'),
-                                      imageErrorBuilder:
-                                          (context, error, stackTrace) {
-                                        print(error); //do something
-                                        return Image.asset(
-                                            'assets/images/no-avatar.png');
-                                      },
+                      child: friendsList.length < 1
+                          ? LinearProgressIndicator(
+                              backgroundColor: constants.backColor,
+                              color: constants.secondColor.withAlpha(30),
+                              minHeight: 50,
+                            )
+                          : Row(
+                              children: [
+                                Stack(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: Container(
+                                        width: 50,
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                        ),
+                                        child: FadeInImage(
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(friendsList[index]
+                                              .photo
+                                              .toString()),
+                                          placeholder: const AssetImage(
+                                              'assets/images/loading.gif'),
+                                          imageErrorBuilder:
+                                              (context, error, stackTrace) {
+                                            print(error); //do something
+                                            return Image.asset(
+                                                'assets/images/no-avatar.png');
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      right: 0,
+                                      bottom: 0,
+                                      child: friendsList[index].online == 1
+                                          ? friendsList[index].online_mobile ==
+                                                  1
+                                              ? MobileOnlineIcon()
+                                              : DesctopOnlineIcon()
+                                          : SizedBox(),
                                     )
-                                  : SizedBox(),
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                          friendsList.length > 0
-                              ? Text(
-                                  '${friendsList[index].firstName} ${friendsList[index].lastName}',
-                                  style: TextStyle(fontSize: 17),
-                                )
-                              : Text(
-                                  'Нет доступа',
-                                  style: TextStyle(fontSize: 17),
+                                  ],
                                 ),
-                          Spacer(),
-                          Icon(
-                            Icons.message_outlined,
-                            color: constants.mainColor,
-                          )
-                        ],
-                      ),
+                                SizedBox(width: 10),
+                                friendsList.length > 0
+                                    ? Container(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                1.7,
+                                        child: Text(
+                                          '${friendsList[index].firstName} ${friendsList[index].lastName}',
+                                          style: TextStyle(fontSize: 17),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      )
+                                    : Text(
+                                        'Нет доступа',
+                                        style: TextStyle(fontSize: 17),
+                                      ),
+                                Spacer(),
+                                Icon(
+                                  Icons.message_outlined,
+                                  color: constants.mainColor,
+                                )
+                              ],
+                            ),
                     ),
                   );
                 },

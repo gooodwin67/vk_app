@@ -18,7 +18,8 @@ class UserInfo {
   final String secondName;
   final String photo;
   Map<String, dynamic> city = {};
-  int online = 0;
+  int online;
+  int online_mobile;
 
   UserInfo({
     required this.id,
@@ -29,6 +30,7 @@ class UserInfo {
     required this.photo,
     required this.city,
     required this.online,
+    required this.online_mobile,
   });
 
   factory UserInfo.fromJson(Map<String, dynamic> json) {
@@ -40,7 +42,8 @@ class UserInfo {
       secondName: json['last_name'],
       photo: json['photo_100'],
       city: json['city'] ?? {},
-      online: json['online'] != null ? 1 : 0,
+      online: json['online'] ?? 0,
+      online_mobile: json['online_mobile'] ?? 0,
     );
   }
 }

@@ -15,6 +15,7 @@ class FriendProfileScreenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(userId);
     // final arg = ModalRoute.of(context)!.settings.arguments as Map;
     // final navId = arg['id'];
     var width = MediaQuery.of(context).size.width;
@@ -35,9 +36,14 @@ class FriendProfileScreenWidget extends StatelessWidget {
     String deactivated = context.read<GetUserInfoModel>().userInfo.deactivated;
     bool canAccess = context.read<GetUserInfoModel>().userInfo.canAccess;
 
+    int online = context.watch<GetUserInfoModel>().userInfo.online;
+    int online_mobile =
+        context.watch<GetUserInfoModel>().userInfo.online_mobile;
+    print(online_mobile);
+
     List listUrlsPhotos = context.watch<UserPhotosModel>().urls;
 
-    List friendsList = context.read<FriendsScreenModel>().userFriendsListInfo;
+    List friendsList = context.watch<FriendsScreenModel>().userFriendsListInfo;
     int allFriendsCount = context.read<FriendsScreenModel>().count;
 
     return SafeArea(
@@ -260,15 +266,17 @@ class FriendProfileScreenWidget extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(50),
                               ),
                             ),
-                            Positioned(
-                              right: 9,
-                              bottom: 9,
-                              child: Container(
-                                width: 17,
-                                height: 17,
-                                color: Colors.red,
-                              ),
-                            )
+                            online == 1
+                                ? online_mobile == 1
+                                    ? Positioned(
+                                        right: 9,
+                                        bottom: 9,
+                                        child: MobileOnlineIcon())
+                                    : Positioned(
+                                        right: 9,
+                                        bottom: 9,
+                                        child: DesctopOnlineIcon())
+                                : SizedBox()
                           ],
                         ),
                       ),
@@ -279,6 +287,9 @@ class FriendProfileScreenWidget extends StatelessWidget {
                 deactivated == '0' && canAccess == true
                     ? InkWell(
                         onTap: () {
+                          context
+                              .read<FriendsScreenModel>()
+                              .getUserFriends(context, userId, 0);
                           context.go('/main/my-friends/${userId}/friends');
                         },
                         child: Container(

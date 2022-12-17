@@ -102,7 +102,8 @@ class FriendsScreenWidget extends StatelessWidget {
                             .getUserInfo(context, friendsList[index].id)
                             .then((value) => context
                                 .read<FriendsScreenModel>()
-                                .getUserFriends(context, friendsList[index].id))
+                                .getUserFriends(
+                                    context, friendsList[index].id, 3))
                             .then((value) => context
                                 .read<UserPhotosModel>()
                                 .getUserPhotos(

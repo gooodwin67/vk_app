@@ -13,7 +13,7 @@ class FriendsScreenModel extends ChangeNotifier {
   int get count => _count;
   List get userFriendsListInfo => _userFriendsListInfo;
 
-  Future getUserFriends(BuildContext context, id) async {
+  Future getUserFriends(BuildContext context, id, count) async {
     _userFriendsListInfo = [];
     String deactivated = context.read<GetUserInfoModel>().userInfo.deactivated;
     bool canAccess = context.read<GetUserInfoModel>().userInfo.canAccess;
@@ -21,7 +21,7 @@ class FriendsScreenModel extends ChangeNotifier {
 
     if (deactivated == '0' && canAccess == true) {
       var getUserFriends = await http.get(Uri.parse(
-          'https://api.vk.com/method/friends.get?v=5.131&access_token=${token}&user_id=$id&fields=photo_100'));
+          'https://api.vk.com/method/friends.get?v=5.131&access_token=${token}&count=$count&user_id=$id&fields=photo_100,online'));
 
       var userFriendsMap = jsonDecode(getUserFriends.body);
 
@@ -32,9 +32,8 @@ class FriendsScreenModel extends ChangeNotifier {
       _userFriendsListInfo = userFriendsList.items
           .map((e) => FriendsListInfo.fromJson(e))
           .toList();
-      _count = userFriendsListInfo.length;
-      //print(count);
-      //print(userFriendsListInfo.length);
+      _count = userFriendsList.count;
+
       notifyListeners();
     } else {
       _userFriendsListInfo = [];
