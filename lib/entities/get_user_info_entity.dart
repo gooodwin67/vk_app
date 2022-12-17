@@ -17,7 +17,8 @@ class UserInfo {
   final String firstName;
   final String secondName;
   final String photo;
-  Map<String, dynamic> city = {};
+  Map<String, dynamic> cover;
+  Map<String, dynamic> city;
   int online;
   int online_mobile;
 
@@ -28,6 +29,7 @@ class UserInfo {
     required this.firstName,
     required this.secondName,
     required this.photo,
+    required this.cover,
     required this.city,
     required this.online,
     required this.online_mobile,
@@ -41,6 +43,7 @@ class UserInfo {
       firstName: json['first_name'],
       secondName: json['last_name'],
       photo: json['photo_100'],
+      cover: json['cover'] ?? {},
       city: json['city'] ?? {},
       online: json['online'] ?? 0,
       online_mobile: json['online_mobile'] ?? 0,
@@ -68,6 +71,42 @@ class City {
   factory City.fromJson(Map<String, dynamic> json) {
     return City(
       title: json['title'] ?? '',
+    );
+  }
+}
+
+class CoverResponse {
+  final Cover coverResponse;
+
+  CoverResponse({required this.coverResponse});
+
+  factory CoverResponse.fromJson(Map<int, dynamic> json) {
+    return CoverResponse(
+      coverResponse: json[0],
+    );
+  }
+}
+
+class Cover {
+  List listCovers;
+
+  Cover({required this.listCovers});
+
+  factory Cover.fromJson(Map<String, dynamic> json) {
+    return Cover(
+      listCovers: json['images'] ?? [],
+    );
+  }
+}
+
+class CoverUrl {
+  String url;
+
+  CoverUrl({required this.url});
+
+  factory CoverUrl.fromJson(Map<String, dynamic> json) {
+    return CoverUrl(
+      url: json['url'] ?? '',
     );
   }
 }

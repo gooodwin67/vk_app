@@ -40,6 +40,9 @@ class ProfileScreenWidget extends StatelessWidget {
         context.read<MyFriendsScreenModel>().userFriendsListInfoAll;
     int allFriendsCount = context.read<MyFriendsScreenModel>().count;
 
+    bool isCover = context.watch<GetMyInfoModel>().isCover;
+    String coverUrl = context.watch<GetMyInfoModel>().coverUrl;
+
     return SafeArea(
       child: Scaffold(
         extendBodyBehindAppBar: true,
@@ -87,6 +90,12 @@ class ProfileScreenWidget extends StatelessWidget {
                           color: Colors.grey,
                           height: height / 2 + 12, //cover borderRadius
                           width: width,
+                          child: isCover
+                              ? Image.network(
+                                  coverUrl,
+                                  fit: BoxFit.cover,
+                                )
+                              : SizedBox(),
                         ),
                       ),
                       Positioned(
