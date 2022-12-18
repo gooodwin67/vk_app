@@ -7,8 +7,10 @@ import 'package:vk_app/entities/get_user_photos_entity.dart';
 
 class MyPhotosModel extends ChangeNotifier {
   List _urls = [];
+  int _count = 0;
 
   List get urls => _urls;
+  int get count => _count;
 
   Future getMyPhotos(BuildContext context, count) async {
     final token = context.read<ApiClient>().token;
@@ -26,10 +28,16 @@ class MyPhotosModel extends ChangeNotifier {
         .toList();
 
     var listSizes = userPhotoResponseItemsSizes.map((e) {
-      return PhotosItemsSizesItems.fromJson(e.sizes.last);
+      var size;
+      e.sizes.length > 3
+          ? size = PhotosItemsSizesItems.fromJson(e.sizes[3])
+          : size = PhotosItemsSizesItems.fromJson(e.sizes.last);
+      return size;
     }).toList();
 
     _urls = listSizes.map((e) => PhotosItemsUrl.fromJson(e.size).url).toList();
+
+    _count = userPhotoResponseItems.count;
 
     notifyListeners();
   }

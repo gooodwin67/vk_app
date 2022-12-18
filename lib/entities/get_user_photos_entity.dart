@@ -12,12 +12,14 @@ class PhotosResponse {
 
 class PhotosItems {
   final List items;
+  final int count;
 
-  PhotosItems({required this.items});
+  PhotosItems({required this.items, required this.count});
 
   factory PhotosItems.fromJson(Map<String, dynamic> json) {
     return PhotosItems(
       items: json['items'],
+      count: json['count'],
     );
   }
 }

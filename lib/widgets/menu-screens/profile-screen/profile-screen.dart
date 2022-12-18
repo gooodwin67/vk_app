@@ -510,17 +510,26 @@ class ProfileScreenWidget extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      'Показать все',
-                                      style:
-                                          TextStyle(color: constants.mainColor),
-                                    ),
-                                    SizedBox(width: 5),
-                                    Icon(Icons.chevron_right_outlined,
-                                        color: constants.mainColor),
-                                  ],
+                                InkWell(
+                                  onTap: () {
+                                    context
+                                        .read<MyPhotosModel>()
+                                        .getMyPhotos(context, 200)
+                                        .then((value) =>
+                                            context.go('/main/photos'));
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        'Показать все',
+                                        style: TextStyle(
+                                            color: constants.mainColor),
+                                      ),
+                                      SizedBox(width: 5),
+                                      Icon(Icons.chevron_right_outlined,
+                                          color: constants.mainColor),
+                                    ],
+                                  ),
                                 )
                               ],
                             )

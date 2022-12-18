@@ -6,6 +6,7 @@ import 'package:vk_app/widgets/main-screen/main-screen.dart';
 import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friend_profile_screen.dart';
 import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friends_profile_screen/friends_profile_screen.dart';
 import 'package:vk_app/widgets/menu-screens/profile-screen/friends_screen/friends_screen.dart';
+import 'package:vk_app/widgets/menu-screens/profile-screen/photos_screen/photos_screen.dart';
 
 get router => _router;
 
@@ -23,6 +24,12 @@ final _router = GoRouter(
             return const MainScreenWidget();
           },
           routes: [
+            GoRoute(
+              path: 'photos',
+              builder: (BuildContext context, GoRouterState state) {
+                return PhotosScreenWidget();
+              },
+            ),
             GoRoute(
               path: 'my-friends',
               builder: (BuildContext context, GoRouterState state) {
