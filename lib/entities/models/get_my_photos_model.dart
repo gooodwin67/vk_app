@@ -9,12 +9,10 @@ class MyPhotosModel extends ChangeNotifier {
   List _urls = [];
   int _count = 0;
   int _galeryIndex = 0;
-  bool _canGaleryDrag = true;
 
   List get urls => _urls;
   int get count => _count;
   int get galeryIndex => _galeryIndex;
-  bool get canGaleryDrag => _canGaleryDrag;
 
   Future getMyPhotos(BuildContext context, count) async {
     final token = context.read<ApiClient>().token;
@@ -51,34 +49,11 @@ class MyPhotosModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  photoGalleryDragUpdate(details) {
-    if (details.primaryVelocity == null) return;
-    if (details.primaryVelocity! < 0) {
-      if (_galeryIndex > 0) {
-        _galeryIndex++;
-      }
-    } else {
-      if (_galeryIndex < _count - 1) {
-        _galeryIndex--;
-      }
-    }
-
-    notifyListeners();
-  }
-
   photoGalleryDragUpdate2(direction) {
     if (direction == DismissDirection.endToStart) {
-      if (_galeryIndex < _count) {
-        _galeryIndex++;
-      } else {
-        _canGaleryDrag = false;
-      }
+      _galeryIndex++;
     } else {
-      if (_galeryIndex > 2) {
-        _galeryIndex--;
-      } else {
-        _canGaleryDrag = false;
-      }
+      _galeryIndex--;
     }
 
     notifyListeners();
