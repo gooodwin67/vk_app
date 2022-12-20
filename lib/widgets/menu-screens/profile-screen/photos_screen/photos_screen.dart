@@ -13,163 +13,207 @@ class PhotosScreenWidget extends StatelessWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: GridView.builder(
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              //crossAxisCount: 3,
-              mainAxisSpacing: 5,
-              crossAxisSpacing: 5,
-              maxCrossAxisExtent: MediaQuery.of(context).size.width / 3,
-              childAspectRatio: 1,
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
+              automaticallyImplyLeading: false,
+              titleSpacing: 0,
+              floating: true,
+              title: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: constants.mainColor,
+                      ),
+                    ),
+                    SizedBox(width: 15),
+                    Text(
+                      'Фотографии',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    Spacer(),
+                    Icon(Icons.add, color: constants.mainColor, size: 25),
+                  ],
+                ),
+              ),
             ),
-            itemCount: count,
-            itemBuilder: (context, index) {
-              return InkWell(
-                onTap: () async {
-                  context.read<MyPhotosModel>().photoGalleryInit(index);
-                  await showDialog(
-                    context: context,
-                    builder: (_) {
-                      return Dialog(
-                        insetPadding: EdgeInsets.all(0),
-                        child: StatefulBuilder(
-                          builder:
-                              (BuildContext context, StateSetter setState) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                              ),
-                              width: double.infinity,
-                              height: MediaQuery.of(context).size.height,
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                    // left: 0,
-                                    // right: 0,
-                                    // top: 0,
-                                    // bottom: 0,
-                                    child: Dismissible(
-                                      movementDuration: Duration(seconds: 1),
-                                      resizeDuration: null,
-                                      confirmDismiss: (direction) async {
-                                        var canDrag;
-                                        // print(context
-                                        //     .read<MyPhotosModel>()
-                                        //     .galeryIndex);
-                                        if (direction ==
-                                            DismissDirection.endToStart) {
-                                          canDrag = true;
-                                          context
-                                                      .read<MyPhotosModel>()
-                                                      .galeryIndex >
-                                                  count - 2
-                                              ? canDrag = false
-                                              : canDrag = true;
-                                        }
+            SliverGrid(
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                //crossAxisCount: 3,
+                mainAxisSpacing: 5,
+                crossAxisSpacing: 5,
+                maxCrossAxisExtent: MediaQuery.of(context).size.width / 3,
+                childAspectRatio: 1,
+              ),
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  return InkWell(
+                    onTap: () async {
+                      context.read<MyPhotosModel>().photoGalleryInit(index);
+                      await showDialog(
+                        context: context,
+                        builder: (_) {
+                          return Dialog(
+                            insetPadding: EdgeInsets.all(0),
+                            child: StatefulBuilder(
+                              builder:
+                                  (BuildContext context, StateSetter setState) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.black,
+                                  ),
+                                  width: double.infinity,
+                                  height: MediaQuery.of(context).size.height,
+                                  child: Stack(
+                                    children: [
+                                      Positioned(
+                                        // left: 0,
+                                        // right: 0,
+                                        // top: 0,
+                                        // bottom: 0,
+                                        child: Dismissible(
+                                          movementDuration:
+                                              Duration(seconds: 1),
+                                          resizeDuration: null,
+                                          confirmDismiss: (direction) async {
+                                            var canDrag;
+                                            // print(context
+                                            //     .read<MyPhotosModel>()
+                                            //     .galeryIndex);
+                                            if (direction ==
+                                                DismissDirection.endToStart) {
+                                              canDrag = true;
+                                              context
+                                                          .read<MyPhotosModel>()
+                                                          .galeryIndex >
+                                                      count - 2
+                                                  ? canDrag = false
+                                                  : canDrag = true;
+                                            }
 
-                                        if (direction ==
-                                            DismissDirection.startToEnd) {
-                                          canDrag = true;
-                                          context
-                                                      .read<MyPhotosModel>()
-                                                      .galeryIndex <
-                                                  1
-                                              ? canDrag = false
-                                              : canDrag = true;
-                                        }
-                                        setState() {}
-                                        return canDrag;
-                                      },
-                                      onDismissed: (direction) {
-                                        context
-                                            .read<MyPhotosModel>()
-                                            .photoGalleryDragUpdate2(direction);
-                                        setState() {}
-                                      },
-                                      key: ValueKey(listUrlsPhotos[context
-                                          .watch<MyPhotosModel>()
-                                          .galeryIndex]),
-                                      child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        height:
-                                            MediaQuery.of(context).size.height,
-                                        child: FadeInImage(
-                                          fit: BoxFit.contain,
-                                          image: NetworkImage(listUrlsPhotos[
-                                                  context
-                                                      .watch<MyPhotosModel>()
-                                                      .galeryIndex]
-                                              .toString()),
-                                          placeholder: const AssetImage(
-                                              'assets/images/loading.gif'),
-                                          imageErrorBuilder:
-                                              (context, error, stackTrace) {
-                                            print(error); //do something
-                                            return Image.asset(
-                                                'assets/images/no-avatar.png');
+                                            if (direction ==
+                                                DismissDirection.startToEnd) {
+                                              canDrag = true;
+                                              context
+                                                          .read<MyPhotosModel>()
+                                                          .galeryIndex <
+                                                      1
+                                                  ? canDrag = false
+                                                  : canDrag = true;
+                                            }
+                                            setState() {}
+                                            return canDrag;
                                           },
+                                          onDismissed: (direction) {
+                                            context
+                                                .read<MyPhotosModel>()
+                                                .photoGalleryDragUpdate2(
+                                                    direction);
+                                            setState() {}
+                                          },
+                                          key: ValueKey(listUrlsPhotos[context
+                                              .watch<MyPhotosModel>()
+                                              .galeryIndex]),
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height,
+                                            child: FadeInImage(
+                                              fit: BoxFit.contain,
+                                              image: NetworkImage(
+                                                  listUrlsPhotos[context
+                                                          .watch<
+                                                              MyPhotosModel>()
+                                                          .galeryIndex]
+                                                      .toString()),
+                                              placeholder: const AssetImage(
+                                                  'assets/images/loading.gif'),
+                                              imageErrorBuilder:
+                                                  (context, error, stackTrace) {
+                                                print(error); //do something
+                                                return Image.asset(
+                                                    'assets/images/no-avatar.png');
+                                              },
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                  Opacity(
-                                    opacity: 0.5,
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      height: 70,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 70,
-                                    child: Row(
-                                      children: [
-                                        InkWell(
-                                          onTap: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Icon(
-                                            Icons.arrow_back,
-                                            size: 30,
-                                            color: Colors.white,
-                                          ),
+                                      Opacity(
+                                        opacity: 0.5,
+                                        child: Container(
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          height: 70,
+                                          color: Colors.black,
                                         ),
-                                        SizedBox(width: 25),
-                                        Text(
-                                          '${context.watch<MyPhotosModel>().galeryIndex + 1} из $count',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 25,
-                                          ),
+                                      ),
+                                      Container(
+                                        height: 70,
+                                        child: Row(
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Icon(
+                                                Icons.arrow_back,
+                                                size: 30,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            SizedBox(width: 25),
+                                            Text(
+                                              '${context.watch<MyPhotosModel>().galeryIndex + 1} из $count',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 25,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
+                                );
+                              },
+                            ),
+                          );
+                        },
                       );
                     },
+                    child: Container(
+                      color: constants.backColor,
+                      child: FadeInImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(listUrlsPhotos[index].toString()),
+                        placeholder:
+                            const AssetImage('assets/images/loading.gif'),
+                        imageErrorBuilder: (context, error, stackTrace) {
+                          print(error); //do something
+                          return Image.asset('assets/images/no-avatar.png');
+                        },
+                      ),
+                    ),
                   );
                 },
-                child: Container(
-                  color: constants.backColor,
-                  child: FadeInImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(listUrlsPhotos[index].toString()),
-                    placeholder: const AssetImage('assets/images/loading.gif'),
-                    imageErrorBuilder: (context, error, stackTrace) {
-                      print(error); //do something
-                      return Image.asset('assets/images/no-avatar.png');
-                    },
-                  ),
-                ),
-              );
-            }),
+                childCount: count,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
