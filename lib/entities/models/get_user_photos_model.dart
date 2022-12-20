@@ -11,11 +11,15 @@ class UserPhotosModel extends ChangeNotifier {
 
   List _urls = [];
   int _id = 0;
+  int _count = 0;
+  int _galeryIndex = 0;
 
   bool get canAccess => _canAccess;
 
   List get urls => _urls;
   int get id => _id;
+  int get count => _count;
+  int get galeryIndex => _galeryIndex;
 
   Future getUserPhotos(BuildContext context, id, count) async {
     _urls = [];
@@ -38,11 +42,17 @@ class UserPhotosModel extends ChangeNotifier {
           .toList();
 
       var listSizes = userPhotoResponseItemsSizes.map((e) {
-        return PhotosItemsSizesItems.fromJson(e.sizes.last);
+        var size;
+        e.sizes.length > 3
+            ? size = PhotosItemsSizesItems.fromJson(e.sizes[3])
+            : size = PhotosItemsSizesItems.fromJson(e.sizes.last);
+        return size;
       }).toList();
 
       _urls =
           listSizes.map((e) => PhotosItemsUrl.fromJson(e.size).url).toList();
+
+      _count = userPhotoResponseItems.count;
 
       notifyListeners();
     } else {
@@ -56,5 +66,20 @@ class UserPhotosModel extends ChangeNotifier {
       ];
       notifyListeners();
     }
+  }
+
+  photoGalleryInit(index) async {
+    _galeryIndex = index;
+    notifyListeners();
+  }
+
+  photoGalleryDragUpdate2(direction) {
+    if (direction == DismissDirection.endToStart) {
+      _galeryIndex++;
+    } else {
+      _galeryIndex--;
+    }
+
+    notifyListeners();
   }
 }

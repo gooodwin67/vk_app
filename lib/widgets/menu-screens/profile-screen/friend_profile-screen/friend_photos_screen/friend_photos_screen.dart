@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/constants/constants.dart';
 import 'package:vk_app/entities/models/get_my_photos_model.dart';
+import 'package:vk_app/entities/models/get_user_photos_model.dart';
 
-class PhotosScreenWidget extends StatelessWidget {
-  const PhotosScreenWidget({Key? key}) : super(key: key);
+class FriendPhotosScreenWidget extends StatelessWidget {
+  const FriendPhotosScreenWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List listUrlsPhotos = context.watch<MyPhotosModel>().urls;
-    int count = context.watch<MyPhotosModel>().count;
+    List listUrlsPhotos = context.watch<UserPhotosModel>().urls;
+    int count = context.watch<UserPhotosModel>().count;
 
     return Scaffold(
       body: SafeArea(
@@ -81,7 +82,7 @@ class PhotosScreenWidget extends StatelessWidget {
                 (context, index) {
                   return InkWell(
                     onTap: () async {
-                      context.read<MyPhotosModel>().photoGalleryInit(index);
+                      context.read<UserPhotosModel>().photoGalleryInit(index);
                       await showDialog(
                         context: context,
                         builder: (_) {
@@ -109,14 +110,13 @@ class PhotosScreenWidget extends StatelessWidget {
                                           resizeDuration: null,
                                           confirmDismiss: (direction) async {
                                             var canDrag;
-                                            // print(context
-                                            //     .read<MyPhotosModel>()
-                                            //     .galeryIndex);
+                                            ;
                                             if (direction ==
                                                 DismissDirection.endToStart) {
                                               canDrag = true;
                                               context
-                                                          .read<MyPhotosModel>()
+                                                          .read<
+                                                              UserPhotosModel>()
                                                           .galeryIndex >
                                                       count - 2
                                                   ? canDrag = false
@@ -127,7 +127,8 @@ class PhotosScreenWidget extends StatelessWidget {
                                                 DismissDirection.startToEnd) {
                                               canDrag = true;
                                               context
-                                                          .read<MyPhotosModel>()
+                                                          .read<
+                                                              UserPhotosModel>()
                                                           .galeryIndex <
                                                       1
                                                   ? canDrag = false
@@ -138,13 +139,13 @@ class PhotosScreenWidget extends StatelessWidget {
                                           },
                                           onDismissed: (direction) {
                                             context
-                                                .read<MyPhotosModel>()
+                                                .read<UserPhotosModel>()
                                                 .photoGalleryDragUpdate2(
                                                     direction);
                                             setState() {}
                                           },
                                           key: ValueKey(listUrlsPhotos[context
-                                              .watch<MyPhotosModel>()
+                                              .watch<UserPhotosModel>()
                                               .galeryIndex]),
                                           child: Container(
                                             width: MediaQuery.of(context)
@@ -158,7 +159,7 @@ class PhotosScreenWidget extends StatelessWidget {
                                               image: NetworkImage(
                                                   listUrlsPhotos[context
                                                           .watch<
-                                                              MyPhotosModel>()
+                                                              UserPhotosModel>()
                                                           .galeryIndex]
                                                       .toString()),
                                               placeholder: const AssetImage(
@@ -198,7 +199,7 @@ class PhotosScreenWidget extends StatelessWidget {
                                             ),
                                             SizedBox(width: 25),
                                             Text(
-                                              '${context.watch<MyPhotosModel>().galeryIndex + 1} из $count',
+                                              '${context.watch<UserPhotosModel>().galeryIndex + 1} из $count',
                                               style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 25,

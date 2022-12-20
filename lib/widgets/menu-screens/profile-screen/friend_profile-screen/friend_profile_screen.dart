@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/constants/constants.dart';
-import 'package:vk_app/domain/api_client/api_client.dart';
+
 import 'package:vk_app/entities/get_user_info_entity.dart';
 import 'package:vk_app/entities/models/get_user_friends_list_model.dart';
 import 'package:vk_app/entities/models/get_user_info_model.dart';
 import 'package:vk_app/entities/models/get_user_photos_model.dart';
-import 'package:vk_app/routes/routes.dart';
 
 class FriendProfileScreenWidget extends StatelessWidget {
   var userId;
@@ -39,7 +38,7 @@ class FriendProfileScreenWidget extends StatelessWidget {
     int online = context.watch<GetUserInfoModel>().userInfo.online;
     int online_mobile =
         context.watch<GetUserInfoModel>().userInfo.online_mobile;
-    print(online_mobile);
+    //print(online_mobile);
 
     List listUrlsPhotos = context.watch<UserPhotosModel>().urls;
 
@@ -552,10 +551,19 @@ class FriendProfileScreenWidget extends StatelessWidget {
                                 ),
                                 Row(
                                   children: [
-                                    Text(
-                                      'Показать все',
-                                      style:
-                                          TextStyle(color: constants.mainColor),
+                                    InkWell(
+                                      onTap: () {
+                                        context
+                                            .read<UserPhotosModel>()
+                                            .getUserPhotos(context, userId, 200)
+                                            .then((value) => context.go(
+                                                '/main/my-friends/${userId}/photos'));
+                                      },
+                                      child: Text(
+                                        'Показать все',
+                                        style: TextStyle(
+                                            color: constants.mainColor),
+                                      ),
                                     ),
                                     SizedBox(width: 5),
                                     Icon(Icons.chevron_right_outlined,

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vk_app/widgets/login-screen/login-screen.dart';
 import 'package:vk_app/widgets/main-screen/main-screen.dart';
+import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friend_photos_screen/friend_photos_screen.dart';
 import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friend_profile_screen.dart';
 import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friends_profile_screen/friends_profile_screen.dart';
 import 'package:vk_app/widgets/menu-screens/profile-screen/friends_screen/friends_screen.dart';
@@ -44,6 +45,12 @@ final _router = GoRouter(
                     );
                   },
                   routes: [
+                    GoRoute(
+                      path: 'photos',
+                      builder: (BuildContext context, GoRouterState state) {
+                        return FriendPhotosScreenWidget();
+                      },
+                    ),
                     GoRoute(
                       path: 'friends',
                       builder: (BuildContext context, GoRouterState state) {

@@ -282,126 +282,139 @@ class ProfileScreenWidget extends StatelessWidget {
                 ),
                 SizedBox(height: 10),
                 deactivated == '0' && canAccess == true
-                    ? InkWell(
-                        onTap: () {
-                          context.go('/main/my-friends');
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: constants.mainPadding, vertical: 15),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Друзей: $allFriendsCount'.toString(),
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: Material(
+                          child: InkWell(
+                            onTap: () {
+                              context.go('/main/my-friends');
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: constants.mainPadding,
+                                  vertical: 15),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.6),
+                                borderRadius: BorderRadius.circular(15),
                               ),
-                              Container(
-                                width: 80,
-                                height: 30,
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      left: 50,
-                                      child: Container(
-                                        width: 30,
-                                        height: 30,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                          border: Border.all(
-                                            width: 2,
-                                            color: Colors.white,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Друзей: $allFriendsCount'.toString(),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  Container(
+                                    width: 80,
+                                    height: 30,
+                                    child: Stack(
+                                      children: [
+                                        Positioned(
+                                          left: 50,
+                                          child: Container(
+                                            width: 30,
+                                            height: 30,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              border: Border.all(
+                                                width: 2,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              child: FadeInImage(
+                                                fit: BoxFit.cover,
+                                                image: NetworkImage(
+                                                    friendsList[2]
+                                                        .photo
+                                                        .toString()),
+                                                placeholder: const AssetImage(
+                                                    'assets/images/loading.gif'),
+                                                imageErrorBuilder: (context,
+                                                    error, stackTrace) {
+                                                  print(error); //do something
+                                                  return Image.asset(
+                                                      'assets/images/no-avatar.png');
+                                                },
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                          child: FadeInImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(friendsList[2]
-                                                .photo
-                                                .toString()),
-                                            placeholder: const AssetImage(
-                                                'assets/images/loading.gif'),
-                                            imageErrorBuilder:
-                                                (context, error, stackTrace) {
-                                              print(error); //do something
-                                              return Image.asset(
-                                                  'assets/images/no-avatar.png');
-                                            },
+                                        Positioned(
+                                          left: 25,
+                                          child: Container(
+                                            width: 30,
+                                            height: 30,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              border: Border.all(
+                                                width: 2,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              child: FadeInImage(
+                                                fit: BoxFit.cover,
+                                                image: NetworkImage(
+                                                    friendsList[1]
+                                                        .photo
+                                                        .toString()),
+                                                placeholder: const AssetImage(
+                                                    'assets/images/loading.gif'),
+                                                imageErrorBuilder: (context,
+                                                    error, stackTrace) {
+                                                  print(error); //do something
+                                                  return Image.asset(
+                                                      'assets/images/no-avatar.png');
+                                                },
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
+                                        Container(
+                                          width: 30,
+                                          height: 30,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                            border: Border.all(
+                                              width: 2,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                            child: FadeInImage(
+                                              fit: BoxFit.cover,
+                                              image: NetworkImage(friendsList[0]
+                                                  .photo
+                                                  .toString()),
+                                              placeholder: const AssetImage(
+                                                  'assets/images/loading.gif'),
+                                              imageErrorBuilder:
+                                                  (context, error, stackTrace) {
+                                                print(error); //do something
+                                                return Image.asset(
+                                                    'assets/images/no-avatar.png');
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    Positioned(
-                                      left: 25,
-                                      child: Container(
-                                        width: 30,
-                                        height: 30,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                          border: Border.all(
-                                            width: 2,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                          child: FadeInImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(friendsList[1]
-                                                .photo
-                                                .toString()),
-                                            placeholder: const AssetImage(
-                                                'assets/images/loading.gif'),
-                                            imageErrorBuilder:
-                                                (context, error, stackTrace) {
-                                              print(error); //do something
-                                              return Image.asset(
-                                                  'assets/images/no-avatar.png');
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 30,
-                                      height: 30,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        border: Border.all(
-                                          width: 2,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(50),
-                                        child: FadeInImage(
-                                          fit: BoxFit.cover,
-                                          image: NetworkImage(
-                                              friendsList[0].photo.toString()),
-                                          placeholder: const AssetImage(
-                                              'assets/images/loading.gif'),
-                                          imageErrorBuilder:
-                                              (context, error, stackTrace) {
-                                            print(error); //do something
-                                            return Image.asset(
-                                                'assets/images/no-avatar.png');
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
+                                  )
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       )
@@ -495,44 +508,57 @@ class ProfileScreenWidget extends StatelessWidget {
                                     }),
                               ),
                             ),
-                            SizedBox(height: 10),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(Icons.add, color: constants.mainColor),
-                                    SizedBox(width: 5),
-                                    Text(
-                                      'Загрузить фото',
-                                      style:
-                                          TextStyle(color: constants.mainColor),
-                                    ),
-                                  ],
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    context
-                                        .read<MyPhotosModel>()
-                                        .getMyPhotos(context, 200)
-                                        .then((value) =>
-                                            context.go('/main/photos'));
-                                  },
-                                  child: Row(
+                            SizedBox(height: 15),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
                                     children: [
-                                      Text(
-                                        'Показать все',
-                                        style: TextStyle(
-                                            color: constants.mainColor),
-                                      ),
-                                      SizedBox(width: 5),
-                                      Icon(Icons.chevron_right_outlined,
+                                      Icon(Icons.add,
                                           color: constants.mainColor),
+                                      SizedBox(width: 5),
+                                      Text(
+                                        'Загрузить фото',
+                                        style: TextStyle(
+                                          color: constants.mainColor,
+                                          fontSize: 16,
+                                        ),
+                                      ),
                                     ],
                                   ),
-                                )
-                              ],
-                            )
+                                  Material(
+                                    child: InkWell(
+                                      onTap: () {
+                                        context
+                                            .read<MyPhotosModel>()
+                                            .getMyPhotos(context, 200)
+                                            .then((value) =>
+                                                context.go('/main/photos'));
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            'Показать все',
+                                            style: TextStyle(
+                                              color: constants.mainColor,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                          SizedBox(width: 5),
+                                          Icon(Icons.chevron_right_outlined,
+                                              color: constants.mainColor),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 15),
                           ],
                         ),
                       )
