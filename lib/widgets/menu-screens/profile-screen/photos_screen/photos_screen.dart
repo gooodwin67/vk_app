@@ -9,7 +9,7 @@ class PhotosScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List listUrlsPhotos = context.watch<MyPhotosModel>().urls;
-    int count = context.watch<MyPhotosModel>().count;
+    int count = listUrlsPhotos.length;
 
     return Scaffold(
       body: SafeArea(

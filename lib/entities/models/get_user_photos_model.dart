@@ -45,7 +45,7 @@ class UserPhotosModel extends ChangeNotifier {
         var size;
         e.sizes.length > 3
             ? size = PhotosItemsSizesItems.fromJson(e.sizes[3])
-            : size = PhotosItemsSizesItems.fromJson(e.sizes.last);
+            : size = PhotosItemsSizesItems.fromJson(e.sizes.first);
         return size;
       }).toList();
 

@@ -555,7 +555,7 @@ class FriendProfileScreenWidget extends StatelessWidget {
                                       onTap: () {
                                         context
                                             .read<UserPhotosModel>()
-                                            .getUserPhotos(context, userId, 20)
+                                            .getUserPhotos(context, userId, 200)
                                             .then((value) => context.go(
                                                 '/main/my-friends/${userId}/photos'));
                                       },
