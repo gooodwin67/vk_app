@@ -26,6 +26,7 @@ class UserPhotosModel extends ChangeNotifier {
     String deactivated = context.read<GetUserInfoModel>().userInfo.deactivated;
     bool canAccess = context.read<GetUserInfoModel>().userInfo.canAccess;
     final token = context.read<ApiClient>().token;
+    print('id $id count $count');
 
     if (deactivated == '0' && canAccess == true) {
       //print('$id ---- $count');

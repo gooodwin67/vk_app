@@ -467,32 +467,35 @@ class FriendProfileScreenWidget extends StatelessWidget {
                         ),
                         child: Column(
                           children: [
-                            Row(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 5),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(7),
-                                      border: Border.all(
-                                          color: constants.backColor)),
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.photo_outlined,
-                                        color: constants.mainColor,
-                                      ),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        'Фото',
-                                        style: TextStyle(
-                                            color: constants.mainColor,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(7),
+                                        border: Border.all(
+                                            color: constants.backColor)),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.photo_outlined,
+                                          color: constants.mainColor,
+                                        ),
+                                        SizedBox(width: 5),
+                                        Text(
+                                          'Фото',
+                                          style: TextStyle(
+                                              color: constants.mainColor,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                             SizedBox(height: 15),
                             ClipRRect(
@@ -513,7 +516,7 @@ class FriendProfileScreenWidget extends StatelessWidget {
                                           MediaQuery.of(context).size.width / 3,
                                       childAspectRatio: 1,
                                     ),
-                                    itemCount: listUrlsPhotos.length,
+                                    itemCount: 6,
                                     itemBuilder: (context, index) {
                                       return Container(
                                         color: constants.backColor,
@@ -534,43 +537,54 @@ class FriendProfileScreenWidget extends StatelessWidget {
                                     }),
                               ),
                             ),
-                            SizedBox(height: 10),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(Icons.add, color: constants.mainColor),
-                                    SizedBox(width: 5),
-                                    Text(
-                                      'Загрузить фото',
-                                      style:
-                                          TextStyle(color: constants.mainColor),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        context
-                                            .read<UserPhotosModel>()
-                                            .getUserPhotos(context, userId, 200)
-                                            .then((value) => context.go(
-                                                '/main/my-friends/${userId}/photos'));
-                                      },
-                                      child: Text(
-                                        'Показать все',
+                            SizedBox(height: 15),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(Icons.add,
+                                          color: constants.mainColor),
+                                      SizedBox(width: 5),
+                                      Text(
+                                        'Загрузить фото',
                                         style: TextStyle(
-                                            color: constants.mainColor),
+                                          color: constants.mainColor,
+                                          fontSize: 16,
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(width: 5),
-                                    Icon(Icons.chevron_right_outlined,
-                                        color: constants.mainColor),
-                                  ],
-                                )
-                              ],
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          context
+                                              .read<UserPhotosModel>()
+                                              .getUserPhotos(
+                                                  context, userId, 200)
+                                              .then((value) => context.go(
+                                                  '/main/my-friends/${userId}/photos'));
+                                        },
+                                        child: Text(
+                                          'Показать все',
+                                          style: TextStyle(
+                                            color: constants.mainColor,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(width: 5),
+                                      Icon(Icons.chevron_right_outlined,
+                                          color: constants.mainColor),
+                                    ],
+                                  )
+                                ],
+                              ),
                             )
                           ],
                         ),
