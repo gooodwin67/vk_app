@@ -518,22 +518,25 @@ class FriendProfileScreenWidget extends StatelessWidget {
                                     ),
                                     itemCount: 6,
                                     itemBuilder: (context, index) {
-                                      return Container(
-                                        color: constants.backColor,
-                                        child: FadeInImage(
-                                          fit: BoxFit.cover,
-                                          image: NetworkImage(
-                                              listUrlsPhotos[index].toString()),
-                                          placeholder: const AssetImage(
-                                              'assets/images/loading.gif'),
-                                          imageErrorBuilder:
-                                              (context, error, stackTrace) {
-                                            print(error); //do something
-                                            return Image.asset(
-                                                'assets/images/no-avatar.png');
-                                          },
-                                        ),
-                                      );
+                                      return listUrlsPhotos.length < 1
+                                          ? SizedBox()
+                                          : Container(
+                                              color: constants.backColor,
+                                              child: FadeInImage(
+                                                fit: BoxFit.cover,
+                                                image: NetworkImage(
+                                                    listUrlsPhotos[index]
+                                                        .toString()),
+                                                placeholder: const AssetImage(
+                                                    'assets/images/loading.gif'),
+                                                imageErrorBuilder: (context,
+                                                    error, stackTrace) {
+                                                  print(error); //do something
+                                                  return Image.asset(
+                                                      'assets/images/no-avatar.png');
+                                                },
+                                              ),
+                                            );
                                     }),
                               ),
                             ),
