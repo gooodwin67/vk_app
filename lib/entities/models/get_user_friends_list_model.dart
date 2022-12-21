@@ -49,6 +49,10 @@ class FriendsScreenModel extends ChangeNotifier {
     }
   }
 
+  clearSerchField() {
+    _searchController.clear();
+  }
+
   Future editSearchText(BuildContext context) async {
     searchText = '';
     _userFriendsListInfo = userFriendsListInfoAll;
@@ -60,7 +64,7 @@ class FriendsScreenModel extends ChangeNotifier {
     }).toList();
 
     _userFriendsListInfo = ListInfo;
-    print(_userFriendsListInfo.length);
+    //print(_userFriendsListInfo.length);
 
     notifyListeners();
   }

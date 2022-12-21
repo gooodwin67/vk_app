@@ -307,6 +307,9 @@ class FriendProfileScreenWidget extends StatelessWidget {
                         : InkWell(
                             onTap: () {
                               context
+                                  .read<FriendsScreenModel>()
+                                  .clearSerchField();
+                              context
                                   .go('/profile/my-friends/${userId}/friends');
                             },
                             child: Container(
@@ -517,9 +520,12 @@ class FriendProfileScreenWidget extends StatelessWidget {
                                           MediaQuery.of(context).size.width / 3,
                                       childAspectRatio: 1,
                                     ),
-                                    itemCount: 6,
+                                    itemCount: listUrlsPhotos.length > 5
+                                        ? 6
+                                        : listUrlsPhotos.length,
                                     itemBuilder: (context, index) {
-                                      return listUrlsPhotos.length < 1
+                                      print(listUrlsPhotos.length);
+                                      return listUrlsPhotos.isEmpty
                                           ? SizedBox()
                                           : Container(
                                               color: constants.backColor,

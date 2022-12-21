@@ -487,7 +487,9 @@ class ProfileScreenWidget extends StatelessWidget {
                                           MediaQuery.of(context).size.width / 3,
                                       childAspectRatio: 1,
                                     ),
-                                    itemCount: /*listPhotos.length*/ 6,
+                                    itemCount: listUrlsPhotos.length > 5
+                                        ? 6
+                                        : listUrlsPhotos.length,
                                     itemBuilder: (context, index) {
                                       return Container(
                                         color: constants.backColor,

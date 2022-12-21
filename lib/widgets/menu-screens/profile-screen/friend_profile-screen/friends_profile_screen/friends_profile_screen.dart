@@ -113,8 +113,8 @@ class ProfileFriendsScreenWidget extends StatelessWidget {
                                 '/profile/my-friends/${friendsList[index].id}'))
                             .then((value) => context
                                 .read<FriendsScreenModel>()
-                                .getUserFriends(context,
-                                    friendsList[index].id)); //ПОПРАВИТЬ!
+                                .getUserFriends(
+                                    context, friendsList[index].id));
                       },
                       child: friendsList.length < 1
                           ? LinearProgressIndicator(

@@ -105,7 +105,7 @@ class PhotosScreenWidget extends StatelessWidget {
                                         // bottom: 0,
                                         child: Dismissible(
                                           movementDuration:
-                                              Duration(seconds: 1),
+                                              Duration(milliseconds: 300),
                                           resizeDuration: null,
                                           confirmDismiss: (direction) async {
                                             var canDrag;
