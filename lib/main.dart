@@ -8,14 +8,14 @@ import 'package:vk_app/entities/models/get_user_friends_list_model.dart';
 import 'package:vk_app/entities/models/get_user_info_model.dart';
 import 'package:vk_app/entities/models/get_user_photos_model.dart';
 import 'package:vk_app/routes/routes.dart';
-import 'package:vk_app/widgets/main-screen/main-screen-model.dart';
+import 'package:vk_app/routes/bottom-menu/bottom-menu-model.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => ApiClient()),
-      ChangeNotifierProvider(create: (_) => MainScreenModel()),
+      ChangeNotifierProvider(create: (_) => BottomMenuModel()),
       ChangeNotifierProvider(create: (_) => FriendsScreenModel()),
       ChangeNotifierProvider(create: (_) => GetUserInfoModel()),
       ChangeNotifierProvider(create: (_) => GetMyInfoModel()),

@@ -5,23 +5,24 @@ import 'package:vk_app/widgets/menu-screens/notifications-screen/notifications-s
 import 'package:vk_app/widgets/menu-screens/profile-screen/profile-screen.dart';
 import 'package:vk_app/widgets/menu-screens/search-screen/search-screen.dart';
 
-class MainScreenModel with ChangeNotifier {
+class BottomMenuModel with ChangeNotifier {
   final List menuScreens = const [
-    NewsScreenWidget(),
-    SearchScreenWidget(),
-    MessagesScreenWidget(),
-    NotificationsScreenWidget(),
-    ProfileScreenWidget()
+    '/news',
+    '/search',
+    '/messages',
+    '/notifications',
+    '/profile',
   ];
   int _activeMenuIndex = 0;
-  Widget _activeWidget = NewsScreenWidget();
+  String _activeWidget = '/news';
 
   int get activeMenuIndex => _activeMenuIndex;
-  Widget get activeWidget => _activeWidget;
+  String get activeWidget => _activeWidget;
 
-  void SetActiveMenu(index) {
+  Future SetActiveMenu(index) async {
     _activeMenuIndex = index;
     _activeWidget = menuScreens[_activeMenuIndex];
+    print(_activeWidget);
     notifyListeners();
   }
 }

@@ -60,17 +60,17 @@ class ProfileScreenWidget extends StatelessWidget {
               onTap: () {
                 Navigator.pop(context);
               },
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  color: constants.secondColor.withAlpha(170),
-                ),
-                child: Icon(
-                  Icons.arrow_back,
-                  color: Colors.white.withAlpha(230),
-                  size: 17,
-                ),
-              ),
+              // child: Container(
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(50),
+              //     color: constants.secondColor.withAlpha(170),
+              //   ),
+              //   child: Icon(
+              //     Icons.arrow_back,
+              //     color: Colors.white.withAlpha(230),
+              //     size: 17,
+              //   ),
+              // ),
             ),
           ),
         ),
@@ -287,7 +287,7 @@ class ProfileScreenWidget extends StatelessWidget {
                         child: Material(
                           child: InkWell(
                             onTap: () {
-                              context.go('/main/my-friends');
+                              context.go('/profile/my-friends');
                             },
                             child: Container(
                               padding: EdgeInsets.symmetric(
@@ -537,7 +537,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                             .read<MyPhotosModel>()
                                             .getMyPhotos(context, 200)
                                             .then((value) =>
-                                                context.go('/main/photos'));
+                                                context.go('/profile/photos'));
                                       },
                                       child: Row(
                                         children: [

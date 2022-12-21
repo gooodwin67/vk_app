@@ -2,27 +2,64 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vk_app/widgets/login-screen/login-screen.dart';
-import 'package:vk_app/widgets/main-screen/main-screen.dart';
+import 'package:vk_app/routes/bottom-menu/bottom-menu.dart';
+import 'package:vk_app/widgets/menu-screens/messages-screen/messages-screen.dart';
+import 'package:vk_app/widgets/menu-screens/news-screen/news-screen.dart';
+import 'package:vk_app/widgets/menu-screens/notifications-screen/notifications-screen.dart';
 import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friend_photos_screen/friend_photos_screen.dart';
 import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friend_profile_screen.dart';
 import 'package:vk_app/widgets/menu-screens/profile-screen/friend_profile-screen/friends_profile_screen/friends_profile_screen.dart';
 import 'package:vk_app/widgets/menu-screens/profile-screen/friends_screen/friends_screen.dart';
 import 'package:vk_app/widgets/menu-screens/profile-screen/photos_screen/photos_screen.dart';
+import 'package:vk_app/widgets/menu-screens/profile-screen/profile-screen.dart';
+import 'package:vk_app/widgets/menu-screens/search-screen/search-screen.dart';
 
 get router => _router;
 
 final _router = GoRouter(
+  initialLocation: '/login',
   routes: [
     GoRoute(
-      path: '/',
+      path: '/login',
       builder: (BuildContext context, GoRouterState state) {
         return const LoginScreenWidget();
       },
+    ),
+    ShellRoute(
+      builder: (BuildContext context, state, child) {
+        //print(child);
+        return Scaf(child: child);
+      },
       routes: <RouteBase>[
         GoRoute(
-          path: 'main',
+          path: '/news',
           builder: (BuildContext context, GoRouterState state) {
-            return const MainScreenWidget();
+            return const NewsScreenWidget();
+          },
+        ),
+        GoRoute(
+          path: '/search',
+          builder: (BuildContext context, GoRouterState state) {
+            print('aaa');
+            return const SearchScreenWidget();
+          },
+        ),
+        GoRoute(
+          path: '/messages',
+          builder: (BuildContext context, GoRouterState state) {
+            return const MessagesScreenWidget();
+          },
+        ),
+        GoRoute(
+          path: '/notifications',
+          builder: (BuildContext context, GoRouterState state) {
+            return const NotificationsScreenWidget();
+          },
+        ),
+        GoRoute(
+          path: '/profile',
+          builder: (BuildContext context, GoRouterState state) {
+            return const ProfileScreenWidget();
           },
           routes: [
             GoRoute(
@@ -67,15 +104,3 @@ final _router = GoRouter(
     ),
   ],
 );
-
-class AppRouterDelegate extends GetDelegate {
-  @override
-  Widget build(BuildContext context) {
-    return Navigator(
-      onPopPage: (route, result) => route.didPop(result),
-      pages: currentConfiguration != null
-          ? [currentConfiguration!.currentPage!]
-          : [GetNavConfig.fromRoute('main')!.currentPage!],
-    );
-  }
-}

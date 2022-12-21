@@ -38,7 +38,7 @@ class LoginScreenWidget extends StatelessWidget {
                               .read<MyFriendsScreenModel>()
                               .getMyFriends(context))
                           .then((value) => context.read<ApiClient>().logining())
-                          .then((value) => context.go('/main'));
+                          .then((value) => context.go('/news'));
 
                       context.read<ApiClient>().logining(); //logining false
                     },
