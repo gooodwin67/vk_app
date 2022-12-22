@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/constants/constants.dart';
-import 'package:vk_app/entities/models/get_my_friends_list_model.dart';
 import 'package:vk_app/entities/models/get_user_friends_list_model.dart';
 import 'package:vk_app/entities/models/get_user_info_model.dart';
 import 'package:vk_app/entities/models/get_user_photos_model.dart';
-import 'package:vk_app/routes/routes.dart';
 
 class ProfileFriendsScreenWidget extends StatelessWidget {
   const ProfileFriendsScreenWidget({Key? key}) : super(key: key);

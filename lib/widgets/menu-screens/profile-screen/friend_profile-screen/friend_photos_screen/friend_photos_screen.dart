@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/constants/constants.dart';
-import 'package:vk_app/entities/models/get_my_photos_model.dart';
 import 'package:vk_app/entities/models/get_user_photos_model.dart';
 
 class FriendPhotosScreenWidget extends StatelessWidget {

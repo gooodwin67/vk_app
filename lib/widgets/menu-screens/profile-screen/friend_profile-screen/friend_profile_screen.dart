@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/constants/constants.dart';
-
 import 'package:vk_app/entities/get_user_info_entity.dart';
 import 'package:vk_app/entities/models/get_user_friends_list_model.dart';
 import 'package:vk_app/entities/models/get_user_info_model.dart';
@@ -14,7 +13,7 @@ class FriendProfileScreenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(userId);
+    //print(userId);
     // final arg = ModalRoute.of(context)!.settings.arguments as Map;
     // final navId = arg['id'];
     var width = MediaQuery.of(context).size.width;

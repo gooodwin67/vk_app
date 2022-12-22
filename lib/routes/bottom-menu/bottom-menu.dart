@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/constants/constants.dart';
-import 'package:vk_app/widgets/login-screen/login-screen.dart';
 import 'package:vk_app/routes/bottom-menu/bottom-menu-model.dart';
-import 'package:vk_app/widgets/menu-screens/news-screen/news-screen.dart';
 
 class BottomMenuWidget extends StatelessWidget {
   const BottomMenuWidget({Key? key}) : super(key: key);

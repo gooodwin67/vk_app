@@ -6,8 +6,6 @@ import 'package:vk_app/entities/models/get_my_friends_list_model.dart';
 import 'package:vk_app/entities/models/get_my_info_model.dart';
 import 'package:vk_app/entities/models/get_my_photos_model.dart';
 
-import 'package:vk_app/routes/routes.dart';
-
 class LoginScreenWidget extends StatelessWidget {
   const LoginScreenWidget({Key? key}) : super(key: key);
 

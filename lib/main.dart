@@ -38,15 +38,5 @@ class MyApp extends StatelessWidget {
       routeInformationProvider: router.routeInformationProvider,
       routerDelegate: router.routerDelegate,
     );
-
-    //home: LoginScreenWidget(),
-    /*routes: {
-        '/login': (context) => LoginScreenWidget(),
-        '/main': (context) => MainScreenWidget(),
-        '/main/friends': (context) => FriendsScreenWidget(),
-        '/main/friends/profile': (context) => FriendProfileScreenWidget(),
-        '/main/friends/profile/friends': (context) =>
-            ProfileFriendsScreenWidget(),
-      },*/
   }
 }

@@ -6,8 +6,6 @@ import 'package:vk_app/entities/models/get_my_friends_list_model.dart';
 import 'package:vk_app/entities/models/get_user_friends_list_model.dart';
 import 'package:vk_app/entities/models/get_user_info_model.dart';
 import 'package:vk_app/entities/models/get_user_photos_model.dart';
-import 'package:vk_app/routes/routes.dart';
-import 'package:vk_app/routes/bottom-menu/bottom-menu.dart';
 
 class FriendsScreenWidget extends StatelessWidget {
   const FriendsScreenWidget({Key? key}) : super(key: key);
