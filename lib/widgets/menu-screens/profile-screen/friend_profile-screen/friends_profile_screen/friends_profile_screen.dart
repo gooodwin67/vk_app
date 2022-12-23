@@ -106,7 +106,7 @@ class ProfileFriendsScreenWidget extends StatelessWidget {
                             .then((value) => context
                                 .read<UserPhotosModel>()
                                 .getUserPhotos(
-                                    context, friendsList[index].id, 6))
+                                    context, friendsList[index].id, 6, 0))
                             .then((value) => context.go(
                                 '/profile/my-friends/${friendsList[index].id}'))
                             .then((value) => context

@@ -9,7 +9,7 @@ class FriendPhotosScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List listUrlsPhotos = context.watch<UserPhotosModel>().urls;
-    //int count = context.watch<UserPhotosModel>().count;
+    int allCount = context.watch<UserPhotosModel>().count;
     int count = listUrlsPhotos.length;
 
     return Scaffold(
@@ -63,7 +63,7 @@ class FriendPhotosScreenWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'Все фотографии $count',
+                    'Все фотографии $allCount',
                     style: TextStyle(
                         fontSize: 17, color: Color.fromARGB(255, 78, 78, 78)),
                   ),
@@ -80,6 +80,8 @@ class FriendPhotosScreenWidget extends StatelessWidget {
               ),
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
+                  context.watch<UserPhotosModel>().showIndex(index);
+
                   return InkWell(
                     onTap: () async {
                       context.read<UserPhotosModel>().photoGalleryInit(index);
@@ -100,10 +102,6 @@ class FriendPhotosScreenWidget extends StatelessWidget {
                                   child: Stack(
                                     children: [
                                       Positioned(
-                                        // left: 0,
-                                        // right: 0,
-                                        // top: 0,
-                                        // bottom: 0,
                                         child: Dismissible(
                                           movementDuration:
                                               Duration(microseconds: 300),

@@ -13,15 +13,15 @@ class UserPhotosModel extends ChangeNotifier {
   int _id = 0;
   int _count = 0;
   int _galeryIndex = 0;
+  int currentPage = 0;
 
   bool get canAccess => _canAccess;
-
   List get urls => _urls;
   int get id => _id;
   int get count => _count;
   int get galeryIndex => _galeryIndex;
 
-  Future getUserPhotos(BuildContext context, id, count) async {
+  Future getUserPhotos(BuildContext context, id, count, offset) async {
     _urls = [];
     String deactivated = context.read<GetUserInfoModel>().userInfo.deactivated;
     bool canAccess = context.read<GetUserInfoModel>().userInfo.canAccess;
@@ -29,11 +29,9 @@ class UserPhotosModel extends ChangeNotifier {
     print('id $id count $count');
 
     if (deactivated == '0' && canAccess == true) {
-      print('$id ---- $count');
       var getUserPhotos = await http.get(Uri.parse(
-          'https://api.vk.com/method/photos.getAll?v=5.131&access_token=${token}&owner_id=$id&count=$count'));
+          'https://api.vk.com/method/photos.getAll?v=5.131&access_token=${token}&owner_id=$id&count=$count&offset=${offset}'));
 
-      print('asdasd $getUserPhotos');
       var userPhotosMap = jsonDecode(getUserPhotos.body);
       var userPhotosResponse = PhotosResponse.fromJson(userPhotosMap);
       var userPhotoResponseItems =
@@ -68,6 +66,10 @@ class UserPhotosModel extends ChangeNotifier {
       ];
       notifyListeners();
     }
+  }
+
+  void showIndex(index) {
+    print(index);
   }
 
   photoGalleryInit(index) async {
