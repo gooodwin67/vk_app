@@ -10,19 +10,20 @@ class UserPhotosModel extends ChangeNotifier {
   bool _canAccess = true;
 
   List _urls = [];
-  int _id = 0;
+  String _id = '0';
   int _count = 0;
   int _galeryIndex = 0;
   int currentPage = 0;
 
   bool get canAccess => _canAccess;
   List get urls => _urls;
-  int get id => _id;
+  String get id => _id;
   int get count => _count;
   int get galeryIndex => _galeryIndex;
 
   Future getUserPhotos(BuildContext context, id, count, offset) async {
-    _urls = [];
+    //_urls = [];
+    //_count = 0;
     String deactivated = context.read<GetUserInfoModel>().userInfo.deactivated;
     bool canAccess = context.read<GetUserInfoModel>().userInfo.canAccess;
     final token = context.read<ApiClient>().token;
@@ -49,10 +50,11 @@ class UserPhotosModel extends ChangeNotifier {
         return size;
       }).toList();
 
-      _urls =
-          listSizes.map((e) => PhotosItemsUrl.fromJson(e.size).url).toList();
+      _urls.addAll(
+          listSizes.map((e) => PhotosItemsUrl.fromJson(e.size).url).toList());
 
       _count = userPhotoResponseItems.count;
+      _id = id.toString();
 
       notifyListeners();
     } else {
@@ -68,8 +70,12 @@ class UserPhotosModel extends ChangeNotifier {
     }
   }
 
-  void showIndex(index) {
-    print(index);
+  void showIndex(context, index) {
+    print('$index ------ ${_urls.length}');
+    if (index < _urls.length - 1) return;
+
+    print('asdasd');
+    getUserPhotos(context, _id, 200, 0);
   }
 
   photoGalleryInit(index) async {

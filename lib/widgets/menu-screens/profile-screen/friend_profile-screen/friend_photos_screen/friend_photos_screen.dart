@@ -80,8 +80,7 @@ class FriendPhotosScreenWidget extends StatelessWidget {
               ),
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  context.watch<UserPhotosModel>().showIndex(index);
-
+                  context.watch<UserPhotosModel>().showIndex(context, index);
                   return InkWell(
                     onTap: () async {
                       context.read<UserPhotosModel>().photoGalleryInit(index);
