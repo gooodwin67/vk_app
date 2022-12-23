@@ -6,14 +6,13 @@ import 'package:vk_app/entities/get_user_info_entity.dart';
 import 'package:vk_app/entities/models/get_my_friends_list_model.dart';
 import 'package:vk_app/entities/models/get_my_info_model.dart';
 import 'package:vk_app/entities/models/get_my_photos_model.dart';
+import 'package:vk_app/entities/models/get_my_wall_model.dart';
 
 class ProfileScreenWidget extends StatelessWidget {
   const ProfileScreenWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    //final arg = ModalRoute.of(context)!.settings.arguments as Map;
-
     var width = MediaQuery.of(context).size.width;
     double height = 400;
     double widthImage = 100;
@@ -597,6 +596,20 @@ class ProfileScreenWidget extends StatelessWidget {
                         ),
                       )
                     : SizedBox(),
+                SizedBox(height: 10),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: 6,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      height: 20,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                      ),
+                    );
+                  },
+                )
               ],
             ),
           ),
