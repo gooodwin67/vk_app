@@ -574,10 +574,13 @@ class FriendProfileScreenWidget extends StatelessWidget {
                                         onTap: () {
                                           context
                                               .read<UserPhotosModel>()
-                                              .getUserPhotos(
-                                                  context, userId, 200, 0)
-                                              .then((value) => context.go(
-                                                  '/profile/my-friends/${userId}/photos'));
+                                              .clearPhotosList()
+                                              .then((value) => context
+                                                  .read<UserPhotosModel>()
+                                                  .getUserPhotos(
+                                                      context, userId, 200, 0)
+                                                  .then((value) => context.go(
+                                                      '/profile/my-friends/${userId}/photos')));
                                         },
                                         child: Text(
                                           'Показать все',

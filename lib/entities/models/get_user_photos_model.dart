@@ -13,7 +13,7 @@ class UserPhotosModel extends ChangeNotifier {
   String _id = '0';
   int _count = 0;
   int _galeryIndex = 0;
-  int currentPage = 0;
+  int currentPage = 1;
 
   bool get canAccess => _canAccess;
   List get urls => _urls;
@@ -70,12 +70,23 @@ class UserPhotosModel extends ChangeNotifier {
     }
   }
 
+  Future clearPhotosList() async {
+    _urls.clear();
+  }
+
   void showIndex(context, index) {
-    print('$index ------ ${_urls.length}');
+    print('$index ------ ${_urls.length} ----- count $_count');
     if (index < _urls.length - 1) return;
 
-    print('asdasd');
-    getUserPhotos(context, _id, 200, 0);
+    var offset;
+
+    if (index < _count - 2) {
+      offset = 200 * currentPage;
+      getUserPhotos(context, _id, 200, offset);
+      currentPage++;
+    } else {
+      return;
+    }
   }
 
   photoGalleryInit(index) async {
