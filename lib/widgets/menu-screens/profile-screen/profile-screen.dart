@@ -41,7 +41,7 @@ class ProfileScreenWidget extends StatelessWidget {
     bool isCover = context.watch<GetMyInfoModel>().isCover;
     String coverUrl = context.watch<GetMyInfoModel>().coverUrl;
 
-    List itemsInWall = context.watch<GetMywallModel>().itemsInWall;
+    List itemsInWall = context.watch<GetMyWallModel>().itemsInWall;
 
     return SafeArea(
       child: Scaffold(

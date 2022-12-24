@@ -23,7 +23,7 @@ void main() {
       ChangeNotifierProvider(create: (_) => MyFriendsScreenModel()),
       ChangeNotifierProvider(create: (_) => UserPhotosModel()),
       ChangeNotifierProvider(create: (_) => MyPhotosModel()),
-      ChangeNotifierProvider(create: (_) => GetMywallModel()),
+      ChangeNotifierProvider(create: (_) => GetMyWallModel()),
     ],
     child: const MyApp(),
   ));

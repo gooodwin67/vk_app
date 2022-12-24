@@ -7,7 +7,7 @@ import 'package:vk_app/domain/api_client/api_client.dart';
 import 'package:vk_app/entities/get_user_wall_entity.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-class GetMywallModel extends ChangeNotifier {
+class GetMyWallModel extends ChangeNotifier {
   int allWallCount = 0;
   List itemsWall = [];
 
