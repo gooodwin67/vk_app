@@ -6,12 +6,12 @@ import 'package:vk_app/domain/api_client/api_client.dart';
 import 'package:vk_app/entities/get_user_photos_entity.dart';
 
 class MyPhotosModel extends ChangeNotifier {
-  List _urls = [];
+  List _photos = [];
   int _count = 0;
   int _galeryIndex = 0;
   int currentPage = 1;
 
-  List get urls => _urls;
+  List get photos => _photos;
   int get count => _count;
   int get galeryIndex => _galeryIndex;
 
@@ -19,7 +19,7 @@ class MyPhotosModel extends ChangeNotifier {
     final token = context.read<ApiClient>().token;
 
     var getUserPhotos = await http.get(Uri.parse(
-        'https://api.vk.com/method/photos.getAll?v=5.131&access_token=${token}&count=$count&offset=${offset}'));
+        'https://api.vk.com/method/photos.getAll?v=5.131&access_token=${token}&count=$count&offset=${offset}&extended=1'));
 
     var userPhotosMap = jsonDecode(getUserPhotos.body);
     var userPhotosResponse = PhotosResponse.fromJson(userPhotosMap);
@@ -35,11 +35,23 @@ class MyPhotosModel extends ChangeNotifier {
       e.sizes.length > 3
           ? size = PhotosItemsSizesItems.fromJson(e.sizes[3])
           : size = PhotosItemsSizesItems.fromJson(e.sizes.last);
-      return size;
+      var likes = PhotosItemsLikes.fromJson(e.likes);
+      var reposts = PhotosItemsReposts.fromJson(e.reposts);
+      return PhotoRes(
+          sizes: size, text: e.text, likes: likes, reposts: reposts);
     }).toList();
 
-    _urls.addAll(
-        listSizes.map((e) => PhotosItemsUrl.fromJson(e.size).url).toList());
+    _photos.addAll(listSizes.map((e) {
+      return Photo(
+        url: PhotosItemsUrl.fromJson(e.sizes.size).url,
+        text: e.text,
+        likes: e.likes.count,
+        userLikes: e.likes.userLikes,
+        reposts: e.reposts.count,
+      );
+    }));
+
+    //print(_photos[1].likes);
 
     _count = userPhotoResponseItems.count;
 
@@ -47,12 +59,12 @@ class MyPhotosModel extends ChangeNotifier {
   }
 
   Future clearPhotosList() async {
-    _urls.clear();
+    _photos.clear();
   }
 
   void showIndex(context, index) {
     //print('$index ------ ${_urls.length} ----- count $_count');
-    if (index < _urls.length - 1) return;
+    if (index < _photos.length - 1) return;
 
     var offset;
 

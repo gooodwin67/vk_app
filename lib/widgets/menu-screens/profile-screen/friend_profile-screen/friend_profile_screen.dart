@@ -13,9 +13,6 @@ class FriendProfileScreenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //print(userId);
-    // final arg = ModalRoute.of(context)!.settings.arguments as Map;
-    // final navId = arg['id'];
     var width = MediaQuery.of(context).size.width;
     double height = 400;
     double widthImage = 100;
@@ -39,7 +36,7 @@ class FriendProfileScreenWidget extends StatelessWidget {
         context.watch<GetUserInfoModel>().userInfo.online_mobile;
     //print(online_mobile);
 
-    List listUrlsPhotos = context.watch<UserPhotosModel>().urls;
+    List listPhotos = context.watch<UserPhotosModel>().photos;
 
     List friendsList =
         context.watch<FriendsScreenModel>().userFriendsListInfoAll;
@@ -519,19 +516,20 @@ class FriendProfileScreenWidget extends StatelessWidget {
                                           MediaQuery.of(context).size.width / 3,
                                       childAspectRatio: 1,
                                     ),
-                                    itemCount: listUrlsPhotos.length > 5
+                                    itemCount: listPhotos.length > 5
                                         ? 6
-                                        : listUrlsPhotos.length,
+                                        : listPhotos.length,
                                     itemBuilder: (context, index) {
-                                      print(listUrlsPhotos.length);
-                                      return listUrlsPhotos.isEmpty
+                                      print(listPhotos.length);
+                                      return listPhotos.isEmpty
                                           ? SizedBox()
                                           : Container(
                                               color: constants.backColor,
                                               child: FadeInImage(
                                                 fit: BoxFit.cover,
                                                 image: NetworkImage(
-                                                    listUrlsPhotos[index]
+                                                    listPhotos[index]
+                                                        .url
                                                         .toString()),
                                                 placeholder: const AssetImage(
                                                     'assets/images/loading.gif'),

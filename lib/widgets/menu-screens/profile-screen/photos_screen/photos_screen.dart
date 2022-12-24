@@ -8,9 +8,9 @@ class PhotosScreenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List listUrlsPhotos = context.watch<MyPhotosModel>().urls;
+    List listPhotos = context.watch<MyPhotosModel>().photos;
     int allCount = context.watch<MyPhotosModel>().count;
-    int count = listUrlsPhotos.length;
+    int count = listPhotos.length;
 
     return Scaffold(
       body: SafeArea(
@@ -138,9 +138,10 @@ class PhotosScreenWidget extends StatelessWidget {
                                                     direction);
                                             setState() {}
                                           },
-                                          key: ValueKey(listUrlsPhotos[context
-                                              .watch<MyPhotosModel>()
-                                              .galeryIndex]),
+                                          key: ValueKey(listPhotos[context
+                                                  .watch<MyPhotosModel>()
+                                                  .galeryIndex]
+                                              .url),
                                           child: Container(
                                             width: MediaQuery.of(context)
                                                 .size
@@ -150,12 +151,13 @@ class PhotosScreenWidget extends StatelessWidget {
                                                 .height,
                                             child: FadeInImage(
                                               fit: BoxFit.contain,
-                                              image: NetworkImage(
-                                                  listUrlsPhotos[context
+                                              image: NetworkImage(listPhotos[
+                                                      context
                                                           .watch<
                                                               MyPhotosModel>()
                                                           .galeryIndex]
-                                                      .toString()),
+                                                  .url
+                                                  .toString()),
                                               placeholder: const AssetImage(
                                                   'assets/images/loading.gif'),
                                               imageErrorBuilder:
@@ -202,6 +204,156 @@ class PhotosScreenWidget extends StatelessWidget {
                                           ],
                                         ),
                                       ),
+                                      Positioned(
+                                        bottom: 0,
+                                        left: 0,
+                                        right: 0,
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 15, vertical: 10),
+                                          decoration: BoxDecoration(
+                                            //color: Colors.black,
+                                            gradient: LinearGradient(
+                                              begin: Alignment.bottomCenter,
+                                              end: Alignment.topCenter,
+                                              colors: [
+                                                Colors.black,
+                                                Colors.transparent
+                                              ],
+                                            ),
+                                          ),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                listPhotos[context
+                                                        .watch<MyPhotosModel>()
+                                                        .galeryIndex]
+                                                    .text,
+                                                maxLines: 5,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 16),
+                                              ),
+                                              SizedBox(height: 15),
+                                              Row(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      listPhotos[context
+                                                                      .watch<
+                                                                          MyPhotosModel>()
+                                                                      .galeryIndex]
+                                                                  .userLikes ==
+                                                              0
+                                                          ? Icon(
+                                                              Icons
+                                                                  .favorite_border,
+                                                              size: 25,
+                                                              color: Color
+                                                                  .fromARGB(
+                                                                      255,
+                                                                      180,
+                                                                      180,
+                                                                      180),
+                                                            )
+                                                          : Icon(
+                                                              Icons.favorite,
+                                                              size: 25,
+                                                              color: Color
+                                                                  .fromARGB(
+                                                                      255,
+                                                                      236,
+                                                                      48,
+                                                                      48),
+                                                            ),
+                                                      SizedBox(width: 4),
+                                                      listPhotos[context
+                                                                      .watch<
+                                                                          MyPhotosModel>()
+                                                                      .galeryIndex]
+                                                                  .likes ==
+                                                              0
+                                                          ? SizedBox()
+                                                          : Text(
+                                                              listPhotos[context
+                                                                      .watch<
+                                                                          MyPhotosModel>()
+                                                                      .galeryIndex]
+                                                                  .likes
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          180,
+                                                                          180,
+                                                                          180),
+                                                                  fontSize: 17,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(width: 40),
+                                                  Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.messenger_outline,
+                                                        size: 25,
+                                                        color: Color.fromARGB(
+                                                            255, 180, 180, 180),
+                                                      ),
+                                                      SizedBox(width: 4),
+                                                    ],
+                                                  ),
+                                                  SizedBox(width: 40),
+                                                  Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.reply_outlined,
+                                                        size: 25,
+                                                        color: Color.fromARGB(
+                                                            255, 180, 180, 180),
+                                                      ),
+                                                      SizedBox(width: 4),
+                                                      listPhotos[context
+                                                                      .watch<
+                                                                          MyPhotosModel>()
+                                                                      .galeryIndex]
+                                                                  .reposts ==
+                                                              0
+                                                          ? SizedBox()
+                                                          : Text(
+                                                              listPhotos[context
+                                                                      .watch<
+                                                                          MyPhotosModel>()
+                                                                      .galeryIndex]
+                                                                  .reposts
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          180,
+                                                                          180,
+                                                                          180),
+                                                                  fontSize: 17,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 );
@@ -215,7 +367,7 @@ class PhotosScreenWidget extends StatelessWidget {
                       color: constants.backColor,
                       child: FadeInImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage(listUrlsPhotos[index].toString()),
+                        image: NetworkImage(listPhotos[index].url.toString()),
                         placeholder:
                             const AssetImage('assets/images/loading.gif'),
                         imageErrorBuilder: (context, error, stackTrace) {

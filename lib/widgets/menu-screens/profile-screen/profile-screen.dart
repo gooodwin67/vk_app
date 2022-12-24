@@ -32,7 +32,7 @@ class ProfileScreenWidget extends StatelessWidget {
     bool canAccess = context.read<GetMyInfoModel>().userInfo.canAccess;
     int id = context.read<GetMyInfoModel>().userInfo.id;
 
-    List listUrlsPhotos = context.watch<MyPhotosModel>().urls;
+    List listPhotos = context.watch<MyPhotosModel>().photos;
 
     List friendsList =
         context.read<MyFriendsScreenModel>().userFriendsListInfoAll;
@@ -520,16 +520,17 @@ class ProfileScreenWidget extends StatelessWidget {
                                                     3,
                                             childAspectRatio: 1,
                                           ),
-                                          itemCount: listUrlsPhotos.length > 5
+                                          itemCount: listPhotos.length > 5
                                               ? 6
-                                              : listUrlsPhotos.length,
+                                              : listPhotos.length,
                                           itemBuilder: (context, index) {
                                             return Container(
                                               color: constants.backColor,
                                               child: FadeInImage(
                                                 fit: BoxFit.cover,
                                                 image: NetworkImage(
-                                                    listUrlsPhotos[index]
+                                                    listPhotos[index]
+                                                        .url
                                                         .toString()),
                                                 placeholder: const AssetImage(
                                                     'assets/images/loading.gif'),
