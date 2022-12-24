@@ -9,16 +9,17 @@ class MyPhotosModel extends ChangeNotifier {
   List _urls = [];
   int _count = 0;
   int _galeryIndex = 0;
+  int currentPage = 1;
 
   List get urls => _urls;
   int get count => _count;
   int get galeryIndex => _galeryIndex;
 
-  Future getMyPhotos(BuildContext context, count) async {
+  Future getMyPhotos(BuildContext context, count, offset) async {
     final token = context.read<ApiClient>().token;
 
     var getUserPhotos = await http.get(Uri.parse(
-        'https://api.vk.com/method/photos.getAll?v=5.131&access_token=${token}&count=$count'));
+        'https://api.vk.com/method/photos.getAll?v=5.131&access_token=${token}&count=$count&offset=${offset}'));
 
     var userPhotosMap = jsonDecode(getUserPhotos.body);
     var userPhotosResponse = PhotosResponse.fromJson(userPhotosMap);
@@ -37,11 +38,31 @@ class MyPhotosModel extends ChangeNotifier {
       return size;
     }).toList();
 
-    _urls = listSizes.map((e) => PhotosItemsUrl.fromJson(e.size).url).toList();
+    _urls.addAll(
+        listSizes.map((e) => PhotosItemsUrl.fromJson(e.size).url).toList());
 
     _count = userPhotoResponseItems.count;
 
     notifyListeners();
+  }
+
+  Future clearPhotosList() async {
+    _urls.clear();
+  }
+
+  void showIndex(context, index) {
+    //print('$index ------ ${_urls.length} ----- count $_count');
+    if (index < _urls.length - 1) return;
+
+    var offset;
+
+    if (index < _count - 2) {
+      offset = 200 * currentPage;
+      getMyPhotos(context, 200, offset);
+      currentPage++;
+    } else {
+      return;
+    }
   }
 
   photoGalleryInit(index) async {

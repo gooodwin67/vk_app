@@ -571,9 +571,15 @@ class ProfileScreenWidget extends StatelessWidget {
                                             onTap: () {
                                               context
                                                   .read<MyPhotosModel>()
-                                                  .getMyPhotos(context, 200)
+                                                  .clearPhotosList()
                                                   .then((value) => context
-                                                      .go('/profile/photos'));
+                                                      .read<MyPhotosModel>()
+                                                      .getMyPhotos(
+                                                          context, 200, 0)
+                                                      .then(
+                                                        (value) => context.go(
+                                                            '/profile/photos'),
+                                                      ));
                                             },
                                             child: Row(
                                               children: [

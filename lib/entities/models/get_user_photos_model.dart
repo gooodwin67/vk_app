@@ -22,12 +22,10 @@ class UserPhotosModel extends ChangeNotifier {
   int get galeryIndex => _galeryIndex;
 
   Future getUserPhotos(BuildContext context, id, count, offset) async {
-    //_urls = [];
-    //_count = 0;
     String deactivated = context.read<GetUserInfoModel>().userInfo.deactivated;
     bool canAccess = context.read<GetUserInfoModel>().userInfo.canAccess;
     final token = context.read<ApiClient>().token;
-    print('id $id count $count');
+    //print('id $id count $count');
 
     if (deactivated == '0' && canAccess == true) {
       var getUserPhotos = await http.get(Uri.parse(
@@ -75,7 +73,7 @@ class UserPhotosModel extends ChangeNotifier {
   }
 
   void showIndex(context, index) {
-    print('$index ------ ${_urls.length} ----- count $_count');
+    //print('$index ------ ${_urls.length} ----- count $_count');
     if (index < _urls.length - 1) return;
 
     var offset;

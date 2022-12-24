@@ -9,6 +9,7 @@ class PhotosScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List listUrlsPhotos = context.watch<MyPhotosModel>().urls;
+    int allCount = context.watch<MyPhotosModel>().count;
     int count = listUrlsPhotos.length;
 
     return Scaffold(
@@ -62,7 +63,7 @@ class PhotosScreenWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'Все фотографии $count',
+                    'Все фотографии $allCount',
                     style: TextStyle(
                         fontSize: 17, color: Color.fromARGB(255, 78, 78, 78)),
                   ),
@@ -79,6 +80,7 @@ class PhotosScreenWidget extends StatelessWidget {
               ),
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
+                  context.watch<MyPhotosModel>().showIndex(context, index);
                   return InkWell(
                     onTap: () async {
                       context.read<MyPhotosModel>().photoGalleryInit(index);
@@ -99,19 +101,12 @@ class PhotosScreenWidget extends StatelessWidget {
                                   child: Stack(
                                     children: [
                                       Positioned(
-                                        // left: 0,
-                                        // right: 0,
-                                        // top: 0,
-                                        // bottom: 0,
                                         child: Dismissible(
                                           movementDuration:
                                               Duration(milliseconds: 300),
                                           resizeDuration: null,
                                           confirmDismiss: (direction) async {
                                             var canDrag;
-                                            // print(context
-                                            //     .read<MyPhotosModel>()
-                                            //     .galeryIndex);
                                             if (direction ==
                                                 DismissDirection.endToStart) {
                                               canDrag = true;

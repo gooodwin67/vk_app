@@ -32,7 +32,7 @@ class LoginScreenWidget extends StatelessWidget {
                               context.read<GetMyInfoModel>().getMyInfo(context))
                           .then((value) => context
                               .read<MyPhotosModel>()
-                              .getMyPhotos(context, 6))
+                              .getMyPhotos(context, 6, 0))
                           .then((value) => context
                               .read<MyFriendsScreenModel>()
                               .getMyFriends(context))

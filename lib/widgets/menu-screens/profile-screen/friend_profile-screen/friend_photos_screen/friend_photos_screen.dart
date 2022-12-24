@@ -103,11 +103,10 @@ class FriendPhotosScreenWidget extends StatelessWidget {
                                       Positioned(
                                         child: Dismissible(
                                           movementDuration:
-                                              Duration(microseconds: 300),
+                                              Duration(milliseconds: 300),
                                           resizeDuration: null,
                                           confirmDismiss: (direction) async {
                                             var canDrag;
-                                            ;
                                             if (direction ==
                                                 DismissDirection.endToStart) {
                                               canDrag = true;
