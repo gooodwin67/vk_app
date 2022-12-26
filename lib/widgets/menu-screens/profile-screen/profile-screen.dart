@@ -665,7 +665,7 @@ class ProfileScreenWidget extends StatelessWidget {
                       child: itemsInWall.isEmpty
                           ? SizedBox()
                           : Text(
-                              '${itemsInWall[index].fromId.toString()} ----- ${itemsInWall[index].lastName.toString()}----- ${itemsInWall[index].date.toString()}'),
+                              '${itemsInWall[index].fromId.toString()} -----${itemsInWall[index].firstName.toString()} ${itemsInWall[index].lastName.toString()}----- ${itemsInWall[index].date.toString()}'),
                     ),
                     SizedBox(height: 5),
                   ],

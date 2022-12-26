@@ -36,17 +36,6 @@ class GetMyWallModel extends ChangeNotifier {
     List profilesWall =
         profilesWallResponse.map((e) => UserWallProfiles.fromJson(e)).toList();
 
-    Future dateMod(date) async {
-      var a = DateTime.fromMillisecondsSinceEpoch(date * 1000);
-      await initializeDateFormatting('ru_RU', null).then((_) {
-        var format = DateFormat.yMd().format(a);
-        //print(format);
-        return format;
-      });
-    }
-
-    //print(dateMod(1272717240));
-
     for (var i in itemsWall) {
       for (var j in profilesWall) {
         if (i.fromId == j.id) {
@@ -57,7 +46,7 @@ class GetMyWallModel extends ChangeNotifier {
               fromId: i.fromId,
               firstName: j.firstName,
               lastName: j.lastName,
-              date: formatDate,
+              date: formatDate.replaceAll('/', '.'),
             ));
           });
         }
