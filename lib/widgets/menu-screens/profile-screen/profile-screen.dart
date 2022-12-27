@@ -43,6 +43,8 @@ class ProfileScreenWidget extends StatelessWidget {
 
     List itemsInWall = context.watch<GetMyWallModel>().itemsInWall;
 
+    print(itemsInWall);
+
     return SafeArea(
       child: Scaffold(
         extendBodyBehindAppBar: true,

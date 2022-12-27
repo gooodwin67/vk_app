@@ -29,16 +29,31 @@ class UserWall {
 class UserWallItems {
   final int fromId;
   final int date;
+  final Map likes;
 
   UserWallItems({
     required this.fromId,
     required this.date,
+    required this.likes,
   });
 
   factory UserWallItems.fromJson(Map<String, dynamic> json) {
     return UserWallItems(
       fromId: json['from_id'],
       date: json['date'],
+      likes: json['likes'],
+    );
+  }
+}
+
+class Likes {
+  final int count;
+
+  Likes({required this.count});
+
+  factory Likes.fromJson(Map<String, dynamic> json) {
+    return Likes(
+      count: json['count'],
     );
   }
 }

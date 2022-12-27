@@ -17,7 +17,7 @@ class GetMyWallModel extends ChangeNotifier {
     final token = context.read<ApiClient>().token;
 
     var getUserWall = await http.get(Uri.parse(
-        'https://api.vk.com/method/wall.get?v=5.131&access_token=$token&extended=1&offset=200'));
+        'https://api.vk.com/method/wall.get?v=5.131&access_token=$token&extended=1&offset=0'));
 
     var userWallMap = jsonDecode(getUserWall.body);
     var userWallResponse = ResponseWall.fromJson(userWallMap);
@@ -47,11 +47,13 @@ class GetMyWallModel extends ChangeNotifier {
               firstName: j.firstName,
               lastName: j.lastName,
               date: formatDate.replaceAll('/', '.'),
+              likes: 5,
             ));
           });
         }
       }
     }
+    //itemsInWall = itemsInWall.map((e) => e.likes = 7).toList();
 
     //var date = DateTime.fromMillisecondsSinceEpoch(1272717240 * 1000);
 
@@ -66,10 +68,12 @@ class ItemInWall {
   String lastName;
   String firstName;
   String date;
+  int likes;
   ItemInWall({
     required this.fromId,
     required this.firstName,
     required this.lastName,
     required this.date,
+    required this.likes,
   });
 }
