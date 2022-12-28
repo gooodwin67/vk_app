@@ -20,44 +20,72 @@ class GetMyWallModel extends ChangeNotifier {
         'https://api.vk.com/method/wall.get?v=5.131&access_token=$token&extended=1&offset=0'));
 
     var userWallMap = jsonDecode(getUserWall.body);
+
     var userWallResponse = ResponseWall.fromJson(userWallMap);
 
-    var userWallResponse2 = UserWall.fromJson(userWallResponse.response);
-    List ItemsWallResponse = userWallResponse2.items;
-    allWallCount = userWallResponse2.count;
+    var userWallResponseItemsResponse =
+        UserWall.fromJson(userWallResponse.response).items;
+    var userWallResponseProfilesResponse =
+        UserWall.fromJson(userWallResponse.response).profiles;
+    var userWallResponseCountResponse =
+        UserWall.fromJson(userWallResponse.response).count;
 
-    itemsWall =
-        ItemsWallResponse.map((e) => UserWallItems.fromJson(e)).toList();
+    var userWallResponseItems =
+        userWallResponseItemsResponse.map((e) => UserWallItems.fromJson(e));
+
+    //print(userWallResponseItems);
+
+    List userWallItemsResponse = userWallResponseItems.map((e) {
+      var likes = Likes.fromJson(e.likes);
+      return ItemInWall(
+        fromId: e.fromId,
+        date: e.date,
+        likes: likes.count,
+      );
+    }).toList();
+
+    userWallItemsResponse[0].date = 565645;
+
+    print(userWallItemsResponse[0].date);
+
+    //var userWallResponse2 = UserWall.fromJson(userWallResponse.response);
+    // List ItemsWallResponse = userWallResponse2.items;
+
+    // List itemsWall = ItemsWallResponse.map((e) {
+    //   print(e.runtimeType);
+    //   return ItemInWall(
+    //     fromId: 0,
+    //   );
+    // }).toList();
+
+    // allWallCount = userWallResponse2.count;
+
+    //print(itemsWall[0]);
 
     ///////////////////////////////////////////////////
 
-    List profilesWallResponse = userWallResponse2.profiles;
+    // List profilesWallResponse = userWallResponse2.profiles;
 
-    List profilesWall =
-        profilesWallResponse.map((e) => UserWallProfiles.fromJson(e)).toList();
+    // List profilesWall =
+    //     profilesWallResponse.map((e) => UserWallProfiles.fromJson(e)).toList();
 
-    for (var i in itemsWall) {
-      for (var j in profilesWall) {
-        if (i.fromId == j.id) {
-          var date = DateTime.fromMillisecondsSinceEpoch(i.date * 1000);
-          initializeDateFormatting('ru_RU', null).then((_) {
-            var formatDate = DateFormat.yMd().format(date);
-            itemsInWall.add(ItemInWall(
-              fromId: i.fromId,
-              firstName: j.firstName,
-              lastName: j.lastName,
-              date: formatDate.replaceAll('/', '.'),
-              likes: 5,
-            ));
-          });
-        }
-      }
-    }
-    //itemsInWall = itemsInWall.map((e) => e.likes = 7).toList();
-
-    //var date = DateTime.fromMillisecondsSinceEpoch(1272717240 * 1000);
-
-    //print(date);
+    // for (var i in itemsWall) {
+    //   for (var j in profilesWall) {
+    //     if (i.fromId == j.id) {
+    //       var date = DateTime.fromMillisecondsSinceEpoch(i.date * 1000);
+    //       initializeDateFormatting('ru_RU', null).then((_) {
+    //         var formatDate = DateFormat.yMd().format(date);
+    //         itemsInWall.add(ItemInWall(
+    //           fromId: i.fromId,
+    //           firstName: j.firstName,
+    //           lastName: j.lastName,
+    //           date: formatDate.replaceAll('/', '.'),
+    //           likes: 5,
+    //         ));
+    //       });
+    //     }
+    //   }
+    // }
 
     notifyListeners();
   }
@@ -65,14 +93,14 @@ class GetMyWallModel extends ChangeNotifier {
 
 class ItemInWall {
   int fromId;
-  String lastName;
-  String firstName;
-  String date;
+  // String lastName = 'lastName';
+  // String firstName = 'firstName';
+  int date;
   int likes;
   ItemInWall({
     required this.fromId,
-    required this.firstName,
-    required this.lastName,
+    // required this.firstName,
+    // required this.lastName,
     required this.date,
     required this.likes,
   });

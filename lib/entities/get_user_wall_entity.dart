@@ -4,9 +4,7 @@ class ResponseWall {
   ResponseWall({required this.response});
 
   factory ResponseWall.fromJson(Map<String, dynamic> json) {
-    return ResponseWall(
-      response: json['response'] as Map<String, dynamic>,
-    );
+    return ResponseWall(response: json['response']);
   }
 }
 
@@ -29,7 +27,7 @@ class UserWall {
 class UserWallItems {
   final int fromId;
   final int date;
-  final Map likes;
+  final Map<String, dynamic> likes;
 
   UserWallItems({
     required this.fromId,
