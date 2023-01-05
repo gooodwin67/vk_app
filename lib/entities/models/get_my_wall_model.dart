@@ -58,7 +58,55 @@ class GetMyWallModel extends ChangeNotifier {
       var groupName = 'groupName';
       var photoGroup = 'photoGroup';
       var postGroupText = CopyHistory.fromJson(e.copyHistory[0]);
-      //print(repostFromId.fromId.abs());
+      var attachmentType = 'defaultType';
+      List listAttachmentType = [];
+
+      List attachmentsResponse;
+      if (e.attachments.isNotEmpty) {
+        attachmentsResponse = e.attachments;
+      } else if (repostFromId.fromId != 0) {
+        attachmentsResponse = repostFromId.attachments;
+      } else {
+        attachmentsResponse = [];
+      }
+
+      //attachmentType = Attachments.fromJson(attachmentsResponse[0]).type;
+
+      var linkUrl = '';
+      var linkTitle = '';
+      var linkPhotoUrl = '';
+
+      var photoUrl = '';
+
+      List attachments = attachmentsResponse.map((e) {
+        attachmentType = Attachments.fromJson(e).type;
+        listAttachmentType.add(attachmentType);
+
+        var attachment;
+        if (attachmentType == 'photo') {
+          attachment = TypePhotoResponse.fromJson(e);
+
+          var PhotoPhotoResponse = attachment.photo;
+          var PhotoPhotos = LinkPhotos.fromJson(PhotoPhotoResponse);
+
+          photoUrl = LinkPhotoUrl.fromJson(PhotoPhotos.sizes.last).url;
+        } else if (attachmentType == 'link') {
+          attachment = TypeLinkResponse.fromJson(e);
+          var linkResponse = Link.fromJson(attachment.link);
+          linkUrl = linkResponse.url;
+          linkTitle = linkResponse.title;
+
+          var linkPhotoResponse = linkResponse.photo;
+          var linkPhotos = LinkPhotos.fromJson(linkPhotoResponse);
+
+          linkPhotoUrl = LinkPhotoUrl.fromJson(linkPhotos.sizes[0]).url;
+
+          //print(linkPhotoUrl);
+        }
+        return attachment;
+      }).toList();
+
+      //print(attachments);
 
       initializeDateFormatting('ru_RU', null);
 
@@ -92,6 +140,16 @@ class GetMyWallModel extends ChangeNotifier {
         groupName: groupName,
         photoGroup: photoGroup,
         postGroupText: postGroupText.postGroupText,
+        attachmentType: attachmentType,
+        listAttachmentType: listAttachmentType,
+        link: LinkRes(
+          linkUrl: linkUrl,
+          linkTitle: linkTitle,
+          linkPhotoUrl: linkPhotoUrl,
+        ),
+        photo: PhotoRes(
+          photoUrl: photoUrl,
+        ),
       );
     }).toList());
 
@@ -129,6 +187,10 @@ class ItemInWall {
   String groupName;
   String photoGroup;
   String postGroupText;
+  String attachmentType;
+  List listAttachmentType;
+  LinkRes link;
+  PhotoRes photo;
 
   ItemInWall({
     required this.fromId,
@@ -143,5 +205,28 @@ class ItemInWall {
     required this.groupName,
     required this.photoGroup,
     required this.postGroupText,
+    required this.attachmentType,
+    required this.listAttachmentType,
+    required this.link,
+    required this.photo,
+  });
+}
+
+class LinkRes {
+  final String linkUrl;
+  final String linkTitle;
+  final String linkPhotoUrl;
+
+  LinkRes(
+      {required this.linkUrl,
+      required this.linkTitle,
+      required this.linkPhotoUrl});
+}
+
+class PhotoRes {
+  final String photoUrl;
+
+  PhotoRes({
+    required this.photoUrl,
   });
 }

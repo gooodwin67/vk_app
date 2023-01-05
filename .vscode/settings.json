@@ -1,6 +1,6 @@
 {
     "[markdown]": {
-        "editor.wordWrapColumn": 200,
+        "editor.wordWrapColumn": 280,
         "editor.wordWrap": "wordWrapColumn"
     }
 }

@@ -42,6 +42,7 @@ class ProfileScreenWidget extends StatelessWidget {
     String coverUrl = context.watch<GetMyInfoModel>().coverUrl;
 
     List itemsInWall = context.watch<GetMyWallModel>().itemsInWall;
+    print(itemsInWall[0].listAttachmentType);
 
     return SafeArea(
       child: Scaffold(
@@ -834,15 +835,162 @@ class ProfileScreenWidget extends StatelessWidget {
                                                 ],
                                               ),
                                               SizedBox(height: 7),
-                                              Text(itemsInWall[index]
-                                                  .postGroupText),
+                                              itemsInWall[index]
+                                                          .postGroupText ==
+                                                      ''
+                                                  ? SizedBox()
+                                                  : Text(
+                                                      itemsInWall[index]
+                                                          .postGroupText,
+                                                      style: TextStyle(
+                                                          fontSize: 13),
+                                                    ),
                                             ],
                                           ),
                                         ),
                                   Container(
                                     width: MediaQuery.of(context).size.width,
-                                    height: 50,
-                                    color: Color.fromARGB(255, 180, 180, 180),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 10),
+                                    child: ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: itemsInWall[index]
+                                          .listAttachmentType
+                                          .length,
+                                      itemBuilder:
+                                          (BuildContext context, int i) {
+                                        print(itemsInWall[index]
+                                            .listAttachmentType
+                                            .length);
+                                        return Container(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              itemsInWall[index]
+                                                              .listAttachmentType[
+                                                          i] ==
+                                                      'photo'
+                                                  ? FadeInImage(
+                                                      fit: BoxFit.cover,
+                                                      image: NetworkImage(
+                                                          itemsInWall[index]
+                                                              .photo
+                                                              .photoUrl),
+                                                      placeholder: const AssetImage(
+                                                          'assets/images/loading.gif'),
+                                                      imageErrorBuilder:
+                                                          (context, error,
+                                                              stackTrace) {
+                                                        print(
+                                                            error); //do something
+                                                        return Image.asset(
+                                                            'assets/images/no-avatar.png');
+                                                      },
+                                                    )
+                                                  : SizedBox(),
+                                              itemsInWall[index]
+                                                              .listAttachmentType[
+                                                          i] ==
+                                                      'link'
+                                                  ? Row(
+                                                      children: [
+                                                        ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5),
+                                                          child: Container(
+                                                            width: 40,
+                                                            height: 40,
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    2),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              border:
+                                                                  Border.all(
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        240,
+                                                                        240,
+                                                                        240),
+                                                              ),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          5),
+                                                            ),
+                                                            child: FadeInImage(
+                                                              fit: BoxFit.cover,
+                                                              image: NetworkImage(
+                                                                  itemsInWall[
+                                                                          index]
+                                                                      .link
+                                                                      .linkPhotoUrl),
+                                                              placeholder:
+                                                                  const AssetImage(
+                                                                      'assets/images/loading.gif'),
+                                                              imageErrorBuilder:
+                                                                  (context,
+                                                                      error,
+                                                                      stackTrace) {
+                                                                print(
+                                                                    error); //do something
+                                                                return Image.asset(
+                                                                    'assets/images/no-avatar.png');
+                                                              },
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: 7),
+                                                        Container(
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              1.4,
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                itemsInWall[
+                                                                        index]
+                                                                    .link
+                                                                    .linkTitle,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                              SizedBox(
+                                                                  height: 3),
+                                                              Text(
+                                                                itemsInWall[
+                                                                        index]
+                                                                    .link
+                                                                    .linkUrl,
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                      .grey,
+                                                                ),
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  : SizedBox(),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.all(10),

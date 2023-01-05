@@ -37,6 +37,7 @@ class UserWallItems {
   final Map<String, dynamic> reposts;
   final Map<String, dynamic> views;
   final List copyHistory;
+  final List attachments;
 
   UserWallItems({
     required this.fromId,
@@ -45,6 +46,7 @@ class UserWallItems {
     required this.reposts,
     required this.views,
     required this.copyHistory,
+    required this.attachments,
   });
 
   factory UserWallItems.fromJson(Map<String, dynamic> json) {
@@ -53,11 +55,12 @@ class UserWallItems {
       date: json['date'],
       likes: json['likes'],
       reposts: json['reposts'],
-      views: json['views'],
+      views: json['views'] ?? {'count': 0},
       copyHistory: json['copy_history'] ??
           [
             {'from_id': 0}
           ],
+      attachments: json['attachments'] ?? [],
     );
   }
 }
@@ -65,13 +68,18 @@ class UserWallItems {
 class CopyHistory {
   final int fromId;
   final String postGroupText;
+  final List attachments;
 
-  CopyHistory({required this.fromId, required this.postGroupText});
+  CopyHistory(
+      {required this.fromId,
+      required this.postGroupText,
+      required this.attachments});
 
   factory CopyHistory.fromJson(Map<String, dynamic> json) {
     return CopyHistory(
       fromId: json['from_id'],
-      postGroupText: json['text'],
+      postGroupText: json['text'] ?? '',
+      attachments: json['attachments'] ?? [],
     );
   }
 }
@@ -108,6 +116,7 @@ class Views {
   Views({required this.count});
 
   factory Views.fromJson(Map<String, dynamic> json) {
+    //print(json);
     return Views(
       count: json == null ? 0 : json['count'],
     );
@@ -153,6 +162,106 @@ class UserWallGroups {
       idGroup: json['id'],
       nameGroup: json['name'],
       photoGroup: json['photo_50'],
+    );
+  }
+}
+
+class Attachments {
+  final String type;
+
+  Attachments({required this.type});
+
+  factory Attachments.fromJson(Map<String, dynamic> json) {
+    return Attachments(
+      type: json['type'],
+    );
+  }
+}
+
+class TypePhotoResponse {
+  final Map photo;
+
+  TypePhotoResponse({required this.photo});
+
+  factory TypePhotoResponse.fromJson(Map<String, dynamic> json) {
+    return TypePhotoResponse(
+      photo: json['photo'],
+    );
+  }
+}
+
+class PhotoPhotos {
+  final List sizes;
+
+  PhotoPhotos({required this.sizes});
+
+  factory PhotoPhotos.fromJson(Map<String, dynamic> json) {
+    return PhotoPhotos(
+      sizes: json['sizes'],
+    );
+  }
+}
+
+class PhotoUrl {
+  final String url;
+
+  PhotoUrl({required this.url});
+
+  factory PhotoUrl.fromJson(Map<String, dynamic> json) {
+    return PhotoUrl(
+      url: json['url'],
+    );
+  }
+}
+
+class TypeLinkResponse {
+  final Map link;
+
+  TypeLinkResponse({required this.link});
+
+  factory TypeLinkResponse.fromJson(Map<String, dynamic> json) {
+    return TypeLinkResponse(
+      link: json['link'],
+    );
+  }
+}
+
+class Link {
+  final String url;
+  final String title;
+  final Map<String, dynamic> photo;
+
+  Link({required this.url, required this.title, required this.photo});
+
+  factory Link.fromJson(Map<String, dynamic> json) {
+    return Link(
+      url: json['url'],
+      title: json['title'],
+      photo: json['photo'],
+    );
+  }
+}
+
+class LinkPhotos {
+  final List sizes;
+
+  LinkPhotos({required this.sizes});
+
+  factory LinkPhotos.fromJson(Map<String, dynamic> json) {
+    return LinkPhotos(
+      sizes: json['sizes'],
+    );
+  }
+}
+
+class LinkPhotoUrl {
+  final String url;
+
+  LinkPhotoUrl({required this.url});
+
+  factory LinkPhotoUrl.fromJson(Map<String, dynamic> json) {
+    return LinkPhotoUrl(
+      url: json['url'],
     );
   }
 }
