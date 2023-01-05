@@ -157,9 +157,13 @@ class FriendsScreenWidget extends StatelessWidget {
                             ],
                           ),
                           SizedBox(width: 10),
-                          Text(
-                            '${friendsList[index].firstName} ${friendsList[index].lastName}',
-                            style: TextStyle(fontSize: 17),
+                          Container(
+                            width: MediaQuery.of(context).size.width / 1.7,
+                            child: Text(
+                              '${friendsList[index].firstName} ${friendsList[index].lastName}',
+                              style: TextStyle(fontSize: 17),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                           Spacer(),
                           Icon(

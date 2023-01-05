@@ -41,7 +41,7 @@ class ProfileScreenWidget extends StatelessWidget {
     bool isCover = context.watch<GetMyInfoModel>().isCover;
     String coverUrl = context.watch<GetMyInfoModel>().coverUrl;
 
-    List itemsInWall = []; //context.watch<GetMyWallModel>().itemsInWall;
+    List itemsInWall = context.watch<GetMyWallModel>().itemsInWall;
 
     return SafeArea(
       child: Scaffold(
@@ -652,25 +652,319 @@ class ProfileScreenWidget extends StatelessWidget {
             ),
             SliverList(
               delegate: SliverChildBuilderDelegate(
-                (context, index) => Column(
-                  children: [
-                    Container(
-                      height: 100,
-                      margin: EdgeInsets.only(bottom: 5),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(15),
+                (context, index) {
+                  context.watch<GetMyWallModel>().showIndex(context, index);
+                  return Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(bottom: 5),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: itemsInWall.isEmpty
+                            ? SizedBox()
+                            : Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: Row(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          child: Container(
+                                            width: 50,
+                                            height: 50,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                            ),
+                                            child: FadeInImage(
+                                              fit: BoxFit.cover,
+                                              image: NetworkImage(
+                                                  itemsInWall[index]
+                                                      .photoProfile),
+                                              placeholder: const AssetImage(
+                                                  'assets/images/loading.gif'),
+                                              imageErrorBuilder:
+                                                  (context, error, stackTrace) {
+                                                print(error); //do something
+                                                return Image.asset(
+                                                    'assets/images/no-avatar.png');
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 10),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              '${itemsInWall[index].firstName} ${itemsInWall[index].lastName}',
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color.fromARGB(
+                                                      255, 70, 70, 70)),
+                                            ),
+                                            SizedBox(height: 2),
+                                            Text(
+                                              itemsInWall[index].date,
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                color: Color.fromARGB(
+                                                    255, 122, 122, 122),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Spacer(),
+                                        Icon(
+                                          Icons.more_horiz_outlined,
+                                          color: Colors.grey,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  itemsInWall[index].groupName == 'groupName'
+                                      ? SizedBox()
+                                      : Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 10, left: 20, right: 10),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            50),
+                                                    child: Container(
+                                                      width: 50,
+                                                      height: 50,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(50),
+                                                      ),
+                                                      child: FadeInImage(
+                                                        fit: BoxFit.cover,
+                                                        image: NetworkImage(
+                                                            itemsInWall[index]
+                                                                .photoGroup),
+                                                        placeholder:
+                                                            const AssetImage(
+                                                                'assets/images/loading.gif'),
+                                                        imageErrorBuilder:
+                                                            (context, error,
+                                                                stackTrace) {
+                                                          print(
+                                                              error); //do something
+                                                          return Image.asset(
+                                                              'assets/images/no-avatar.png');
+                                                        },
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons
+                                                                .subdirectory_arrow_right_sharp,
+                                                            size: 13,
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    121,
+                                                                    121,
+                                                                    121),
+                                                          ),
+                                                          Container(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                1.6,
+                                                            child: Text(
+                                                              itemsInWall[index]
+                                                                  .groupName,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: TextStyle(
+                                                                  fontSize: 15,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          70,
+                                                                          70,
+                                                                          70)),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      SizedBox(height: 2),
+                                                      Text(
+                                                        itemsInWall[index].date,
+                                                        style: TextStyle(
+                                                          fontSize: 13,
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              122,
+                                                              122,
+                                                              122),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(height: 7),
+                                              Text(itemsInWall[index]
+                                                  .postGroupText),
+                                            ],
+                                          ),
+                                        ),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 50,
+                                    color: Color.fromARGB(255, 180, 180, 180),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: Row(
+                                      children: [
+                                        itemsInWall[index].userLikes == 1
+                                            ? Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 12,
+                                                    vertical: 5),
+                                                decoration: BoxDecoration(
+                                                  color: Color.fromARGB(
+                                                      255, 255, 225, 224),
+                                                  borderRadius:
+                                                      BorderRadius.circular(50),
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      padding:
+                                                          EdgeInsets.all(5),
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.red,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(50),
+                                                      ),
+                                                      child: Icon(
+                                                        Icons.favorite,
+                                                        size: 13,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 5),
+                                                    Text(itemsInWall[index]
+                                                        .likes
+                                                        .toString()),
+                                                  ],
+                                                ),
+                                              )
+                                            : Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 12,
+                                                    vertical: 5),
+                                                decoration: BoxDecoration(
+                                                  color: constants.backColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(50),
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.favorite_border,
+                                                      size: 23,
+                                                      color: Color.fromARGB(
+                                                          255, 110, 110, 110),
+                                                    ),
+                                                    SizedBox(width: 5),
+                                                    Text(itemsInWall[index]
+                                                        .likes
+                                                        .toString()),
+                                                  ],
+                                                ),
+                                              ),
+                                        SizedBox(width: 10),
+                                        Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 12, vertical: 5),
+                                          decoration: BoxDecoration(
+                                            color: constants.backColor,
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(50),
+                                                ),
+                                                child: Icon(
+                                                  Icons.reply_outlined,
+                                                  size: 23,
+                                                  color: Color.fromARGB(
+                                                      255, 110, 110, 110),
+                                                ),
+                                              ),
+                                              SizedBox(width: 5),
+                                              Text(itemsInWall[index]
+                                                  .reposts
+                                                  .toString()),
+                                            ],
+                                          ),
+                                        ),
+                                        Spacer(),
+                                        itemsInWall[index].views == 0
+                                            ? SizedBox()
+                                            : Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.remove_red_eye,
+                                                    size: 20,
+                                                    color: Color.fromARGB(
+                                                        255, 158, 158, 158),
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  Text(itemsInWall[index]
+                                                      .views
+                                                      .toString()),
+                                                ],
+                                              ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                       ),
-                      child: itemsInWall.isEmpty
-                          ? SizedBox()
-                          : Text(
-                              '${itemsInWall[index].fromId.toString()} -----${itemsInWall[index].firstName.toString()} ${itemsInWall[index].lastName.toString()}----- ${itemsInWall[index].date.toString()}'),
-                    ),
-                    SizedBox(height: 5),
-                  ],
-                ),
-                childCount: 6,
+                      SizedBox(height: 5),
+                    ],
+                  );
+                },
+                childCount: itemsInWall.length,
               ),
             ),
           ],

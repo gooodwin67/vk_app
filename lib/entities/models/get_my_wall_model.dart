@@ -9,17 +9,19 @@ import 'package:intl/date_symbol_data_local.dart';
 
 class GetMyWallModel extends ChangeNotifier {
   int allWallCount = 0;
-  List itemsWall = [];
-
+  int _count = 0;
   List itemsInWall = [];
 
-  Future getMyWall(BuildContext context) async {
+  int currentPage = 1;
+  int get count => _count;
+
+  Future getMyWall(BuildContext context, count, offset) async {
     final token = context.read<ApiClient>().token;
 
-    var getUserWall = await http.get(Uri.parse(
-        'https://api.vk.com/method/wall.get?v=5.131&access_token=$token&extended=1&offset=0'));
+    var getMyWall = await http.get(Uri.parse(
+        'https://api.vk.com/method/wall.get?v=5.131&access_token=$token&extended=1&offset=$offset&count=$count'));
 
-    var userWallMap = jsonDecode(getUserWall.body);
+    var userWallMap = jsonDecode(getMyWall.body);
 
     var userWallResponse = ResponseWall.fromJson(userWallMap);
 
@@ -27,81 +29,119 @@ class GetMyWallModel extends ChangeNotifier {
         UserWall.fromJson(userWallResponse.response).items;
     var userWallResponseProfilesResponse =
         UserWall.fromJson(userWallResponse.response).profiles;
-    var userWallResponseCountResponse =
-        UserWall.fromJson(userWallResponse.response).count;
+    var userWallResponseGroupsResponse =
+        UserWall.fromJson(userWallResponse.response).groups;
 
-    var userWallResponseItems =
-        userWallResponseItemsResponse.map((e) => UserWallItems.fromJson(e));
+    _count = UserWall.fromJson(userWallResponse.response).count;
 
-    //print(userWallResponseItems);
+    List itemsWall = userWallResponseItemsResponse
+        .map((e) => UserWallItems.fromJson(e))
+        .toList();
 
-    List userWallItemsResponse = userWallResponseItems.map((e) {
+    List profilesWall = userWallResponseProfilesResponse
+        .map((e) => UserWallProfiles.fromJson(e))
+        .toList();
+
+    List groupsWall = userWallResponseGroupsResponse
+        .map((e) => UserWallGroups.fromJson(e))
+        .toList();
+
+    itemsInWall.addAll(itemsWall.map((e) {
       var likes = Likes.fromJson(e.likes);
+      var reposts = Reposts.fromJson(e.reposts);
+      var views = Views.fromJson(e.views);
+      var firstName = 'firstName';
+      var lastName = 'lastName';
+      var photoProfile = 'photoProfile';
+      var date = DateTime.fromMillisecondsSinceEpoch(e.date * 1000);
+      var repostFromId = CopyHistory.fromJson(e.copyHistory[0]);
+      var groupName = 'groupName';
+      var photoGroup = 'photoGroup';
+      var postGroupText = CopyHistory.fromJson(e.copyHistory[0]);
+      //print(repostFromId.fromId.abs());
+
+      initializeDateFormatting('ru_RU', null);
+
+      var formatDate = DateFormat.yMd().format(date);
+
+      profilesWall.forEach((element) {
+        if (element.id == e.fromId) {
+          firstName = element.firstName;
+          lastName = element.lastName;
+          photoProfile = element.photoProfile;
+        }
+      });
+
+      groupsWall.forEach((element) {
+        if (element.idGroup == repostFromId.fromId.abs()) {
+          groupName = element.nameGroup;
+          photoGroup = element.photoGroup;
+        }
+      });
+
       return ItemInWall(
+        date: formatDate.replaceAll('/', '.'),
         fromId: e.fromId,
-        date: e.date,
         likes: likes.count,
+        reposts: reposts.count,
+        views: views.count,
+        userLikes: likes.userLikes,
+        firstName: firstName,
+        lastName: lastName,
+        photoProfile: photoProfile,
+        groupName: groupName,
+        photoGroup: photoGroup,
+        postGroupText: postGroupText.postGroupText,
       );
-    }).toList();
+    }).toList());
 
-    userWallItemsResponse[0].date = 565645;
-
-    print(userWallItemsResponse[0].date);
-
-    //var userWallResponse2 = UserWall.fromJson(userWallResponse.response);
-    // List ItemsWallResponse = userWallResponse2.items;
-
-    // List itemsWall = ItemsWallResponse.map((e) {
-    //   print(e.runtimeType);
-    //   return ItemInWall(
-    //     fromId: 0,
-    //   );
-    // }).toList();
-
-    // allWallCount = userWallResponse2.count;
-
-    //print(itemsWall[0]);
-
-    ///////////////////////////////////////////////////
-
-    // List profilesWallResponse = userWallResponse2.profiles;
-
-    // List profilesWall =
-    //     profilesWallResponse.map((e) => UserWallProfiles.fromJson(e)).toList();
-
-    // for (var i in itemsWall) {
-    //   for (var j in profilesWall) {
-    //     if (i.fromId == j.id) {
-    //       var date = DateTime.fromMillisecondsSinceEpoch(i.date * 1000);
-    //       initializeDateFormatting('ru_RU', null).then((_) {
-    //         var formatDate = DateFormat.yMd().format(date);
-    //         itemsInWall.add(ItemInWall(
-    //           fromId: i.fromId,
-    //           firstName: j.firstName,
-    //           lastName: j.lastName,
-    //           date: formatDate.replaceAll('/', '.'),
-    //           likes: 5,
-    //         ));
-    //       });
-    //     }
-    //   }
-    // }
+    //print(itemsWall[3].copyHistory[0]);
 
     notifyListeners();
+  }
+
+  void showIndex(context, index) {
+    //print('$index ------ ${itemsInWall.length} ----- count $_count');
+    if (index < itemsInWall.length - 1) return;
+
+    var offset;
+
+    if (index < _count - 2) {
+      offset = 5 * currentPage;
+      getMyWall(context, 5, offset);
+      currentPage++;
+    } else {
+      return;
+    }
   }
 }
 
 class ItemInWall {
   int fromId;
-  // String lastName = 'lastName';
-  // String firstName = 'firstName';
-  int date;
+  String lastName = 'lastName';
+  String firstName = 'firstName';
+  String date;
   int likes;
+  int userLikes;
+  int reposts;
+  int views;
+  String photoProfile;
+  String groupName;
+  String photoGroup;
+  String postGroupText;
+
   ItemInWall({
     required this.fromId,
-    // required this.firstName,
-    // required this.lastName,
+    required this.firstName,
+    required this.lastName,
     required this.date,
     required this.likes,
+    required this.userLikes,
+    required this.reposts,
+    required this.views,
+    required this.photoProfile,
+    required this.groupName,
+    required this.photoGroup,
+    required this.postGroupText,
   });
 }
