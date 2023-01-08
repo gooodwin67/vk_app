@@ -33,6 +33,7 @@ class UserWall {
 class UserWallItems {
   final int fromId;
   final int date;
+  final String text;
   final Map<String, dynamic> likes;
   final Map<String, dynamic> reposts;
   final Map<String, dynamic> views;
@@ -42,6 +43,7 @@ class UserWallItems {
   UserWallItems({
     required this.fromId,
     required this.date,
+    required this.text,
     required this.likes,
     required this.reposts,
     required this.views,
@@ -53,6 +55,7 @@ class UserWallItems {
     return UserWallItems(
       fromId: json['from_id'],
       date: json['date'],
+      text: json['text'],
       likes: json['likes'],
       reposts: json['reposts'],
       views: json['views'] ?? {'count': 0},
@@ -178,8 +181,32 @@ class Attachments {
   }
 }
 
+class TypeDocResponse {
+  final Map doc;
+
+  TypeDocResponse({required this.doc});
+
+  factory TypeDocResponse.fromJson(Map<String, dynamic> json) {
+    return TypeDocResponse(
+      doc: json['doc'],
+    );
+  }
+}
+
+class TypeDocPreview {
+  final Map<String, dynamic> preview;
+
+  TypeDocPreview({required this.preview});
+
+  factory TypeDocPreview.fromJson(Map<String, dynamic> json) {
+    return TypeDocPreview(
+      preview: json['preview'],
+    );
+  }
+}
+
 class TypePhotoResponse {
-  final Map photo;
+  final Map<String, dynamic> photo;
 
   TypePhotoResponse({required this.photo});
 
@@ -235,9 +262,9 @@ class Link {
 
   factory Link.fromJson(Map<String, dynamic> json) {
     return Link(
-      url: json['url'],
-      title: json['title'],
-      photo: json['photo'],
+      url: json['url'] ?? 'url',
+      title: json['title'] ?? 'title',
+      photo: json['photo'] ?? {'photo': ''},
     );
   }
 }
@@ -249,7 +276,7 @@ class LinkPhotos {
 
   factory LinkPhotos.fromJson(Map<String, dynamic> json) {
     return LinkPhotos(
-      sizes: json['sizes'],
+      sizes: json['sizes'] ?? [],
     );
   }
 }
@@ -261,7 +288,19 @@ class LinkPhotoUrl {
 
   factory LinkPhotoUrl.fromJson(Map<String, dynamic> json) {
     return LinkPhotoUrl(
-      url: json['url'],
+      url: json['url'] ?? '',
+    );
+  }
+}
+
+class LinkDocUrl {
+  final String src;
+
+  LinkDocUrl({required this.src});
+
+  factory LinkDocUrl.fromJson(Map<String, dynamic> json) {
+    return LinkDocUrl(
+      src: json['src'] ?? '',
     );
   }
 }

@@ -655,6 +655,7 @@ class ProfileScreenWidget extends StatelessWidget {
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
                   context.watch<GetMyWallModel>().showIndex(context, index);
+                  print(index);
                   return Column(
                     children: [
                       Container(
@@ -667,6 +668,7 @@ class ProfileScreenWidget extends StatelessWidget {
                         child: itemsInWall.isEmpty
                             ? SizedBox()
                             : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.all(10),
@@ -848,20 +850,26 @@ class ProfileScreenWidget extends StatelessWidget {
                                             ],
                                           ),
                                         ),
+                                  itemsInWall[index].myText == ''
+                                      ? SizedBox()
+                                      : Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child:
+                                              Text(itemsInWall[index].myText),
+                                        ),
                                   Container(
                                     width: MediaQuery.of(context).size.width,
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 10),
                                     child: ListView.builder(
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       shrinkWrap: true,
                                       itemCount: itemsInWall[index]
                                           .listAttachmentType
                                           .length,
                                       itemBuilder:
                                           (BuildContext context, int i) {
-                                        print(itemsInWall[index]
-                                            .listAttachmentType
-                                            .length);
                                         return Container(
                                           child: Column(
                                             crossAxisAlignment:
@@ -871,6 +879,28 @@ class ProfileScreenWidget extends StatelessWidget {
                                                               .listAttachmentType[
                                                           i] ==
                                                       'photo'
+                                                  ? FadeInImage(
+                                                      fit: BoxFit.cover,
+                                                      image: NetworkImage(
+                                                          itemsInWall[index]
+                                                              .photo
+                                                              .photoUrl),
+                                                      placeholder: const AssetImage(
+                                                          'assets/images/loading.gif'),
+                                                      imageErrorBuilder:
+                                                          (context, error,
+                                                              stackTrace) {
+                                                        print(
+                                                            error); //do something
+                                                        return Image.asset(
+                                                            'assets/images/no-avatar.png');
+                                                      },
+                                                    )
+                                                  : SizedBox(),
+                                              itemsInWall[index]
+                                                              .listAttachmentType[
+                                                          i] ==
+                                                      'doc'
                                                   ? FadeInImage(
                                                       fit: BoxFit.cover,
                                                       image: NetworkImage(
