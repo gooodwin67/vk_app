@@ -6,6 +6,7 @@ import 'package:vk_app/entities/models/get_my_friends_list_model.dart';
 import 'package:vk_app/entities/models/get_user_friends_list_model.dart';
 import 'package:vk_app/entities/models/get_user_info_model.dart';
 import 'package:vk_app/entities/models/get_user_photos_model.dart';
+import 'package:vk_app/entities/models/get_user_wall_model.dart';
 
 class FriendsScreenWidget extends StatelessWidget {
   const FriendsScreenWidget({Key? key}) : super(key: key);
@@ -103,20 +104,25 @@ class FriendsScreenWidget extends StatelessWidget {
                     margin: EdgeInsets.only(bottom: constants.mainPadding),
                     child: InkWell(
                       onTap: () {
-                        context.read<UserPhotosModel>().clearPhotosList().then(
-                            (value) => context
+                        context
+                            .read<UserPhotosModel>()
+                            .clearPhotosList()
+                            .then((value) => context
+                                .read<GetUserWallModel>()
+                                .clearUserWallList())
+                            .then((value) => context
                                 .read<GetUserInfoModel>()
                                 .getUserInfo(context, friendsList[index].id)
-                                .then((value) => context
-                                    .read<UserPhotosModel>()
-                                    .getUserPhotos(
-                                        context, friendsList[index].id, 6, 0))
+                                .then((value) => context.read<UserPhotosModel>().getUserPhotos(
+                                    context, friendsList[index].id, 6, 0))
                                 .then((value) => context
                                     .read<FriendsScreenModel>()
                                     .getUserFriends(
                                         context, friendsList[index].id))
-                                .then((value) => context.go(
-                                    '/profile/my-friends/${friendsList[index].id}')));
+                                .then((value) => context
+                                    .read<GetUserWallModel>()
+                                    .getUserWall(context, 5, 0, friendsList[index].id))
+                                .then((value) => context.go('/profile/my-friends/${friendsList[index].id}')));
                       },
                       child: Row(
                         children: [

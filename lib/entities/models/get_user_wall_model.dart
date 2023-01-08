@@ -7,21 +7,23 @@ import 'package:vk_app/domain/api_client/api_client.dart';
 import 'package:vk_app/entities/get_user_wall_entity.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-class GetMyWallModel extends ChangeNotifier {
+class GetUserWallModel extends ChangeNotifier {
   int allWallCount = 0;
   int _count = 0;
   List itemsInWall = [];
+  int _id = 0;
 
   int currentPage = 1;
   int get count => _count;
 
-  Future getMyWall(BuildContext context, count, offset) async {
+  Future getUserWall(BuildContext context, count, offset, id) async {
     final token = context.read<ApiClient>().token;
+    _id = id;
 
-    var getMyWall = await http.get(Uri.parse(
-        'https://api.vk.com/method/wall.get?v=5.131&access_token=$token&extended=1&offset=$offset&count=$count'));
+    var getUserWall = await http.get(Uri.parse(
+        'https://api.vk.com/method/wall.get?v=5.131&access_token=$token&owner_id=$id&extended=1&offset=$offset&count=$count'));
 
-    var userWallMap = jsonDecode(getMyWall.body);
+    var userWallMap = jsonDecode(getUserWall.body);
 
     var userWallResponse = ResponseWall.fromJson(userWallMap);
 
@@ -60,6 +62,7 @@ class GetMyWallModel extends ChangeNotifier {
       var photoGroup = 'photoGroup';
       var postGroupText = CopyHistory.fromJson(e.copyHistory[0]);
       var attachmentType = 'defaultType';
+      var docExt = 'gif'; // тип документа doc (пока что только gif)
       List listAttachmentType = [];
 
       List attachmentsResponse;
@@ -108,13 +111,16 @@ class GetMyWallModel extends ChangeNotifier {
           attachment = TypeDocResponse.fromJson(e);
 
           var photoPhotoResponse = TypeDocPreview.fromJson(attachment.doc);
+          docExt = photoPhotoResponse.ext;
 
-          var docPhotosResponse =
-              TypePhotoResponse.fromJson(photoPhotoResponse.preview);
+          if (docExt == 'gif') {
+            var docPhotosResponse =
+                TypePhotoResponse.fromJson(photoPhotoResponse.preview);
 
-          var docPhotos = PhotoPhotos.fromJson(docPhotosResponse.photo);
+            var docPhotos = PhotoPhotos.fromJson(docPhotosResponse.photo);
 
-          photoUrl = LinkDocUrl.fromJson(docPhotos.sizes[0]).src;
+            photoUrl = LinkDocUrl.fromJson(docPhotos.sizes[0]).src;
+          }
         }
         return attachment;
       }).toList();
@@ -164,6 +170,7 @@ class GetMyWallModel extends ChangeNotifier {
         photo: PhotoRes(
           photoUrl: photoUrl,
         ),
+        docExt: docExt,
       );
     }).toList());
 
@@ -180,11 +187,15 @@ class GetMyWallModel extends ChangeNotifier {
 
     if (index < _count - 2) {
       offset = 5 * currentPage;
-      getMyWall(context, 5, offset);
+      getUserWall(context, 5, offset, _id);
       currentPage++;
     } else {
       return;
     }
+  }
+
+  clearUserWallList() {
+    itemsInWall = [];
   }
 }
 
@@ -206,6 +217,7 @@ class ItemInWall {
   List listAttachmentType;
   LinkRes link;
   PhotoRes photo;
+  String docExt;
 
   ItemInWall({
     required this.fromId,
@@ -225,6 +237,7 @@ class ItemInWall {
     required this.listAttachmentType,
     required this.link,
     required this.photo,
+    required this.docExt,
   });
 }
 

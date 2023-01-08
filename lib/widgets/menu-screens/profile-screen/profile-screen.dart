@@ -42,7 +42,7 @@ class ProfileScreenWidget extends StatelessWidget {
     String coverUrl = context.watch<GetMyInfoModel>().coverUrl;
 
     List itemsInWall = context.watch<GetMyWallModel>().itemsInWall;
-    print(itemsInWall[0].listAttachmentType);
+    //print(itemsInWall[0].listAttachmentType);
 
     return SafeArea(
       child: Scaffold(
@@ -324,122 +324,132 @@ class ProfileScreenWidget extends StatelessWidget {
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold),
                                         ),
-                                        Container(
-                                          width: 80,
-                                          height: 30,
-                                          child: Stack(
-                                            children: [
-                                              Positioned(
-                                                left: 50,
-                                                child: Container(
-                                                  width: 30,
-                                                  height: 30,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            50),
-                                                    border: Border.all(
-                                                      width: 2,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            50),
-                                                    child: FadeInImage(
-                                                      fit: BoxFit.cover,
-                                                      image: NetworkImage(
-                                                          friendsList[2]
-                                                              .photo
-                                                              .toString()),
-                                                      placeholder: const AssetImage(
-                                                          'assets/images/loading.gif'),
-                                                      imageErrorBuilder:
-                                                          (context, error,
-                                                              stackTrace) {
-                                                        print(
-                                                            error); //do something
-                                                        return Image.asset(
-                                                            'assets/images/no-avatar.png');
-                                                      },
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Positioned(
-                                                left: 25,
-                                                child: Container(
-                                                  width: 30,
-                                                  height: 30,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            50),
-                                                    border: Border.all(
-                                                      width: 2,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            50),
-                                                    child: FadeInImage(
-                                                      fit: BoxFit.cover,
-                                                      image: NetworkImage(
-                                                          friendsList[1]
-                                                              .photo
-                                                              .toString()),
-                                                      placeholder: const AssetImage(
-                                                          'assets/images/loading.gif'),
-                                                      imageErrorBuilder:
-                                                          (context, error,
-                                                              stackTrace) {
-                                                        print(
-                                                            error); //do something
-                                                        return Image.asset(
-                                                            'assets/images/no-avatar.png');
-                                                      },
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 30,
+                                        friendsList.length > 2
+                                            ? Container(
+                                                width: 80,
                                                 height: 30,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(50),
-                                                  border: Border.all(
-                                                    width: 2,
-                                                    color: Colors.white,
-                                                  ),
+                                                child: Stack(
+                                                  children: [
+                                                    Positioned(
+                                                      left: 50,
+                                                      child: Container(
+                                                        width: 30,
+                                                        height: 30,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(50),
+                                                          border: Border.all(
+                                                            width: 2,
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                        child: ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(50),
+                                                          child: FadeInImage(
+                                                            fit: BoxFit.cover,
+                                                            image: NetworkImage(
+                                                                friendsList[2]
+                                                                    .photo
+                                                                    .toString()),
+                                                            placeholder:
+                                                                const AssetImage(
+                                                                    'assets/images/loading.gif'),
+                                                            imageErrorBuilder:
+                                                                (context, error,
+                                                                    stackTrace) {
+                                                              print(
+                                                                  error); //do something
+                                                              return Image.asset(
+                                                                  'assets/images/no-avatar.png');
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Positioned(
+                                                      left: 25,
+                                                      child: Container(
+                                                        width: 30,
+                                                        height: 30,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(50),
+                                                          border: Border.all(
+                                                            width: 2,
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                        child: ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(50),
+                                                          child: FadeInImage(
+                                                            fit: BoxFit.cover,
+                                                            image: NetworkImage(
+                                                                friendsList[1]
+                                                                    .photo
+                                                                    .toString()),
+                                                            placeholder:
+                                                                const AssetImage(
+                                                                    'assets/images/loading.gif'),
+                                                            imageErrorBuilder:
+                                                                (context, error,
+                                                                    stackTrace) {
+                                                              print(
+                                                                  error); //do something
+                                                              return Image.asset(
+                                                                  'assets/images/no-avatar.png');
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      width: 30,
+                                                      height: 30,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(50),
+                                                        border: Border.all(
+                                                          width: 2,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(50),
+                                                        child: FadeInImage(
+                                                          fit: BoxFit.cover,
+                                                          image: NetworkImage(
+                                                              friendsList[0]
+                                                                  .photo
+                                                                  .toString()),
+                                                          placeholder:
+                                                              const AssetImage(
+                                                                  'assets/images/loading.gif'),
+                                                          imageErrorBuilder:
+                                                              (context, error,
+                                                                  stackTrace) {
+                                                            print(
+                                                                error); //do something
+                                                            return Image.asset(
+                                                                'assets/images/no-avatar.png');
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(50),
-                                                  child: FadeInImage(
-                                                    fit: BoxFit.cover,
-                                                    image: NetworkImage(
-                                                        friendsList[0]
-                                                            .photo
-                                                            .toString()),
-                                                    placeholder: const AssetImage(
-                                                        'assets/images/loading.gif'),
-                                                    imageErrorBuilder: (context,
-                                                        error, stackTrace) {
-                                                      print(
-                                                          error); //do something
-                                                      return Image.asset(
-                                                          'assets/images/no-avatar.png');
-                                                    },
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        )
+                                              )
+                                            : SizedBox(),
                                       ],
                                     ),
                                   ),
@@ -655,7 +665,7 @@ class ProfileScreenWidget extends StatelessWidget {
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
                   context.watch<GetMyWallModel>().showIndex(context, index);
-                  print(index);
+                  //print(index);
                   return Column(
                     children: [
                       Container(

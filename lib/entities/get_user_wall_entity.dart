@@ -194,13 +194,15 @@ class TypeDocResponse {
 }
 
 class TypeDocPreview {
+  final String ext;
   final Map<String, dynamic> preview;
 
-  TypeDocPreview({required this.preview});
+  TypeDocPreview({required this.ext, required this.preview});
 
   factory TypeDocPreview.fromJson(Map<String, dynamic> json) {
     return TypeDocPreview(
-      preview: json['preview'],
+      ext: json['ext'],
+      preview: json['preview'] ?? {'preview': ''},
     );
   }
 }
