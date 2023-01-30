@@ -114,13 +114,23 @@ class ProfileFriendsScreenWidget extends StatelessWidget {
                                     .read<UserPhotosModel>()
                                     .getUserPhotos(
                                         context, friendsList[index].id, 6, 0))
+                                .then((value) {
+                                  if (context
+                                      .read<GetUserInfoModel>()
+                                      .userInfo
+                                      .canAccess) {
+                                    context
+                                        .read<GetUserWallModel>()
+                                        .getUserWall(context, 5, 0,
+                                            friendsList[index].id);
+                                  }
+                                })
+                                .then((value) => context.go(
+                                    '/profile/my-friends/${friendsList[index].id}'))
                                 .then((value) => context
-                                    .read<GetUserWallModel>()
-                                    .getUserWall(
-                                        context, 5, 0, friendsList[index].id))
-                                .then((value) =>
-                                    context.go('/profile/my-friends/${friendsList[index].id}'))
-                                .then((value) => context.read<FriendsScreenModel>().getUserFriends(context, friendsList[index].id)));
+                                    .read<FriendsScreenModel>()
+                                    .getUserFriends(
+                                        context, friendsList[index].id)));
                       },
                       child: friendsList.length < 1
                           ? LinearProgressIndicator(

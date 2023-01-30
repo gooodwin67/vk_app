@@ -872,6 +872,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 10),
                                     child: ListView.builder(
+                                      padding: EdgeInsets.zero,
                                       physics:
                                           const NeverScrollableScrollPhysics(),
                                       shrinkWrap: true,

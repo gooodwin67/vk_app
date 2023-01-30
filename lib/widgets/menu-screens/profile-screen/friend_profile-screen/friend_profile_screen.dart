@@ -47,7 +47,6 @@ class FriendProfileScreenWidget extends StatelessWidget {
     String coverUrl = context.watch<GetUserInfoModel>().coverUrl;
 
     List itemsInWall = context.watch<GetUserWallModel>().itemsInWall;
-    //print(itemsInWall[0].listAttachmentType);
 
     return SafeArea(
       child: Scaffold(
@@ -878,17 +877,18 @@ class FriendProfileScreenWidget extends StatelessWidget {
                                     width: MediaQuery.of(context).size.width,
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 10),
-                                    child: ListView.builder(
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      shrinkWrap: true,
-                                      itemCount: itemsInWall[index]
-                                          .listAttachmentType
-                                          .length,
-                                      itemBuilder:
-                                          (BuildContext context, int i) {
-                                        return Container(
-                                          child: Column(
+                                    child: Container(
+                                      child: ListView.builder(
+                                        padding: EdgeInsets.zero,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemCount: itemsInWall[index]
+                                            .listAttachmentType
+                                            .length,
+                                        itemBuilder:
+                                            (BuildContext context, int i) {
+                                          return Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
@@ -1036,9 +1036,9 @@ class FriendProfileScreenWidget extends StatelessWidget {
                                                     )
                                                   : SizedBox(),
                                             ],
-                                          ),
-                                        );
-                                      },
+                                          );
+                                        },
+                                      ),
                                     ),
                                   ),
                                   Padding(
