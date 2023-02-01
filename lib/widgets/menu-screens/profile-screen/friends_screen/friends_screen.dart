@@ -14,7 +14,7 @@ class FriendsScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List friendsList =
-        context.watch<MyFriendsScreenModel>().userFriendsListInfo;
+        context.watch<MyFriendsScreenModel>().userFriendsListInfoAll;
     int count = friendsList.length;
 
     return Scaffold(
