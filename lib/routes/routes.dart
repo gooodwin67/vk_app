@@ -39,9 +39,32 @@ final _router = GoRouter(
         GoRoute(
           path: '/search',
           builder: (BuildContext context, GoRouterState state) {
-            print('aaa');
             return const SearchScreenWidget();
           },
+          routes: [
+            GoRoute(
+              path: ':userId',
+              builder: (BuildContext context, GoRouterState state) {
+                return FriendProfileScreenWidget(
+                  userId: state.params['userId'],
+                );
+              },
+              routes: [
+                GoRoute(
+                  path: 'photos',
+                  builder: (BuildContext context, GoRouterState state) {
+                    return FriendPhotosScreenWidget();
+                  },
+                ),
+                GoRoute(
+                  path: 'friends',
+                  builder: (BuildContext context, GoRouterState state) {
+                    return ProfileFriendsScreenWidget();
+                  },
+                ),
+              ],
+            ),
+          ],
         ),
         GoRoute(
           path: '/messages',

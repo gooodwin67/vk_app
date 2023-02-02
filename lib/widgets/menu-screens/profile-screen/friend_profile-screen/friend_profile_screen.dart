@@ -35,7 +35,6 @@ class FriendProfileScreenWidget extends StatelessWidget {
     int online = context.watch<GetUserInfoModel>().userInfo.online;
     int online_mobile =
         context.watch<GetUserInfoModel>().userInfo.online_mobile;
-    //print(online_mobile);
 
     List listPhotos = context.watch<UserPhotosModel>().photos;
 
@@ -47,6 +46,11 @@ class FriendProfileScreenWidget extends StatelessWidget {
     String coverUrl = context.watch<GetUserInfoModel>().coverUrl;
 
     List itemsInWall = context.watch<GetUserWallModel>().itemsInWall;
+
+    String location = GoRouter.of(context).location;
+    if (location.characters.last == '/') {
+      location = location.substring(0, location.length - 1);
+    }
 
     return SafeArea(
       child: Scaffold(
@@ -312,8 +316,7 @@ class FriendProfileScreenWidget extends StatelessWidget {
                                     context
                                         .read<FriendsScreenModel>()
                                         .clearSerchField();
-                                    context.go(
-                                        '/profile/my-friends/${userId}/friends');
+                                    context.go('$location/friends');
                                   },
                                   child: Container(
                                     padding: EdgeInsets.symmetric(
@@ -597,7 +600,7 @@ class FriendProfileScreenWidget extends StatelessWidget {
                                                       .getUserPhotos(context,
                                                           userId, 200, 0)
                                                       .then((value) => context.go(
-                                                          '/profile/my-friends/${userId}/photos')));
+                                                          '$location/photos')));
                                             },
                                             child: Row(
                                               children: [

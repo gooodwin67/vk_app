@@ -15,6 +15,14 @@ class ProfileFriendsScreenWidget extends StatelessWidget {
     List friendsList = context.watch<FriendsScreenModel>().userFriendsListInfo;
     int count = friendsList.length;
 
+    //print(GoRouter.of(context).location);
+
+    String linkString = '';
+
+    GoRouter.of(context).location.contains('search')
+        ? linkString = '/search/'
+        : linkString = '/profile/my-friends/';
+
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -125,8 +133,8 @@ class ProfileFriendsScreenWidget extends StatelessWidget {
                                             friendsList[index].id);
                                   }
                                 })
-                                .then((value) => context.go(
-                                    '/profile/my-friends/${friendsList[index].id}'))
+                                .then((value) => context
+                                    .go('$linkString${friendsList[index].id}'))
                                 .then((value) => context
                                     .read<FriendsScreenModel>()
                                     .getUserFriends(
