@@ -31,24 +31,51 @@ class SearchScreenWidget extends StatelessWidget {
                 automaticallyImplyLeading: false,
                 titleSpacing: 0,
                 floating: false,
-                title: TextField(
-                  onSubmitted: (value) {
-                    context.read<SearchScreenModel>().clearUsersList();
-                    context
-                        .read<SearchScreenModel>()
-                        .getUsersSearch(context, value);
-                  },
-                  decoration: InputDecoration(
-                    label: Text('Поиск'),
-                    floatingLabelBehavior: FloatingLabelBehavior.never,
-                    prefixIcon: Icon(Icons.search),
-                    filled: true,
-                    fillColor: constants.backColor,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none,
+                title: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        onSubmitted: (value) {
+                          context.read<SearchScreenModel>().clearUsersList();
+                          context
+                              .read<SearchScreenModel>()
+                              .getUsersSearch(context, value);
+                        },
+                        decoration: InputDecoration(
+                          label: Text('Поиск'),
+                          floatingLabelBehavior: FloatingLabelBehavior.never,
+                          prefixIcon: Icon(Icons.search),
+                          filled: true,
+                          fillColor: constants.backColor,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                    SizedBox(width: 10),
+                    InkWell(
+                      child: Icon(Icons.format_align_left_sharp),
+                      onTap: () => showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text('Фильтр'),
+                            content: Text('Форма'),
+                            actions: [
+                              TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text('Сохранить')),
+                              TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text('Отмена')),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
               SliverList(
