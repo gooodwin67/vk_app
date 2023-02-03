@@ -14,6 +14,7 @@ class SearchScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List usersList = context.watch<SearchScreenModel>().userList;
+    String searchValue = '';
 
     return Scaffold(
       body: SafeArea(
@@ -36,6 +37,7 @@ class SearchScreenWidget extends StatelessWidget {
                     Expanded(
                       child: TextField(
                         onSubmitted: (value) {
+                          searchValue = value;
                           context.read<SearchScreenModel>().clearUsersList();
                           context
                               .read<SearchScreenModel>()
@@ -61,15 +63,108 @@ class SearchScreenWidget extends StatelessWidget {
                         context: context,
                         builder: (context) {
                           return AlertDialog(
-                            title: Text('Фильтр'),
-                            content: Text('Форма'),
+                            contentPadding: EdgeInsets.all(10),
+                            title: Align(
+                                alignment: Alignment.center,
+                                child: Text('Фильтр')),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: constants.backColor,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Возраст'),
+                                      SizedBox(height: 5),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(context
+                                                .watch<SearchScreenModel>()
+                                                .curentFilterAge
+                                                .start
+                                                .round()
+                                                .toString()),
+                                            Text(context
+                                                .watch<SearchScreenModel>()
+                                                .curentFilterAge
+                                                .end
+                                                .round()
+                                                .toString())
+                                          ],
+                                        ),
+                                      ),
+                                      RangeSlider(
+                                        values: context
+                                            .watch<SearchScreenModel>()
+                                            .curentFilterAge,
+                                        max: 100,
+                                        divisions: 100,
+                                        labels: RangeLabels(
+                                          context
+                                              .watch<SearchScreenModel>()
+                                              .curentFilterAge
+                                              .start
+                                              .round()
+                                              .toString(),
+                                          context
+                                              .watch<SearchScreenModel>()
+                                              .curentFilterAge
+                                              .end
+                                              .round()
+                                              .toString(),
+                                        ),
+                                        onChanged: (RangeValues value) {
+                                          context
+                                              .read<SearchScreenModel>()
+                                              .changeFilterAge(value);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                             actions: [
                               TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text('Сохранить')),
+                                  onPressed: () {
+                                    context
+                                        .read<SearchScreenModel>()
+                                        .clearUsersList();
+                                    context
+                                        .read<SearchScreenModel>()
+                                        .saveFilter();
+                                    context
+                                        .read<SearchScreenModel>()
+                                        .getUsersSearch(context, searchValue);
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('Сохранить фильтр')),
                               TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text('Отмена')),
+                                  onPressed: () {
+                                    context
+                                        .read<SearchScreenModel>()
+                                        .clearUsersList();
+                                    context
+                                        .read<SearchScreenModel>()
+                                        .resetFilter();
+                                    context
+                                        .read<SearchScreenModel>()
+                                        .getUsersSearch(context, searchValue);
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('Сбросить фильтр')),
                             ],
                           );
                         },
@@ -216,10 +311,20 @@ class SearchScreenWidget extends StatelessWidget {
                             SizedBox(width: 10),
                             Container(
                               width: MediaQuery.of(context).size.width / 1.7,
-                              child: Text(
-                                '${usersList[index].firstName} ${usersList[index].lastName}',
-                                style: TextStyle(fontSize: 17),
-                                overflow: TextOverflow.ellipsis,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${usersList[index].firstName} ${usersList[index].lastName}',
+                                    style: TextStyle(fontSize: 17),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  SizedBox(height: 5),
+                                  usersList[index].bdate == 0
+                                      ? SizedBox()
+                                      : Text(usersList[index].bdate.toString(),
+                                          style: TextStyle(fontSize: 12)),
+                                ],
                               ),
                             ),
                             Spacer(),
