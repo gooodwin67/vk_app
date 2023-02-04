@@ -14,11 +14,15 @@ class SearchScreenModel extends ChangeNotifier {
   int _offset = 0;
   String _age_from = '';
   String _age_to = '';
+  int _sex = 0;
+  int _status = 0;
 
   RangeValues _curentFilterAge = RangeValues(0, 100);
 
   List _userList = [];
   List get userList => _userList;
+  int get sex => _sex;
+  int get status => _status;
   RangeValues get curentFilterAge => _curentFilterAge;
 
   Future getUsersSearch(BuildContext context, text) async {
@@ -26,7 +30,7 @@ class SearchScreenModel extends ChangeNotifier {
     if (text != '') _curentValue = text;
 
     var getUsers = await http.get(Uri.parse(
-        'https://api.vk.com/method/users.search?v=5.131&access_token=${token}&q=$_curentValue&fields=photo_100,online,bdate&offset=$_offset&age_from=$_age_from&age_to=$_age_to'));
+        'https://api.vk.com/method/users.search?v=5.131&access_token=${token}&q=$_curentValue&fields=photo_100,online,bdate&offset=$_offset&age_from=$_age_from&age_to=$_age_to&sex=$_sex&status=$_status'));
 
     var usersMap = jsonDecode(getUsers.body);
 
@@ -48,23 +52,37 @@ class SearchScreenModel extends ChangeNotifier {
 
   changeFilterAge(value) {
     _curentFilterAge = value;
+    notifyListeners();
+  }
 
+  changeFilterSex(value) {
+    _sex = value;
+    notifyListeners();
+  }
+
+  changeFilterStatus(value) {
+    _status = value;
     notifyListeners();
   }
 
   saveFilter() {
     _age_from = _curentFilterAge.start.toString();
     _age_to = _curentFilterAge.end.toString();
+    notifyListeners();
   }
 
   resetFilter() {
     _age_from = '';
     _age_to = '';
+    _sex = 0;
+    _status = 0;
     _curentFilterAge = RangeValues(0, 100);
+    notifyListeners();
   }
 
   clearUsersList() {
     _userList = [];
     _offset = 0;
+    notifyListeners();
   }
 }

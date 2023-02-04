@@ -63,108 +63,260 @@ class SearchScreenWidget extends StatelessWidget {
                         context: context,
                         builder: (context) {
                           return AlertDialog(
-                            contentPadding: EdgeInsets.all(10),
-                            title: Align(
-                                alignment: Alignment.center,
-                                child: Text('Фильтр')),
+                            insetPadding: EdgeInsets.all(5),
+                            contentPadding: EdgeInsets.all(15),
+                            titlePadding:
+                                EdgeInsets.all(15).copyWith(bottom: 0),
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Фильтры',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                TextButton(
+                                    onPressed: () {
+                                      context
+                                          .read<SearchScreenModel>()
+                                          .clearUsersList();
+                                      context
+                                          .read<SearchScreenModel>()
+                                          .resetFilter();
+                                      context
+                                          .read<SearchScreenModel>()
+                                          .getUsersSearch(context, searchValue);
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text('Сбросить фильтр',
+                                        style: TextStyle(
+                                            color: constants.secondColor
+                                                .withAlpha(200)))),
+                              ],
+                            ),
                             content: Column(
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 10),
-                                  decoration: BoxDecoration(
-                                    color: constants.backColor,
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text('Возраст'),
-                                      SizedBox(height: 5),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 16),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Город'),
+                                    SizedBox(height: 10),
+                                    InkWell(
+                                      onTap: (() => showDialog(
+                                          context: context,
+                                          builder: ((context) {
+                                            return AlertDialog(
+                                              title: Text('title'),
+                                            );
+                                          }))),
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20, vertical: 10),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: constants.backColor,
+                                        ),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(context
-                                                .watch<SearchScreenModel>()
-                                                .curentFilterAge
-                                                .start
-                                                .round()
-                                                .toString()),
-                                            Text(context
-                                                .watch<SearchScreenModel>()
-                                                .curentFilterAge
-                                                .end
-                                                .round()
-                                                .toString())
+                                            Text('Любой'),
+                                            Icon(Icons
+                                                .keyboard_arrow_down_rounded),
                                           ],
                                         ),
                                       ),
-                                      RangeSlider(
-                                        values: context
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 20),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Пол'),
+                                    SizedBox(height: 10),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 10),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: constants.backColor,
+                                      ),
+                                      child: DefaultTabController(
+                                        initialIndex: context
                                             .watch<SearchScreenModel>()
-                                            .curentFilterAge,
-                                        max: 100,
-                                        divisions: 100,
-                                        labels: RangeLabels(
-                                          context
-                                              .watch<SearchScreenModel>()
-                                              .curentFilterAge
-                                              .start
-                                              .round()
-                                              .toString(),
-                                          context
-                                              .watch<SearchScreenModel>()
-                                              .curentFilterAge
-                                              .end
-                                              .round()
-                                              .toString(),
+                                            .sex,
+                                        length: 3,
+                                        child: TabBar(
+                                          onTap: (value) {
+                                            context
+                                                .read<SearchScreenModel>()
+                                                .changeFilterSex(value);
+                                          },
+                                          indicator: BoxDecoration(
+                                            border: Border.all(
+                                                color: Color.fromARGB(
+                                                    255, 133, 133, 133)),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.white,
+                                          ),
+                                          labelColor: Colors.black,
+                                          labelPadding: EdgeInsets.symmetric(
+                                              vertical: 10, horizontal: 15),
+                                          tabs: [
+                                            Text('Любой'),
+                                            Text('Женский'),
+                                            Text('Мужской'),
+                                          ],
                                         ),
-                                        onChanged: (RangeValues value) {
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 20),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Возраст'),
+                                    SizedBox(height: 10),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 10),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: constants.backColor,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(height: 5),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(context
+                                                    .watch<SearchScreenModel>()
+                                                    .curentFilterAge
+                                                    .start
+                                                    .round()
+                                                    .toString()),
+                                                Text(context
+                                                    .watch<SearchScreenModel>()
+                                                    .curentFilterAge
+                                                    .end
+                                                    .round()
+                                                    .toString())
+                                              ],
+                                            ),
+                                          ),
+                                          RangeSlider(
+                                            values: context
+                                                .watch<SearchScreenModel>()
+                                                .curentFilterAge,
+                                            max: 100,
+                                            divisions: 100,
+                                            labels: RangeLabels(
+                                              context
+                                                  .watch<SearchScreenModel>()
+                                                  .curentFilterAge
+                                                  .start
+                                                  .round()
+                                                  .toString(),
+                                              context
+                                                  .watch<SearchScreenModel>()
+                                                  .curentFilterAge
+                                                  .end
+                                                  .round()
+                                                  .toString(),
+                                            ),
+                                            onChanged: (RangeValues value) {
+                                              context
+                                                  .read<SearchScreenModel>()
+                                                  .changeFilterAge(value);
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 20),
+                                Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Семейное положение'),
+                                      SizedBox(height: 5),
+                                      DropdownButton(
+                                        value: context
+                                            .watch<SearchScreenModel>()
+                                            .status,
+                                        items: const [
+                                          DropdownMenuItem(
+                                              child: Text('Любое'), value: 0),
+                                          DropdownMenuItem(
+                                              child:
+                                                  Text('не женат (не замужем)'),
+                                              value: 1),
+                                          DropdownMenuItem(
+                                              child: Text('встречается'),
+                                              value: 2),
+                                          DropdownMenuItem(
+                                              child: Text('помолвлен(-а)'),
+                                              value: 3),
+                                          DropdownMenuItem(
+                                              child: Text('женат (замужем)'),
+                                              value: 4),
+                                          DropdownMenuItem(
+                                              child: Text('всё сложно'),
+                                              value: 5),
+                                          DropdownMenuItem(
+                                              child: Text('в активном поиске'),
+                                              value: 6),
+                                          DropdownMenuItem(
+                                              child: Text('влюблен(-а)'),
+                                              value: 7),
+                                          DropdownMenuItem(
+                                              child:
+                                                  Text('в гражданском браке'),
+                                              value: 8),
+                                        ],
+                                        onChanged: (value) {
                                           context
                                               .read<SearchScreenModel>()
-                                              .changeFilterAge(value);
+                                              .changeFilterStatus(value);
                                         },
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                                      )
+                                    ]),
                               ],
                             ),
                             actions: [
-                              TextButton(
-                                  onPressed: () {
-                                    context
-                                        .read<SearchScreenModel>()
-                                        .clearUsersList();
-                                    context
-                                        .read<SearchScreenModel>()
-                                        .saveFilter();
-                                    context
-                                        .read<SearchScreenModel>()
-                                        .getUsersSearch(context, searchValue);
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text('Сохранить фильтр')),
-                              TextButton(
-                                  onPressed: () {
-                                    context
-                                        .read<SearchScreenModel>()
-                                        .clearUsersList();
-                                    context
-                                        .read<SearchScreenModel>()
-                                        .resetFilter();
-                                    context
-                                        .read<SearchScreenModel>()
-                                        .getUsersSearch(context, searchValue);
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text('Сбросить фильтр')),
+                              Container(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      context
+                                          .read<SearchScreenModel>()
+                                          .clearUsersList();
+                                      context
+                                          .read<SearchScreenModel>()
+                                          .saveFilter();
+                                      context
+                                          .read<SearchScreenModel>()
+                                          .getUsersSearch(context, searchValue);
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text('Сохранить фильтр')),
+                              ),
                             ],
                           );
                         },
