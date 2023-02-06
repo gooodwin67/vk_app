@@ -104,13 +104,77 @@ class SearchScreenWidget extends StatelessWidget {
                                     Text('Город'),
                                     SizedBox(height: 10),
                                     InkWell(
-                                      onTap: (() => showDialog(
-                                          context: context,
-                                          builder: ((context) {
-                                            return AlertDialog(
-                                              title: Text('title'),
-                                            );
-                                          }))),
+                                      onTap: (() async {
+                                        await context
+                                            .read<SearchScreenModel>()
+                                            .getCitiesSearch(context, '', 0);
+                                        showDialog(
+                                            context: context,
+                                            builder: ((context) => AlertDialog(
+                                                  title: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text('Город'),
+                                                      SizedBox(height: 15),
+                                                      InkWell(
+                                                        onTap: () {
+                                                          context
+                                                              .read<
+                                                                  SearchScreenModel>()
+                                                              .activeCityInSearch(
+                                                                  '');
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: const Text(
+                                                          'Любой',
+                                                          style: TextStyle(
+                                                            fontSize: 17,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  contentPadding:
+                                                      EdgeInsets.all(22)
+                                                          .copyWith(top: 0),
+                                                  content: ListView.builder(
+                                                      itemCount: context
+                                                          .read<
+                                                              SearchScreenModel>()
+                                                          .citiesCount,
+                                                      itemBuilder:
+                                                          (BuildContext context,
+                                                              int index) {
+                                                        return InkWell(
+                                                          onTap: () {
+                                                            context
+                                                                .read<
+                                                                    SearchScreenModel>()
+                                                                .activeCityInSearch(context
+                                                                    .read<
+                                                                        SearchScreenModel>()
+                                                                    .citiesListInfo[
+                                                                        index]
+                                                                    .title);
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: Text(context
+                                                              .read<
+                                                                  SearchScreenModel>()
+                                                              .citiesListInfo[
+                                                                  index]
+                                                              .title),
+                                                        );
+                                                      }),
+                                                )));
+                                      }),
                                       child: Container(
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 20, vertical: 10),
@@ -123,7 +187,15 @@ class SearchScreenWidget extends StatelessWidget {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text('Любой'),
+                                            Text(context
+                                                        .watch<
+                                                            SearchScreenModel>()
+                                                        .currentCity ==
+                                                    ''
+                                                ? 'Любой'
+                                                : context
+                                                    .watch<SearchScreenModel>()
+                                                    .currentCity),
                                             Icon(Icons
                                                 .keyboard_arrow_down_rounded),
                                           ],
