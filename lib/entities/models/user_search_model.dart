@@ -28,14 +28,19 @@ class SearchScreenModel extends ChangeNotifier {
   List get userList => _userList;
   int get sex => _sex;
   int get status => _status;
+  int get count => _count;
   RangeValues get curentFilterAge => _curentFilterAge;
 
   int get citiesCount => _citiesCount;
   List get citiesListInfo => _citiesListInfo;
   String get currentCity => _currentCity;
+  int get currentCityId => _currentCityId;
 
   Future getCitiesSearch(BuildContext context, text, all) async {
+    _citiesListInfo = [];
+    _citiesCount = 0;
     final token = context.read<ApiClient>().token;
+    if (text == '') all = 0;
     var getCities = await http.get(
       Uri.parse(
           'https://api.vk.com/method/database.getCities?v=5.131&access_token=${token}&country_id=1&q=$text&need_all=$all'),
@@ -51,17 +56,17 @@ class SearchScreenModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  activeCityInSearch(city) {
+  activeCityInSearch(id, city) {
+    _currentCityId = id;
     _currentCity = city;
     notifyListeners();
   }
 
-  Future getUsersSearch(BuildContext context, text) async {
+  Future getUsersSearch(BuildContext context) async {
     final token = context.read<ApiClient>().token;
-    if (text != '') _curentValue = text;
 
     var getUsers = await http.get(Uri.parse(
-        'https://api.vk.com/method/users.search?v=5.131&access_token=${token}&q=$_curentValue&fields=photo_100,online,bdate&offset=$_offset&age_from=$_age_from&age_to=$_age_to&sex=$_sex&status=$_status&hometown=$currentCity'));
+        'https://api.vk.com/method/users.search?v=5.131&access_token=${token}&q=$_curentValue&fields=photo_100,online,bdate&offset=$_offset&age_from=$_age_from&age_to=$_age_to&sex=$_sex&status=$_status&city=$_currentCityId'));
 
     var usersMap = jsonDecode(getUsers.body);
 
@@ -71,12 +76,18 @@ class SearchScreenModel extends ChangeNotifier {
 
     _userListInfo =
         usersList.items.map((e) => UsersListInfo.fromJson(e)).toList();
-
     userList.addAll(_userListInfo);
-
     _count = usersList.count;
+    print(_count);
+    print('$_offset ----- ------ ---$_count');
 
-    if (_offset + 20 < _count) _offset += 20;
+    if (_offset + 3 < _count)
+      _offset += 20;
+    else if (_offset < _count) {
+      _offset += _count - _offset;
+    } else {
+      return;
+    }
 
     notifyListeners();
   }
@@ -96,9 +107,18 @@ class SearchScreenModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  saveTextFilter(text) {
+    _curentValue = text;
+  }
+
   saveFilter() {
-    _age_from = _curentFilterAge.start.toString();
-    _age_to = _curentFilterAge.end.toString();
+    _curentFilterAge.start != 0.0
+        ? _age_from = _curentFilterAge.start.toString()
+        : _age_from = '';
+    _curentFilterAge.end != 100.0
+        ? _age_to = _curentFilterAge.start.toString()
+        : _age_to = '';
+
     notifyListeners();
   }
 
@@ -108,6 +128,8 @@ class SearchScreenModel extends ChangeNotifier {
     _sex = 0;
     _status = 0;
     _curentFilterAge = RangeValues(0, 100);
+    _currentCityId = 0;
+    _currentCity = '';
     notifyListeners();
   }
 

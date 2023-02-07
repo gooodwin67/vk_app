@@ -27,16 +27,19 @@ class CitiesList {
 class CitiesListInfo {
   final int id;
   final String title;
+  final String area;
 
   CitiesListInfo({
     required this.id,
     required this.title,
+    required this.area,
   });
 
   factory CitiesListInfo.fromJson(Map<String, dynamic> json) {
     return CitiesListInfo(
       id: json['id'],
       title: json['title'],
+      area: json['area'],
     );
   }
 }
