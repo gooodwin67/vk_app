@@ -78,8 +78,6 @@ class SearchScreenModel extends ChangeNotifier {
         usersList.items.map((e) => UsersListInfo.fromJson(e)).toList();
     userList.addAll(_userListInfo);
     _count = usersList.count;
-    print(_count);
-    print('$_offset ----- ------ ---$_count');
 
     if (_offset + 3 < _count)
       _offset += 20;
@@ -123,6 +121,7 @@ class SearchScreenModel extends ChangeNotifier {
   }
 
   resetFilter() {
+    _curentValue = '';
     _age_from = '';
     _age_to = '';
     _sex = 0;
