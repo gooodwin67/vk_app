@@ -20,7 +20,7 @@ class GetMyInfoModel extends ChangeNotifier {
     final token = context.read<ApiClient>().token;
 
     var getUserInfo = await http.get(Uri.parse(
-        'https://api.vk.com/method/users.get?v=5.131&access_token=$token&fields=city,photo_100,online,cover'));
+        'https://api.vk.com/method/users.get?v=5.131&access_token=$token&fields=city,photo_100,online,cover,domain'));
 
     var userInfoMap = jsonDecode(getUserInfo.body);
     var userInfoResponse = ResponseInfo.fromJson(userInfoMap);

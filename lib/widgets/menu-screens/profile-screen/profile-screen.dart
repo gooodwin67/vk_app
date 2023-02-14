@@ -119,57 +119,114 @@ class ProfileScreenWidget extends StatelessWidget {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      "${userInfo.firstName} ${userInfo.secondName}",
-                                      style: const TextStyle(
-                                        fontSize: 23,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    SizedBox(height: 10),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        city != ''
-                                            ? Row(
-                                                children: [
-                                                  Icon(
-                                                    Icons.location_on_outlined,
-                                                    size: 20,
-                                                    color: constants.secondColor
-                                                        .withAlpha(150),
-                                                  ),
-                                                  SizedBox(width: 3),
-                                                  Text(
-                                                    city.toString(),
-                                                    style: TextStyle(
-                                                        color: constants
-                                                            .secondColor
-                                                            .withAlpha(180)),
-                                                  ),
-                                                ],
-                                              )
-                                            : const Text(''),
-                                        SizedBox(width: 10),
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Icons.info_outline,
-                                              size: 20,
-                                              color: constants.secondColor
-                                                  .withAlpha(150),
+                                    Material(
+                                      child: InkWell(
+                                        onTap: () {
+                                          showModalBottomSheet(
+                                            isScrollControlled: true,
+                                            shape: const RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.vertical(
+                                                      top: Radius.circular(10)),
                                             ),
-                                            SizedBox(width: 3),
+                                            context: context,
+                                            builder: (context) => Padding(
+                                              padding:
+                                                  const EdgeInsets.all(10.0),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      InkWell(
+                                                        onTap: () =>
+                                                            Navigator.pop(
+                                                                context),
+                                                        child: const Icon(
+                                                            Icons.close),
+                                                      ),
+                                                      const SizedBox(width: 25),
+                                                      const Text('Подробнее'),
+                                                    ],
+                                                  ),
+                                                  SizedBox(height: 20),
+                                                  Row(
+                                                    children: [
+                                                      Icon(Icons
+                                                          .alternate_email_outlined),
+                                                      SizedBox(width: 15),
+                                                      Text(userInfo.domain),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: Column(
+                                          children: [
                                             Text(
-                                              'Подробнее',
-                                              style: TextStyle(
-                                                  color: constants.secondColor
-                                                      .withAlpha(180)),
+                                              "${userInfo.firstName} ${userInfo.secondName}",
+                                              style: const TextStyle(
+                                                fontSize: 23,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                            SizedBox(height: 10),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                city != ''
+                                                    ? Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons
+                                                                .location_on_outlined,
+                                                            size: 20,
+                                                            color: constants
+                                                                .secondColor
+                                                                .withAlpha(150),
+                                                          ),
+                                                          SizedBox(width: 3),
+                                                          Text(
+                                                            city.toString(),
+                                                            style: TextStyle(
+                                                                color: constants
+                                                                    .secondColor
+                                                                    .withAlpha(
+                                                                        180)),
+                                                          ),
+                                                        ],
+                                                      )
+                                                    : const Text(''),
+                                                SizedBox(width: 10),
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.info_outline,
+                                                      size: 20,
+                                                      color: constants
+                                                          .secondColor
+                                                          .withAlpha(150),
+                                                    ),
+                                                    SizedBox(width: 3),
+                                                    Text(
+                                                      'Подробнее',
+                                                      style: TextStyle(
+                                                          color: constants
+                                                              .secondColor
+                                                              .withAlpha(180)),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
-                                      ],
+                                      ),
                                     ),
                                     SizedBox(height: 10),
                                     deactivated == '0'

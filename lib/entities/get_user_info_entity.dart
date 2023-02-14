@@ -17,6 +17,7 @@ class UserInfo {
   final String firstName;
   final String secondName;
   final String photo;
+  final String domain;
   Map<String, dynamic> cover;
   Map<String, dynamic> city;
   int online;
@@ -29,6 +30,7 @@ class UserInfo {
     required this.firstName,
     required this.secondName,
     required this.photo,
+    required this.domain,
     required this.cover,
     required this.city,
     required this.online,
@@ -43,6 +45,7 @@ class UserInfo {
       firstName: json['first_name'],
       secondName: json['last_name'],
       photo: json['photo_100'],
+      domain: json['domain'] ?? '',
       cover: json['cover'] ?? {},
       city: json['city'] ?? {},
       online: json['online'] ?? 0,
