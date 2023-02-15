@@ -144,11 +144,16 @@ class ProfileScreenWidget extends StatelessWidget {
                                                         onTap: () =>
                                                             Navigator.pop(
                                                                 context),
-                                                        child: const Icon(
-                                                            Icons.close),
+                                                        child: Icon(Icons.close,
+                                                            color: constants
+                                                                .mainColor),
                                                       ),
-                                                      const SizedBox(width: 25),
-                                                      const Text('Подробнее'),
+                                                      const SizedBox(width: 15),
+                                                      const Text(
+                                                        'Подробнее',
+                                                        style: TextStyle(
+                                                            fontSize: 20),
+                                                      ),
                                                     ],
                                                   ),
                                                   SizedBox(height: 20),
@@ -159,7 +164,52 @@ class ProfileScreenWidget extends StatelessWidget {
                                                       SizedBox(width: 15),
                                                       Text(userInfo.domain),
                                                     ],
-                                                  )
+                                                  ),
+                                                  SizedBox(height: 15),
+                                                  Divider(),
+                                                  SizedBox(height: 15),
+                                                  Row(
+                                                    children: [
+                                                      Icon(Icons
+                                                          .alternate_email_outlined),
+                                                      SizedBox(width: 15),
+                                                      Text(
+                                                          'День рождения: ${userInfo.bdate}'),
+                                                    ],
+                                                  ),
+                                                  SizedBox(height: 5),
+                                                  Row(
+                                                    children: [
+                                                      Icon(Icons
+                                                          .alternate_email_outlined),
+                                                      SizedBox(width: 15),
+                                                      Text(userInfo
+                                                          .relationString
+                                                          .toString()),
+                                                    ],
+                                                  ),
+                                                  SizedBox(height: 5),
+                                                  Row(
+                                                    children: [
+                                                      Icon(Icons
+                                                          .alternate_email_outlined),
+                                                      SizedBox(width: 15),
+                                                      Text('Город: $city'),
+                                                    ],
+                                                  ),
+                                                  SizedBox(height: 5),
+                                                  Row(
+                                                    children: [
+                                                      Icon(Icons
+                                                          .alternate_email_outlined),
+                                                      SizedBox(width: 15),
+                                                      Text(
+                                                          'Подписчиков: ${userInfo.followersCount}'),
+                                                    ],
+                                                  ),
+                                                  SizedBox(height: 15),
+                                                  Divider(),
+                                                  SizedBox(height: 15),
                                                 ],
                                               ),
                                             ),

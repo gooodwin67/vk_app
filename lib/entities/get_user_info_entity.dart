@@ -22,6 +22,11 @@ class UserInfo {
   Map<String, dynamic> city;
   int online;
   int online_mobile;
+  String bdate;
+  int relation;
+  String relationString;
+  int followersCount;
+  int sex;
 
   UserInfo({
     required this.id,
@@ -35,6 +40,11 @@ class UserInfo {
     required this.city,
     required this.online,
     required this.online_mobile,
+    required this.bdate,
+    required this.relation,
+    required this.relationString,
+    required this.followersCount,
+    required this.sex,
   });
 
   factory UserInfo.fromJson(Map<String, dynamic> json) {
@@ -50,6 +60,11 @@ class UserInfo {
       city: json['city'] ?? {},
       online: json['online'] ?? 0,
       online_mobile: json['online_mobile'] ?? 0,
+      bdate: json['bdate'] ?? '',
+      relation: json['relation'] ?? 0,
+      relationString: '',
+      followersCount: json['followers_count'] ?? 0,
+      sex: json['sex'] ?? 0,
     );
   }
 }
