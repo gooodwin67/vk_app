@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 class ResponseInfo {
   final List response;
 
@@ -27,6 +29,7 @@ class UserInfo {
   String relationString;
   int followersCount;
   int sex;
+  Map<String, dynamic> counters;
 
   UserInfo({
     required this.id,
@@ -45,6 +48,7 @@ class UserInfo {
     required this.relationString,
     required this.followersCount,
     required this.sex,
+    required this.counters,
   });
 
   factory UserInfo.fromJson(Map<String, dynamic> json) {
@@ -65,6 +69,26 @@ class UserInfo {
       relationString: '',
       followersCount: json['followers_count'] ?? 0,
       sex: json['sex'] ?? 0,
+      counters: json['counters'],
+    );
+  }
+}
+
+class Counters {
+  final int friends;
+  final int mutualFriends;
+  final int groups;
+
+  Counters(
+      {required this.friends,
+      required this.mutualFriends,
+      required this.groups});
+
+  factory Counters.fromJson(Map<String, dynamic> json) {
+    return Counters(
+      friends: json['friends'],
+      mutualFriends: json['mutual_friends'],
+      groups: json['groups'],
     );
   }
 }

@@ -18,6 +18,8 @@ class ProfileScreenWidget extends StatelessWidget {
     double widthImage = 100;
 
     UserInfo userInfo = context.watch<GetMyInfoModel>().userInfo;
+    Counters counters = Counters.fromJson(userInfo.counters);
+
     String city = context.watch<GetMyInfoModel>().city;
 
     Image photo = Image.asset('assets/images/no-avatar.png');
@@ -76,7 +78,7 @@ class ProfileScreenWidget extends StatelessWidget {
         //   ),
         // ),
         body: CustomScrollView(
-          physics: ScrollPhysics(parent: BouncingScrollPhysics()),
+          physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
           slivers: [
             SliverList(
               delegate: SliverChildBuilderDelegate(
@@ -99,7 +101,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                         coverUrl,
                                         fit: BoxFit.cover,
                                       )
-                                    : SizedBox(),
+                                    : const SizedBox(),
                               ),
                             ),
                             Positioned(
@@ -156,60 +158,112 @@ class ProfileScreenWidget extends StatelessWidget {
                                                       ),
                                                     ],
                                                   ),
-                                                  SizedBox(height: 20),
+                                                  const SizedBox(height: 20),
                                                   Row(
                                                     children: [
-                                                      Icon(Icons
-                                                          .alternate_email_outlined),
-                                                      SizedBox(width: 15),
+                                                      const Icon(
+                                                        Icons
+                                                            .alternate_email_outlined,
+                                                        color: Colors.grey,
+                                                      ),
+                                                      const SizedBox(width: 15),
                                                       Text(userInfo.domain),
                                                     ],
                                                   ),
-                                                  SizedBox(height: 15),
-                                                  Divider(),
-                                                  SizedBox(height: 15),
+                                                  const SizedBox(height: 10),
+                                                  const Divider(),
+                                                  const SizedBox(height: 10),
                                                   Row(
                                                     children: [
-                                                      Icon(Icons
-                                                          .alternate_email_outlined),
-                                                      SizedBox(width: 15),
+                                                      const Icon(
+                                                        Icons
+                                                            .card_giftcard_outlined,
+                                                        color: Colors.grey,
+                                                      ),
+                                                      const SizedBox(width: 15),
                                                       Text(
-                                                          'День рождения: ${userInfo.bdate}'),
+                                                        'День рождения: ${userInfo.bdate}',
+                                                        style: TextStyle(
+                                                          color: Color.fromARGB(
+                                                              255, 99, 99, 99),
+                                                        ),
+                                                      ),
                                                     ],
                                                   ),
-                                                  SizedBox(height: 5),
+                                                  const SizedBox(height: 5),
                                                   Row(
                                                     children: [
-                                                      Icon(Icons
-                                                          .alternate_email_outlined),
-                                                      SizedBox(width: 15),
-                                                      Text(userInfo
-                                                          .relationString
-                                                          .toString()),
-                                                    ],
-                                                  ),
-                                                  SizedBox(height: 5),
-                                                  Row(
-                                                    children: [
-                                                      Icon(Icons
-                                                          .alternate_email_outlined),
-                                                      SizedBox(width: 15),
-                                                      Text('Город: $city'),
-                                                    ],
-                                                  ),
-                                                  SizedBox(height: 5),
-                                                  Row(
-                                                    children: [
-                                                      Icon(Icons
-                                                          .alternate_email_outlined),
-                                                      SizedBox(width: 15),
+                                                      const Icon(
+                                                        Icons.favorite_border,
+                                                        color: Colors.grey,
+                                                      ),
+                                                      const SizedBox(width: 15),
                                                       Text(
-                                                          'Подписчиков: ${userInfo.followersCount}'),
+                                                        userInfo.relationString
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                          color: Color.fromARGB(
+                                                              255, 99, 99, 99),
+                                                        ),
+                                                      ),
                                                     ],
                                                   ),
-                                                  SizedBox(height: 15),
-                                                  Divider(),
-                                                  SizedBox(height: 15),
+                                                  const SizedBox(height: 5),
+                                                  Row(
+                                                    children: [
+                                                      const Icon(
+                                                        Icons.home_outlined,
+                                                        color: Colors.grey,
+                                                      ),
+                                                      const SizedBox(width: 15),
+                                                      Text(
+                                                        'Город: $city',
+                                                        style: TextStyle(
+                                                          color: Color.fromARGB(
+                                                              255, 99, 99, 99),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  const SizedBox(height: 5),
+                                                  Row(
+                                                    children: [
+                                                      const Icon(
+                                                        Icons.wifi,
+                                                        color: Colors.grey,
+                                                      ),
+                                                      const SizedBox(width: 15),
+                                                      Text(
+                                                        'Подписчиков: ${userInfo.followersCount}',
+                                                        style: TextStyle(
+                                                          color: Color.fromARGB(
+                                                              255, 99, 99, 99),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  const SizedBox(height: 10),
+                                                  const Divider(),
+                                                  const SizedBox(height: 10),
+                                                  Row(
+                                                    children: [
+                                                      const Icon(
+                                                        Icons.wifi,
+                                                        color: Colors.grey,
+                                                      ),
+                                                      const SizedBox(width: 15),
+                                                      Text(
+                                                        'Друзей: ${counters.friends}',
+                                                        style: TextStyle(
+                                                          color: Color.fromARGB(
+                                                              255, 99, 99, 99),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  const SizedBox(height: 10),
+                                                  const Divider(),
+                                                  const SizedBox(height: 10),
                                                 ],
                                               ),
                                             ),
@@ -224,7 +278,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
-                                            SizedBox(height: 10),
+                                            const SizedBox(height: 10),
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
@@ -240,7 +294,8 @@ class ProfileScreenWidget extends StatelessWidget {
                                                                 .secondColor
                                                                 .withAlpha(150),
                                                           ),
-                                                          SizedBox(width: 3),
+                                                          const SizedBox(
+                                                              width: 3),
                                                           Text(
                                                             city.toString(),
                                                             style: TextStyle(
@@ -252,7 +307,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                                         ],
                                                       )
                                                     : const Text(''),
-                                                SizedBox(width: 10),
+                                                const SizedBox(width: 10),
                                                 Row(
                                                   children: [
                                                     Icon(
@@ -262,7 +317,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                                           .secondColor
                                                           .withAlpha(150),
                                                     ),
-                                                    SizedBox(width: 3),
+                                                    const SizedBox(width: 3),
                                                     Text(
                                                       'Подробнее',
                                                       style: TextStyle(
@@ -278,7 +333,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    SizedBox(height: 10),
+                                    const SizedBox(height: 10),
                                     deactivated == '0'
                                         ? Row(
                                             children: [
@@ -322,7 +377,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                                   ),
                                                 ),
                                               ),
-                                              SizedBox(width: 10),
+                                              const SizedBox(width: 10),
                                               ElevatedButton(
                                                 style: ElevatedButton.styleFrom(
                                                     backgroundColor:
@@ -346,7 +401,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                                   ),
                                                 ),
                                               ),
-                                              SizedBox(width: 10),
+                                              const SizedBox(width: 10),
                                               ElevatedButton(
                                                 style: ElevatedButton.styleFrom(
                                                     backgroundColor:
@@ -372,7 +427,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                               ),
                                             ],
                                           )
-                                        : SizedBox(height: 0),
+                                        : const SizedBox(height: 0),
                                   ],
                                 ),
                               ),
@@ -394,7 +449,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(50),
                                     ),
                                   ),
-                                  Positioned(
+                                  const Positioned(
                                     right: 7,
                                     bottom: 7,
                                     child: MobileOnlineIcon(),
@@ -405,7 +460,7 @@ class ProfileScreenWidget extends StatelessWidget {
                           ],
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       deactivated == '0' && canAccess == true
                           ? ClipRRect(
                               borderRadius: BorderRadius.circular(15),
@@ -428,7 +483,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                       children: [
                                         Text(
                                           'Друзей: $allFriendsCount'.toString(),
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontWeight: FontWeight.bold),
                                         ),
                                         friendsList.length > 2
@@ -556,23 +611,23 @@ class ProfileScreenWidget extends StatelessWidget {
                                                   ],
                                                 ),
                                               )
-                                            : SizedBox(),
+                                            : const SizedBox(),
                                       ],
                                     ),
                                   ),
                                 ),
                               ),
                             )
-                          : SizedBox(),
+                          : const SizedBox(),
                       deactivated == '0' && canAccess == false
-                          ? Center(
+                          ? const Center(
                               child: Padding(
                                 padding: EdgeInsets.only(top: 10),
                                 child: Text('Профиль закрыт'),
                               ),
                             )
-                          : SizedBox(),
-                      SizedBox(height: 10),
+                          : const SizedBox(),
+                      const SizedBox(height: 10),
                       deactivated == '0' && canAccess == true
                           ? Container(
                               padding: EdgeInsets.symmetric(
@@ -589,7 +644,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                     child: Row(
                                       children: [
                                         Container(
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                               horizontal: 10, vertical: 5),
                                           decoration: BoxDecoration(
                                               borderRadius:
@@ -602,7 +657,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                                 Icons.photo_outlined,
                                                 color: constants.mainColor,
                                               ),
-                                              SizedBox(width: 5),
+                                              const SizedBox(width: 5),
                                               Text(
                                                 'Фото',
                                                 style: TextStyle(
@@ -663,7 +718,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                           }),
                                     ),
                                   ),
-                                  SizedBox(height: 15),
+                                  const SizedBox(height: 15),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 5),
@@ -675,7 +730,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                           children: [
                                             Icon(Icons.add,
                                                 color: constants.mainColor),
-                                            SizedBox(width: 5),
+                                            const SizedBox(width: 5),
                                             Text(
                                               'Загрузить фото',
                                               style: TextStyle(
@@ -709,7 +764,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                                     fontSize: 16,
                                                   ),
                                                 ),
-                                                SizedBox(width: 5),
+                                                const SizedBox(width: 5),
                                                 Icon(
                                                     Icons
                                                         .chevron_right_outlined,
@@ -721,12 +776,12 @@ class ProfileScreenWidget extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  SizedBox(height: 15),
+                                  const SizedBox(height: 15),
                                 ],
                               ),
                             )
-                          : SizedBox(),
-                      SizedBox(height: 10),
+                          : const SizedBox(),
+                      const SizedBox(height: 10),
                       deactivated == '0' && canAccess == true
                           ? Container(
                               padding: EdgeInsets.symmetric(
@@ -749,7 +804,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                   children: [
                                     Icon(Icons.edit_note_outlined,
                                         color: constants.mainColor),
-                                    SizedBox(width: 5),
+                                    const SizedBox(width: 5),
                                     Text(
                                       'Что у вас новго',
                                       style: TextStyle(
@@ -760,8 +815,8 @@ class ProfileScreenWidget extends StatelessWidget {
                                 ),
                               ),
                             )
-                          : SizedBox(),
-                      SizedBox(height: 10),
+                          : const SizedBox(),
+                      const SizedBox(height: 10),
                     ],
                   ),
                 ),
@@ -776,14 +831,14 @@ class ProfileScreenWidget extends StatelessWidget {
                   return Column(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(bottom: 5),
+                        margin: const EdgeInsets.only(bottom: 5),
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: itemsInWall.isEmpty
-                            ? SizedBox()
+                            ? const SizedBox()
                             : Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -817,23 +872,23 @@ class ProfileScreenWidget extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                        SizedBox(width: 10),
+                                        const SizedBox(width: 10),
                                         Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               '${itemsInWall[index].firstName} ${itemsInWall[index].lastName}',
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.bold,
                                                   color: Color.fromARGB(
                                                       255, 70, 70, 70)),
                                             ),
-                                            SizedBox(height: 2),
+                                            const SizedBox(height: 2),
                                             Text(
                                               itemsInWall[index].date,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontSize: 13,
                                                 color: Color.fromARGB(
                                                     255, 122, 122, 122),
@@ -841,8 +896,8 @@ class ProfileScreenWidget extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-                                        Spacer(),
-                                        Icon(
+                                        const Spacer(),
+                                        const Icon(
                                           Icons.more_horiz_outlined,
                                           color: Colors.grey,
                                         ),
@@ -850,7 +905,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                     ),
                                   ),
                                   itemsInWall[index].groupName == 'groupName'
-                                      ? SizedBox()
+                                      ? const SizedBox()
                                       : Padding(
                                           padding: const EdgeInsets.only(
                                               bottom: 10, left: 20, right: 10),
@@ -891,7 +946,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                                       ),
                                                     ),
                                                   ),
-                                                  SizedBox(width: 10),
+                                                  const SizedBox(width: 10),
                                                   Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
@@ -899,7 +954,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                                     children: [
                                                       Row(
                                                         children: [
-                                                          Icon(
+                                                          const Icon(
                                                             Icons
                                                                 .subdirectory_arrow_right_sharp,
                                                             size: 13,
@@ -922,7 +977,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                                               overflow:
                                                                   TextOverflow
                                                                       .ellipsis,
-                                                              style: TextStyle(
+                                                              style: const TextStyle(
                                                                   fontSize: 15,
                                                                   fontWeight:
                                                                       FontWeight
@@ -937,10 +992,10 @@ class ProfileScreenWidget extends StatelessWidget {
                                                           ),
                                                         ],
                                                       ),
-                                                      SizedBox(height: 2),
+                                                      const SizedBox(height: 2),
                                                       Text(
                                                         itemsInWall[index].date,
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                           fontSize: 13,
                                                           color: Color.fromARGB(
                                                               255,
@@ -953,22 +1008,22 @@ class ProfileScreenWidget extends StatelessWidget {
                                                   ),
                                                 ],
                                               ),
-                                              SizedBox(height: 7),
+                                              const SizedBox(height: 7),
                                               itemsInWall[index]
                                                           .postGroupText ==
                                                       ''
-                                                  ? SizedBox()
+                                                  ? const SizedBox()
                                                   : Text(
                                                       itemsInWall[index]
                                                           .postGroupText,
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           fontSize: 13),
                                                     ),
                                             ],
                                           ),
                                         ),
                                   itemsInWall[index].myText == ''
-                                      ? SizedBox()
+                                      ? const SizedBox()
                                       : Padding(
                                           padding: const EdgeInsets.all(10.0),
                                           child:
@@ -976,8 +1031,8 @@ class ProfileScreenWidget extends StatelessWidget {
                                         ),
                                   Container(
                                     width: MediaQuery.of(context).size.width,
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
                                     child: ListView.builder(
                                       padding: EdgeInsets.zero,
                                       physics:
@@ -1014,7 +1069,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                                             'assets/images/no-avatar.png');
                                                       },
                                                     )
-                                                  : SizedBox(),
+                                                  : const SizedBox(),
                                               itemsInWall[index]
                                                               .listAttachmentType[
                                                           i] ==
@@ -1036,7 +1091,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                                             'assets/images/no-avatar.png');
                                                       },
                                                     )
-                                                  : SizedBox(),
+                                                  : const SizedBox(),
                                               itemsInWall[index]
                                                               .listAttachmentType[
                                                           i] ==
@@ -1051,18 +1106,18 @@ class ProfileScreenWidget extends StatelessWidget {
                                                             width: 40,
                                                             height: 40,
                                                             padding:
-                                                                EdgeInsets.all(
-                                                                    2),
+                                                                const EdgeInsets
+                                                                    .all(2),
                                                             decoration:
                                                                 BoxDecoration(
                                                               border:
                                                                   Border.all(
-                                                                color: Color
-                                                                    .fromARGB(
-                                                                        255,
-                                                                        240,
-                                                                        240,
-                                                                        240),
+                                                                color: const Color
+                                                                        .fromARGB(
+                                                                    255,
+                                                                    240,
+                                                                    240,
+                                                                    240),
                                                               ),
                                                               borderRadius:
                                                                   BorderRadius
@@ -1091,7 +1146,8 @@ class ProfileScreenWidget extends StatelessWidget {
                                                             ),
                                                           ),
                                                         ),
-                                                        SizedBox(width: 7),
+                                                        const SizedBox(
+                                                            width: 7),
                                                         Container(
                                                           width: MediaQuery.of(
                                                                       context)
@@ -1112,7 +1168,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                                                     TextOverflow
                                                                         .ellipsis,
                                                               ),
-                                                              SizedBox(
+                                                              const SizedBox(
                                                                   height: 3),
                                                               Text(
                                                                 itemsInWall[
@@ -1120,7 +1176,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                                                     .link
                                                                     .linkUrl,
                                                                 style:
-                                                                    TextStyle(
+                                                                    const TextStyle(
                                                                   color: Colors
                                                                       .grey,
                                                                 ),
@@ -1133,7 +1189,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                                         ),
                                                       ],
                                                     )
-                                                  : SizedBox(),
+                                                  : const SizedBox(),
                                             ],
                                           ),
                                         );
@@ -1146,11 +1202,12 @@ class ProfileScreenWidget extends StatelessWidget {
                                       children: [
                                         itemsInWall[index].userLikes == 1
                                             ? Container(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 12,
-                                                    vertical: 5),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 12,
+                                                        vertical: 5),
                                                 decoration: BoxDecoration(
-                                                  color: Color.fromARGB(
+                                                  color: const Color.fromARGB(
                                                       255, 255, 225, 224),
                                                   borderRadius:
                                                       BorderRadius.circular(50),
@@ -1159,20 +1216,21 @@ class ProfileScreenWidget extends StatelessWidget {
                                                   children: [
                                                     Container(
                                                       padding:
-                                                          EdgeInsets.all(5),
+                                                          const EdgeInsets.all(
+                                                              5),
                                                       decoration: BoxDecoration(
                                                         color: Colors.red,
                                                         borderRadius:
                                                             BorderRadius
                                                                 .circular(50),
                                                       ),
-                                                      child: Icon(
+                                                      child: const Icon(
                                                         Icons.favorite,
                                                         size: 13,
                                                         color: Colors.white,
                                                       ),
                                                     ),
-                                                    SizedBox(width: 5),
+                                                    const SizedBox(width: 5),
                                                     Text(itemsInWall[index]
                                                         .likes
                                                         .toString()),
@@ -1180,9 +1238,10 @@ class ProfileScreenWidget extends StatelessWidget {
                                                 ),
                                               )
                                             : Container(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 12,
-                                                    vertical: 5),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 12,
+                                                        vertical: 5),
                                                 decoration: BoxDecoration(
                                                   color: constants.backColor,
                                                   borderRadius:
@@ -1190,22 +1249,22 @@ class ProfileScreenWidget extends StatelessWidget {
                                                 ),
                                                 child: Row(
                                                   children: [
-                                                    Icon(
+                                                    const Icon(
                                                       Icons.favorite_border,
                                                       size: 23,
                                                       color: Color.fromARGB(
                                                           255, 110, 110, 110),
                                                     ),
-                                                    SizedBox(width: 5),
+                                                    const SizedBox(width: 5),
                                                     Text(itemsInWall[index]
                                                         .likes
                                                         .toString()),
                                                   ],
                                                 ),
                                               ),
-                                        SizedBox(width: 10),
+                                        const SizedBox(width: 10),
                                         Container(
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                               horizontal: 12, vertical: 5),
                                           decoration: BoxDecoration(
                                             color: constants.backColor,
@@ -1219,32 +1278,32 @@ class ProfileScreenWidget extends StatelessWidget {
                                                   borderRadius:
                                                       BorderRadius.circular(50),
                                                 ),
-                                                child: Icon(
+                                                child: const Icon(
                                                   Icons.reply_outlined,
                                                   size: 23,
                                                   color: Color.fromARGB(
                                                       255, 110, 110, 110),
                                                 ),
                                               ),
-                                              SizedBox(width: 5),
+                                              const SizedBox(width: 5),
                                               Text(itemsInWall[index]
                                                   .reposts
                                                   .toString()),
                                             ],
                                           ),
                                         ),
-                                        Spacer(),
+                                        const Spacer(),
                                         itemsInWall[index].views == 0
-                                            ? SizedBox()
+                                            ? const SizedBox()
                                             : Row(
                                                 children: [
-                                                  Icon(
+                                                  const Icon(
                                                     Icons.remove_red_eye,
                                                     size: 20,
                                                     color: Color.fromARGB(
                                                         255, 158, 158, 158),
                                                   ),
-                                                  SizedBox(width: 10),
+                                                  const SizedBox(width: 10),
                                                   Text(itemsInWall[index]
                                                       .views
                                                       .toString()),
@@ -1256,7 +1315,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                 ],
                               ),
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                     ],
                   );
                 },
