@@ -19,6 +19,7 @@ class FriendProfileScreenWidget extends StatelessWidget {
     double widthImage = 100;
 
     UserInfo userInfo = context.watch<GetUserInfoModel>().userInfo;
+    Counters counters = Counters.fromJson(userInfo.counters);
     String city = context.watch<GetUserInfoModel>().city;
 
     Image photo = Image.asset('assets/images/no-avatar.png');
@@ -127,57 +128,328 @@ class FriendProfileScreenWidget extends StatelessWidget {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      "${userInfo.firstName} ${userInfo.secondName}",
-                                      style: const TextStyle(
-                                        fontSize: 23,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    SizedBox(height: 10),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        city != ''
-                                            ? Row(
-                                                children: [
-                                                  Icon(
-                                                    Icons.location_on_outlined,
-                                                    size: 20,
-                                                    color: constants.secondColor
-                                                        .withAlpha(150),
-                                                  ),
-                                                  SizedBox(width: 3),
-                                                  Text(
-                                                    city.toString(),
-                                                    style: TextStyle(
-                                                        color: constants
-                                                            .secondColor
-                                                            .withAlpha(180)),
-                                                  ),
-                                                ],
-                                              )
-                                            : const Text(''),
-                                        SizedBox(width: 10),
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Icons.info_outline,
-                                              size: 20,
-                                              color: constants.secondColor
-                                                  .withAlpha(150),
+                                    Material(
+                                      child: InkWell(
+                                        onTap: () {
+                                          showModalBottomSheet(
+                                            isScrollControlled: true,
+                                            shape: const RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.vertical(
+                                                      top: Radius.circular(10)),
                                             ),
-                                            SizedBox(width: 3),
+                                            context: context,
+                                            builder: (context) => Padding(
+                                              padding:
+                                                  const EdgeInsets.all(10.0),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      InkWell(
+                                                        onTap: () =>
+                                                            Navigator.pop(
+                                                                context),
+                                                        child: Icon(Icons.close,
+                                                            color: constants
+                                                                .mainColor),
+                                                      ),
+                                                      const SizedBox(width: 15),
+                                                      const Text(
+                                                        'Подробнее',
+                                                        style: TextStyle(
+                                                            fontSize: 20),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  const SizedBox(height: 20),
+                                                  Row(
+                                                    children: [
+                                                      const Icon(
+                                                        Icons
+                                                            .alternate_email_outlined,
+                                                        color: Colors.grey,
+                                                      ),
+                                                      const SizedBox(width: 15),
+                                                      Text(userInfo.domain),
+                                                    ],
+                                                  ),
+                                                  const SizedBox(height: 10),
+                                                  const Divider(),
+                                                  const SizedBox(height: 10),
+                                                  Row(
+                                                    children: [
+                                                      const Icon(
+                                                        Icons
+                                                            .card_giftcard_outlined,
+                                                        color: Colors.grey,
+                                                      ),
+                                                      const SizedBox(width: 15),
+                                                      Text(
+                                                        'День рождения: ${userInfo.bdate}',
+                                                        style: const TextStyle(
+                                                          color: Color.fromARGB(
+                                                              255, 99, 99, 99),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  userInfo.relationString == ''
+                                                      ? SizedBox()
+                                                      : Column(
+                                                          children: [
+                                                            const SizedBox(
+                                                                height: 5),
+                                                            Row(
+                                                              children: [
+                                                                const Icon(
+                                                                  Icons
+                                                                      .favorite_border,
+                                                                  color: Colors
+                                                                      .grey,
+                                                                ),
+                                                                const SizedBox(
+                                                                    width: 15),
+                                                                Text(
+                                                                  userInfo
+                                                                      .relationString
+                                                                      .toString(),
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            99,
+                                                                            99,
+                                                                            99),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                  city == null
+                                                      ? SizedBox()
+                                                      : Column(
+                                                          children: [
+                                                            const SizedBox(
+                                                                height: 5),
+                                                            Row(
+                                                              children: [
+                                                                const Icon(
+                                                                  Icons
+                                                                      .home_outlined,
+                                                                  color: Colors
+                                                                      .grey,
+                                                                ),
+                                                                const SizedBox(
+                                                                    width: 15),
+                                                                Text(
+                                                                  'Город: $city',
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            99,
+                                                                            99,
+                                                                            99),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                  const SizedBox(height: 10),
+                                                  const Divider(),
+                                                  const SizedBox(height: 10),
+                                                  Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons
+                                                            .supervisor_account_outlined,
+                                                        color:
+                                                            constants.mainColor,
+                                                      ),
+                                                      const SizedBox(width: 15),
+                                                      const Text(
+                                                        'Друзья',
+                                                        style: TextStyle(
+                                                          color: Color.fromARGB(
+                                                              255, 32, 32, 32),
+                                                        ),
+                                                      ),
+                                                      const Spacer(),
+                                                      Text(
+                                                        '${counters.friends}',
+                                                        style: const TextStyle(
+                                                          color: Color.fromARGB(
+                                                              255, 99, 99, 99),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  const SizedBox(height: 10),
+                                                  counters.mutualFriends == null
+                                                      ? const SizedBox()
+                                                      : Column(
+                                                          children: [
+                                                            Row(
+                                                              children: [
+                                                                Icon(
+                                                                  Icons
+                                                                      .groups_outlined,
+                                                                  color: constants
+                                                                      .mainColor,
+                                                                ),
+                                                                const SizedBox(
+                                                                    width: 15),
+                                                                const Text(
+                                                                  'Общие друзья',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            32,
+                                                                            32,
+                                                                            32),
+                                                                  ),
+                                                                ),
+                                                                const Spacer(),
+                                                                Text(
+                                                                  '${counters.mutualFriends}',
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            99,
+                                                                            99,
+                                                                            99),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            const SizedBox(
+                                                                height: 10),
+                                                          ],
+                                                        ),
+                                                  counters.groups == null
+                                                      ? SizedBox()
+                                                      : Column(
+                                                          children: [
+                                                            Row(
+                                                              children: [
+                                                                Icon(
+                                                                  Icons
+                                                                      .groups_outlined,
+                                                                  color: constants
+                                                                      .mainColor,
+                                                                ),
+                                                                const SizedBox(
+                                                                    width: 15),
+                                                                const Text(
+                                                                  'Сообщества',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            32,
+                                                                            32,
+                                                                            32),
+                                                                  ),
+                                                                ),
+                                                                const Spacer(),
+                                                                Text(
+                                                                  '${counters.groups}',
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            99,
+                                                                            99,
+                                                                            99),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            const SizedBox(
+                                                                height: 10),
+                                                          ],
+                                                        ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: Column(
+                                          children: [
                                             Text(
-                                              'Подробнее',
-                                              style: TextStyle(
-                                                  color: constants.secondColor
-                                                      .withAlpha(180)),
+                                              "${userInfo.firstName} ${userInfo.secondName}",
+                                              style: const TextStyle(
+                                                fontSize: 23,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                            SizedBox(height: 10),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                city != null
+                                                    ? Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons
+                                                                .location_on_outlined,
+                                                            size: 20,
+                                                            color: constants
+                                                                .secondColor
+                                                                .withAlpha(150),
+                                                          ),
+                                                          SizedBox(width: 3),
+                                                          Text(
+                                                            city.toString(),
+                                                            style: TextStyle(
+                                                                color: constants
+                                                                    .secondColor
+                                                                    .withAlpha(
+                                                                        180)),
+                                                          ),
+                                                        ],
+                                                      )
+                                                    : const Text(''),
+                                                SizedBox(width: 10),
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.info_outline,
+                                                      size: 20,
+                                                      color: constants
+                                                          .secondColor
+                                                          .withAlpha(150),
+                                                    ),
+                                                    SizedBox(width: 3),
+                                                    Text(
+                                                      'Подробнее',
+                                                      style: TextStyle(
+                                                          color: constants
+                                                              .secondColor
+                                                              .withAlpha(180)),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
-                                      ],
+                                      ),
                                     ),
                                     SizedBox(height: 10),
                                     deactivated == '0'
@@ -298,7 +570,15 @@ class FriendProfileScreenWidget extends StatelessWidget {
                                   Positioned(
                                     right: 7,
                                     bottom: 7,
-                                    child: MobileOnlineIcon(),
+                                    child: userInfo.online == 0
+                                        ? TimeOnlineIcon(
+                                            text: context
+                                                .read<GetUserInfoModel>()
+                                                .lastSeenTime,
+                                          )
+                                        : userInfo.online_mobile == 0
+                                            ? DesctopOnlineIcon()
+                                            : MobileOnlineIcon(),
                                   )
                                 ],
                               ),

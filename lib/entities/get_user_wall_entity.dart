@@ -4,7 +4,7 @@ class ResponseWall {
   ResponseWall({required this.response});
 
   factory ResponseWall.fromJson(Map<String, dynamic> json) {
-    return ResponseWall(response: json['response']);
+    return ResponseWall(response: json['response'] ?? {});
   }
 }
 

@@ -40,7 +40,7 @@ class LoginScreenWidget extends StatelessWidget {
                               .read<GetMyWallModel>()
                               .getMyWall(context, 5, 0))
                           .then((value) => context.read<ApiClient>().logining())
-                          .then((value) => context.go('/news'));
+                          .then((value) => context.go('/profile'));
 
                       context.read<ApiClient>().logining(); //logining false
                     },

@@ -47,3 +47,24 @@ class MobileOnlineIcon extends StatelessWidget {
     );
   }
 }
+
+class TimeOnlineIcon extends StatelessWidget {
+  String text;
+  TimeOnlineIcon({Key? key, required this.text}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+      decoration: BoxDecoration(
+        color: Color.fromARGB(255, 165, 165, 165),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(
+            color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+}

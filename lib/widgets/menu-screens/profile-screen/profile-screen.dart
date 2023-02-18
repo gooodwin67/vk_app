@@ -183,7 +183,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                                       const SizedBox(width: 15),
                                                       Text(
                                                         'День рождения: ${userInfo.bdate}',
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                           color: Color.fromARGB(
                                                               255, 99, 99, 99),
                                                         ),
@@ -201,30 +201,45 @@ class ProfileScreenWidget extends StatelessWidget {
                                                       Text(
                                                         userInfo.relationString
                                                             .toString(),
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                           color: Color.fromARGB(
                                                               255, 99, 99, 99),
                                                         ),
                                                       ),
                                                     ],
                                                   ),
-                                                  const SizedBox(height: 5),
-                                                  Row(
-                                                    children: [
-                                                      const Icon(
-                                                        Icons.home_outlined,
-                                                        color: Colors.grey,
-                                                      ),
-                                                      const SizedBox(width: 15),
-                                                      Text(
-                                                        'Город: $city',
-                                                        style: TextStyle(
-                                                          color: Color.fromARGB(
-                                                              255, 99, 99, 99),
+                                                  city == null
+                                                      ? SizedBox()
+                                                      : Column(
+                                                          children: [
+                                                            const SizedBox(
+                                                                height: 5),
+                                                            Row(
+                                                              children: [
+                                                                const Icon(
+                                                                  Icons
+                                                                      .home_outlined,
+                                                                  color: Colors
+                                                                      .grey,
+                                                                ),
+                                                                const SizedBox(
+                                                                    width: 15),
+                                                                Text(
+                                                                  'Город: $city',
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            99,
+                                                                            99,
+                                                                            99),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
                                                         ),
-                                                      ),
-                                                    ],
-                                                  ),
                                                   const SizedBox(height: 5),
                                                   Row(
                                                     children: [
@@ -235,7 +250,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                                       const SizedBox(width: 15),
                                                       Text(
                                                         'Подписчиков: ${userInfo.followersCount}',
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                           color: Color.fromARGB(
                                                               255, 99, 99, 99),
                                                         ),
@@ -247,14 +262,24 @@ class ProfileScreenWidget extends StatelessWidget {
                                                   const SizedBox(height: 10),
                                                   Row(
                                                     children: [
-                                                      const Icon(
-                                                        Icons.wifi,
-                                                        color: Colors.grey,
+                                                      Icon(
+                                                        Icons
+                                                            .supervisor_account_outlined,
+                                                        color:
+                                                            constants.mainColor,
                                                       ),
                                                       const SizedBox(width: 15),
-                                                      Text(
-                                                        'Друзей: ${counters.friends}',
+                                                      const Text(
+                                                        'Друзья',
                                                         style: TextStyle(
+                                                          color: Color.fromARGB(
+                                                              255, 32, 32, 32),
+                                                        ),
+                                                      ),
+                                                      const Spacer(),
+                                                      Text(
+                                                        '${counters.friends}',
+                                                        style: const TextStyle(
                                                           color: Color.fromARGB(
                                                               255, 99, 99, 99),
                                                         ),
@@ -262,7 +287,76 @@ class ProfileScreenWidget extends StatelessWidget {
                                                     ],
                                                   ),
                                                   const SizedBox(height: 10),
-                                                  const Divider(),
+                                                  counters.mutualFriends == null
+                                                      ? const SizedBox()
+                                                      : Column(
+                                                          children: [
+                                                            Row(
+                                                              children: [
+                                                                Icon(
+                                                                  Icons
+                                                                      .groups_outlined,
+                                                                  color: constants
+                                                                      .mainColor,
+                                                                ),
+                                                                const SizedBox(
+                                                                    width: 15),
+                                                                const Text(
+                                                                  'Общие друзья',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            32,
+                                                                            32,
+                                                                            32),
+                                                                  ),
+                                                                ),
+                                                                const Spacer(),
+                                                                Text(
+                                                                  '${counters.mutualFriends}',
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            99,
+                                                                            99,
+                                                                            99),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            const SizedBox(
+                                                                height: 10),
+                                                          ],
+                                                        ),
+                                                  Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.groups_outlined,
+                                                        color:
+                                                            constants.mainColor,
+                                                      ),
+                                                      const SizedBox(width: 15),
+                                                      const Text(
+                                                        'Сообщества',
+                                                        style: TextStyle(
+                                                          color: Color.fromARGB(
+                                                              255, 32, 32, 32),
+                                                        ),
+                                                      ),
+                                                      const Spacer(),
+                                                      Text(
+                                                        '${counters.groups}',
+                                                        style: const TextStyle(
+                                                          color: Color.fromARGB(
+                                                              255, 99, 99, 99),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                   const SizedBox(height: 10),
                                                 ],
                                               ),
@@ -283,7 +377,7 @@ class ProfileScreenWidget extends StatelessWidget {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: [
-                                                city != ''
+                                                city != null
                                                     ? Row(
                                                         children: [
                                                           Icon(

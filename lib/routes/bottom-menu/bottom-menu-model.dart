@@ -8,8 +8,8 @@ class BottomMenuModel with ChangeNotifier {
     '/notifications',
     '/profile',
   ];
-  int _activeMenuIndex = 0;
-  String _activeWidget = '/news';
+  int _activeMenuIndex = 4;
+  String _activeWidget = '/profile';
 
   int get activeMenuIndex => _activeMenuIndex;
   String get activeWidget => _activeWidget;
@@ -17,7 +17,7 @@ class BottomMenuModel with ChangeNotifier {
   Future SetActiveMenu(index) async {
     _activeMenuIndex = index;
     _activeWidget = menuScreens[_activeMenuIndex];
-    print(_activeWidget);
+
     notifyListeners();
   }
 }

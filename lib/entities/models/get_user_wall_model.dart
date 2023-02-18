@@ -36,143 +36,145 @@ class GetUserWallModel extends ChangeNotifier {
 
     _count = UserWall.fromJson(userWallResponse.response).count;
 
-    List itemsWall = userWallResponseItemsResponse
-        .map((e) => UserWallItems.fromJson(e))
-        .toList();
+    if (_count != null) {
+      List itemsWall = userWallResponseItemsResponse
+          .map((e) => UserWallItems.fromJson(e))
+          .toList();
 
-    List profilesWall = userWallResponseProfilesResponse
-        .map((e) => UserWallProfiles.fromJson(e))
-        .toList();
+      List profilesWall = userWallResponseProfilesResponse
+          .map((e) => UserWallProfiles.fromJson(e))
+          .toList();
 
-    List groupsWall = userWallResponseGroupsResponse
-        .map((e) => UserWallGroups.fromJson(e))
-        .toList();
+      List groupsWall = userWallResponseGroupsResponse
+          .map((e) => UserWallGroups.fromJson(e))
+          .toList();
 
-    itemsInWall.addAll(itemsWall.map((e) {
-      var likes = Likes.fromJson(e.likes);
-      var reposts = Reposts.fromJson(e.reposts);
-      var views = Views.fromJson(e.views);
-      var firstName = 'firstName';
-      var lastName = 'lastName';
-      var photoProfile = 'photoProfile';
-      var date = DateTime.fromMillisecondsSinceEpoch(e.date * 1000);
-      var myText = e.text;
-      var repostFromId = CopyHistory.fromJson(e.copyHistory[0]);
-      var groupName = 'groupName';
-      var photoGroup = 'photoGroup';
-      var postGroupText = CopyHistory.fromJson(e.copyHistory[0]);
-      var attachmentType = 'defaultType';
-      var docExt = 'gif'; // тип документа doc (пока что только gif)
-      List listAttachmentType = [];
+      itemsInWall.addAll(itemsWall.map((e) {
+        var likes = Likes.fromJson(e.likes);
+        var reposts = Reposts.fromJson(e.reposts);
+        var views = Views.fromJson(e.views);
+        var firstName = 'firstName';
+        var lastName = 'lastName';
+        var photoProfile = 'photoProfile';
+        var date = DateTime.fromMillisecondsSinceEpoch(e.date * 1000);
+        var myText = e.text;
+        var repostFromId = CopyHistory.fromJson(e.copyHistory[0]);
+        var groupName = 'groupName';
+        var photoGroup = 'photoGroup';
+        var postGroupText = CopyHistory.fromJson(e.copyHistory[0]);
+        var attachmentType = 'defaultType';
+        var docExt = 'gif'; // тип документа doc (пока что только gif)
+        List listAttachmentType = [];
 
-      List attachmentsResponse;
-      if (e.attachments.isNotEmpty) {
-        attachmentsResponse = e.attachments;
-      } else if (repostFromId.fromId != 0) {
-        attachmentsResponse = repostFromId.attachments;
-      } else {
-        attachmentsResponse = [];
-      }
+        List attachmentsResponse;
+        if (e.attachments.isNotEmpty) {
+          attachmentsResponse = e.attachments;
+        } else if (repostFromId.fromId != 0) {
+          attachmentsResponse = repostFromId.attachments;
+        } else {
+          attachmentsResponse = [];
+        }
 
-      //attachmentType = Attachments.fromJson(attachmentsResponse[0]).type;
+        //attachmentType = Attachments.fromJson(attachmentsResponse[0]).type;
 
-      var linkUrl = '';
-      var linkTitle = '';
-      var linkPhotoUrl = '';
+        var linkUrl = '';
+        var linkTitle = '';
+        var linkPhotoUrl = '';
 
-      var photoUrl = '';
+        var photoUrl = '';
 
-      List attachments = attachmentsResponse.map((e) {
-        attachmentType = Attachments.fromJson(e).type;
-        listAttachmentType.add(attachmentType);
+        List attachments = attachmentsResponse.map((e) {
+          attachmentType = Attachments.fromJson(e).type;
+          listAttachmentType.add(attachmentType);
 
-        var attachment;
+          var attachment;
 
-        if (attachmentType == 'photo') {
-          attachment = TypePhotoResponse.fromJson(e);
+          if (attachmentType == 'photo') {
+            attachment = TypePhotoResponse.fromJson(e);
 
-          var photoPhotoResponse = attachment.photo;
-          var photoPhotos = LinkPhotos.fromJson(photoPhotoResponse);
+            var photoPhotoResponse = attachment.photo;
+            var photoPhotos = LinkPhotos.fromJson(photoPhotoResponse);
 
-          photoUrl = LinkPhotoUrl.fromJson(photoPhotos.sizes.last).url;
-        } else if (attachmentType == 'link') {
-          attachment = TypeLinkResponse.fromJson(e);
-          var linkResponse = Link.fromJson(attachment.link);
-          linkUrl = linkResponse.url;
-          linkTitle = linkResponse.title;
+            photoUrl = LinkPhotoUrl.fromJson(photoPhotos.sizes.last).url;
+          } else if (attachmentType == 'link') {
+            attachment = TypeLinkResponse.fromJson(e);
+            var linkResponse = Link.fromJson(attachment.link);
+            linkUrl = linkResponse.url;
+            linkTitle = linkResponse.title;
 
-          var linkPhotoResponse = linkResponse.photo;
-          var linkPhotos = LinkPhotos.fromJson(linkPhotoResponse);
+            var linkPhotoResponse = linkResponse.photo;
+            var linkPhotos = LinkPhotos.fromJson(linkPhotoResponse);
 
-          linkPhotoUrl = linkPhotos.sizes.isEmpty
-              ? ''
-              : LinkPhotoUrl.fromJson(linkPhotos.sizes[0]).url;
-        } else if (attachmentType == 'doc') {
-          attachment = TypeDocResponse.fromJson(e);
+            linkPhotoUrl = linkPhotos.sizes.isEmpty
+                ? ''
+                : LinkPhotoUrl.fromJson(linkPhotos.sizes[0]).url;
+          } else if (attachmentType == 'doc') {
+            attachment = TypeDocResponse.fromJson(e);
 
-          var photoPhotoResponse = TypeDocPreview.fromJson(attachment.doc);
-          docExt = photoPhotoResponse.ext;
+            var photoPhotoResponse = TypeDocPreview.fromJson(attachment.doc);
+            docExt = photoPhotoResponse.ext;
 
-          if (docExt == 'gif') {
-            var docPhotosResponse =
-                TypePhotoResponse.fromJson(photoPhotoResponse.preview);
+            if (docExt == 'gif') {
+              var docPhotosResponse =
+                  TypePhotoResponse.fromJson(photoPhotoResponse.preview);
 
-            var docPhotos = PhotoPhotos.fromJson(docPhotosResponse.photo);
+              var docPhotos = PhotoPhotos.fromJson(docPhotosResponse.photo);
 
-            photoUrl = LinkDocUrl.fromJson(docPhotos.sizes[0]).src;
+              photoUrl = LinkDocUrl.fromJson(docPhotos.sizes[0]).src;
+            }
           }
-        }
-        return attachment;
-      }).toList();
+          return attachment;
+        }).toList();
 
-      //print(attachments);
+        //print(attachments);
 
-      initializeDateFormatting('ru_RU', null);
+        initializeDateFormatting('ru_RU', null);
 
-      var formatDate = DateFormat.yMd().format(date);
+        var formatDate = DateFormat.yMd().format(date);
 
-      profilesWall.forEach((element) {
-        if (element.id == e.fromId) {
-          firstName = element.firstName;
-          lastName = element.lastName;
-          photoProfile = element.photoProfile;
-        }
-      });
+        profilesWall.forEach((element) {
+          if (element.id == e.fromId) {
+            firstName = element.firstName;
+            lastName = element.lastName;
+            photoProfile = element.photoProfile;
+          }
+        });
 
-      groupsWall.forEach((element) {
-        if (element.idGroup == repostFromId.fromId.abs()) {
-          groupName = element.nameGroup;
-          photoGroup = element.photoGroup;
-        }
-      });
+        groupsWall.forEach((element) {
+          if (element.idGroup == repostFromId.fromId.abs()) {
+            groupName = element.nameGroup;
+            photoGroup = element.photoGroup;
+          }
+        });
 
-      return ItemInWall(
-        date: formatDate.replaceAll('/', '.'),
-        myText: myText,
-        fromId: e.fromId,
-        likes: likes.count,
-        reposts: reposts.count,
-        views: views.count,
-        userLikes: likes.userLikes,
-        firstName: firstName,
-        lastName: lastName,
-        photoProfile: photoProfile,
-        groupName: groupName,
-        photoGroup: photoGroup,
-        postGroupText: postGroupText.postGroupText,
-        attachmentType: attachmentType,
-        listAttachmentType: listAttachmentType,
-        link: LinkRes(
-          linkUrl: linkUrl,
-          linkTitle: linkTitle,
-          linkPhotoUrl: linkPhotoUrl,
-        ),
-        photo: PhotoRes(
-          photoUrl: photoUrl,
-        ),
-        docExt: docExt,
-      );
-    }).toList());
+        return ItemInWall(
+          date: formatDate.replaceAll('/', '.'),
+          myText: myText,
+          fromId: e.fromId,
+          likes: likes.count,
+          reposts: reposts.count,
+          views: views.count,
+          userLikes: likes.userLikes,
+          firstName: firstName,
+          lastName: lastName,
+          photoProfile: photoProfile,
+          groupName: groupName,
+          photoGroup: photoGroup,
+          postGroupText: postGroupText.postGroupText,
+          attachmentType: attachmentType,
+          listAttachmentType: listAttachmentType,
+          link: LinkRes(
+            linkUrl: linkUrl,
+            linkTitle: linkTitle,
+            linkPhotoUrl: linkPhotoUrl,
+          ),
+          photo: PhotoRes(
+            photoUrl: photoUrl,
+          ),
+          docExt: docExt,
+        );
+      }).toList());
+    }
 
     //print(ItemInWall.link);
 

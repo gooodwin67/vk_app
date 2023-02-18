@@ -30,6 +30,8 @@ class UserInfo {
   int followersCount;
   int sex;
   Map<String, dynamic> counters;
+  Map<String, dynamic> lastSeen;
+  int time;
 
   UserInfo({
     required this.id,
@@ -49,6 +51,8 @@ class UserInfo {
     required this.followersCount,
     required this.sex,
     required this.counters,
+    required this.lastSeen,
+    required this.time,
   });
 
   factory UserInfo.fromJson(Map<String, dynamic> json) {
@@ -69,8 +73,20 @@ class UserInfo {
       relationString: '',
       followersCount: json['followers_count'] ?? 0,
       sex: json['sex'] ?? 0,
-      counters: json['counters'],
+      counters: json['counters'] ?? {},
+      lastSeen: json['last_seen'] ?? {},
+      time: 0,
     );
+  }
+}
+
+class LastSeen {
+  final int time;
+
+  LastSeen({required this.time});
+
+  factory LastSeen.fromJson(Map<String, dynamic> json) {
+    return LastSeen(time: json['time'] ?? 0);
   }
 }
 
@@ -112,7 +128,7 @@ class City {
 
   factory City.fromJson(Map<String, dynamic> json) {
     return City(
-      title: json['title'] ?? '',
+      title: json['title'] ?? null,
     );
   }
 }

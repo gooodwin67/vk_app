@@ -54,10 +54,18 @@ class GetMyInfoModel extends ChangeNotifier {
                 : 'есть друг/есть подруга';
         break;
       case 3:
-        _userInfo!.relationString = 'помолвлен/помолвлена';
+        _userInfo!.sex == 1
+            ? _userInfo!.relationString = 'помолвлена'
+            : _userInfo!.sex == 2
+                ? _userInfo!.relationString = 'помолвлен'
+                : 'помолвлен/помолвлена';
         break;
       case 4:
-        _userInfo!.relationString = 'женат/замужем';
+        _userInfo!.sex == 1
+            ? _userInfo!.relationString = 'замужем'
+            : _userInfo!.sex == 2
+                ? _userInfo!.relationString = 'женат'
+                : 'замужем/женат';
         break;
       case 5:
         _userInfo!.relationString = 'всё сложно';
@@ -66,7 +74,11 @@ class GetMyInfoModel extends ChangeNotifier {
         _userInfo!.relationString = 'в активном поиске';
         break;
       case 7:
-        _userInfo!.relationString = 'влюблён/влюблена';
+        _userInfo!.sex == 1
+            ? _userInfo!.relationString = 'влюблена'
+            : _userInfo!.sex == 2
+                ? _userInfo!.relationString = 'влюблен'
+                : 'влюблен/влюблена';
         break;
       case 8:
         _userInfo!.relationString = 'в гражданском браке';
