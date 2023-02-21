@@ -47,7 +47,7 @@ class ScafChild extends StatelessWidget {
       children: const [
         //MenuItemWidget(linkIndex: 0, icon: Icons.newspaper_outlined),
         MenuItemWidget(linkIndex: 1, icon: Icons.search_outlined),
-        //MenuItemWidget(linkIndex: 2, icon: Icons.message_outlined),
+        MenuItemWidget(linkIndex: 2, icon: Icons.group_sharp),
         //MenuItemWidget(linkIndex: 3, icon: Icons.notifications_none_outlined),
         MenuItemWidget(linkIndex: 4, icon: Icons.menu),
       ],

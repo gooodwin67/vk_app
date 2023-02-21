@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vk_app/widgets/login-screen/login-screen.dart';
 import 'package:vk_app/routes/bottom-menu/bottom-menu.dart';
+import 'package:vk_app/widgets/menu-screens/groups-screen/groups-screen.dart';
 import 'package:vk_app/widgets/menu-screens/messages-screen/messages-screen.dart';
 import 'package:vk_app/widgets/menu-screens/news-screen/news-screen.dart';
 import 'package:vk_app/widgets/menu-screens/notifications-screen/notifications-screen.dart';
@@ -67,9 +68,9 @@ final _router = GoRouter(
           ],
         ),
         GoRoute(
-          path: '/messages',
+          path: '/groups',
           builder: (BuildContext context, GoRouterState state) {
-            return const MessagesScreenWidget();
+            return const GroupsScreenWidget();
           },
         ),
         GoRoute(

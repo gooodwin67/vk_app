@@ -4,7 +4,7 @@ class BottomMenuModel with ChangeNotifier {
   final List menuScreens = const [
     '/news',
     '/search',
-    '/messages',
+    '/groups',
     '/notifications',
     '/profile',
   ];
