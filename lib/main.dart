@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/domain/api_client/api_client.dart';
+import 'package:vk_app/entities/models/get_group_info_model.dart';
 import 'package:vk_app/entities/models/get_groups_model.dart';
 import 'package:vk_app/entities/models/get_my_friends_list_model.dart';
 import 'package:vk_app/entities/models/get_my_info_model.dart';
@@ -30,6 +31,7 @@ void main() {
       ChangeNotifierProvider(create: (_) => GetUserWallModel()),
       ChangeNotifierProvider(create: (_) => SearchScreenModel()),
       ChangeNotifierProvider(create: (_) => GetGroupsModel()),
+      ChangeNotifierProvider(create: (_) => GetGroupInfoModel()),
     ],
     child: const MyApp(),
   ));
