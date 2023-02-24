@@ -31,6 +31,7 @@ class ApiClient extends ChangeNotifier {
         VKScope.email,
         VKScope.friends,
         VKScope.photos,
+        VKScope.groups,
       ]);
 
       if (res.isValue) {

@@ -26,6 +26,7 @@ class GetGroupsModel extends ChangeNotifier {
     if (response != null) {
       _countGroups = response['count'];
       _items.addAll(response['items'].map((e) => Item.fromJson(e)).toList());
+
       _offset += 20;
     }
 

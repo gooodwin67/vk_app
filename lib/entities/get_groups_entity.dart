@@ -33,16 +33,19 @@ class Item {
   final String? photo50;
   final String? photo100;
   final String? photo200;
+  final int? isMember;
 
-  Item(
-      {this.id,
-      this.name,
-      this.screenName,
-      this.isClosed,
-      this.type,
-      this.photo50,
-      this.photo100,
-      this.photo200});
+  Item({
+    this.id,
+    this.name,
+    this.screenName,
+    this.isClosed,
+    this.type,
+    this.photo50,
+    this.photo100,
+    this.photo200,
+    this.isMember,
+  });
 
   factory Item.fromJson(Map<String, dynamic> json) {
     return Item(
@@ -54,6 +57,7 @@ class Item {
       photo50: json['photo_50'],
       photo100: json['photo_100'],
       photo200: json['photo_200'],
+      isMember: json['is_member'],
     );
   }
 }

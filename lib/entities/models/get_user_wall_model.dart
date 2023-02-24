@@ -11,14 +11,14 @@ class GetUserWallModel extends ChangeNotifier {
   int allWallCount = 0;
   int _count = 0;
   List itemsInWall = [];
-  int _id = 0;
+  String? _id;
 
   int currentPage = 1;
   int get count => _count;
 
   Future getUserWall(BuildContext context, count, offset, id) async {
     final token = context.read<ApiClient>().token;
-    _id = id;
+    _id = id.toString();
 
     var getUserWall = await http.get(Uri.parse(
         'https://api.vk.com/method/wall.get?v=5.131&access_token=$token&owner_id=$id&extended=1&offset=$offset&count=$count'));

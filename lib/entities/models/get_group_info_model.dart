@@ -17,7 +17,7 @@ class GetGroupInfoModel extends ChangeNotifier {
     final token = context.read<ApiClient>().token;
 
     var getGroupInfo = await http.get(Uri.parse(
-        'https://api.vk.com/method/groups.getById?v=5.131&access_token=$token&group_id=$id'));
+        'https://api.vk.com/method/groups.getById?v=5.131&access_token=$token&group_id=$id&fields=cover, description'));
 
     final response = Response.fromJson(jsonDecode(getGroupInfo.body)).response;
 

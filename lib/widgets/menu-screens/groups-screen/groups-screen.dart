@@ -177,10 +177,15 @@ class _GroupsScreenWidgetState extends State<GroupsScreenWidget> {
                               ),
                             ),
                             const Spacer(),
-                            Icon(
-                              Icons.add,
-                              color: constants.mainColor,
-                            )
+                            items[index].isMember == 0
+                                ? Icon(
+                                    Icons.add,
+                                    color: constants.mainColor,
+                                  )
+                                : Icon(
+                                    Icons.cancel,
+                                    color: Color.fromARGB(255, 255, 147, 140),
+                                  )
                           ],
                         ),
                       ),
