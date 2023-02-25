@@ -60,6 +60,7 @@ class GetMyWallModel extends ChangeNotifier {
       var photoGroup = 'photoGroup';
       var postGroupText = CopyHistory.fromJson(e.copyHistory[0]);
       var attachmentType = 'defaultType';
+      var docExt = 'gif'; // тип документа doc (пока что только gif)
       List listAttachmentType = [];
 
       List attachmentsResponse;
@@ -78,6 +79,7 @@ class GetMyWallModel extends ChangeNotifier {
       var linkPhotoUrl = '';
 
       var photoUrl = '';
+      List<String> photosList = [];
 
       List attachments = attachmentsResponse.map((e) {
         attachmentType = Attachments.fromJson(e).type;
@@ -92,6 +94,7 @@ class GetMyWallModel extends ChangeNotifier {
           var photoPhotos = LinkPhotos.fromJson(photoPhotoResponse);
 
           photoUrl = LinkPhotoUrl.fromJson(photoPhotos.sizes.last).url;
+          photosList.add(photoUrl);
         } else if (attachmentType == 'link') {
           attachment = TypeLinkResponse.fromJson(e);
           var linkResponse = Link.fromJson(attachment.link);
@@ -108,6 +111,15 @@ class GetMyWallModel extends ChangeNotifier {
           attachment = TypeDocResponse.fromJson(e);
 
           var photoPhotoResponse = TypeDocPreview.fromJson(attachment.doc);
+          docExt = photoPhotoResponse.ext;
+          if (docExt == 'gif') {
+            var docPhotosResponse =
+                TypePhotoResponse.fromJson(photoPhotoResponse.preview);
+
+            var docPhotos = PhotoPhotos.fromJson(docPhotosResponse.photo);
+
+            photoUrl = LinkDocUrl.fromJson(docPhotos.sizes[0]).src;
+          }
 
           var docPhotosResponse =
               TypePhotoResponse.fromJson(photoPhotoResponse.preview);
@@ -156,6 +168,7 @@ class GetMyWallModel extends ChangeNotifier {
         postGroupText: postGroupText.postGroupText,
         attachmentType: attachmentType,
         listAttachmentType: listAttachmentType,
+        photosList: photosList,
         link: LinkRes(
           linkUrl: linkUrl,
           linkTitle: linkTitle,
@@ -164,6 +177,7 @@ class GetMyWallModel extends ChangeNotifier {
         photo: PhotoRes(
           photoUrl: photoUrl,
         ),
+        docExt: docExt,
       );
     }).toList());
 
@@ -204,8 +218,10 @@ class ItemInWall {
   String postGroupText;
   String attachmentType;
   List listAttachmentType;
+  List photosList;
   LinkRes link;
   PhotoRes photo;
+  String docExt;
 
   ItemInWall({
     required this.fromId,
@@ -222,9 +238,11 @@ class ItemInWall {
     required this.photoGroup,
     required this.postGroupText,
     required this.attachmentType,
+    required this.photosList,
     required this.listAttachmentType,
     required this.link,
     required this.photo,
+    required this.docExt,
   });
 }
 

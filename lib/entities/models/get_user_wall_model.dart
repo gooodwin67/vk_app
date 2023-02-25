@@ -82,6 +82,7 @@ class GetUserWallModel extends ChangeNotifier {
         var linkPhotoUrl = '';
 
         var photoUrl = '';
+        List<String> photosList = [];
 
         List attachments = attachmentsResponse.map((e) {
           attachmentType = Attachments.fromJson(e).type;
@@ -96,6 +97,7 @@ class GetUserWallModel extends ChangeNotifier {
             var photoPhotos = LinkPhotos.fromJson(photoPhotoResponse);
 
             photoUrl = LinkPhotoUrl.fromJson(photoPhotos.sizes.last).url;
+            photosList.add(photoUrl);
           } else if (attachmentType == 'link') {
             attachment = TypeLinkResponse.fromJson(e);
             var linkResponse = Link.fromJson(attachment.link);
@@ -163,6 +165,7 @@ class GetUserWallModel extends ChangeNotifier {
           postGroupText: postGroupText.postGroupText,
           attachmentType: attachmentType,
           listAttachmentType: listAttachmentType,
+          photosList: photosList,
           link: LinkRes(
             linkUrl: linkUrl,
             linkTitle: linkTitle,
@@ -217,6 +220,7 @@ class ItemInWall {
   String postGroupText;
   String attachmentType;
   List listAttachmentType;
+  List photosList;
   LinkRes link;
   PhotoRes photo;
   String docExt;
@@ -237,6 +241,7 @@ class ItemInWall {
     required this.postGroupText,
     required this.attachmentType,
     required this.listAttachmentType,
+    required this.photosList,
     required this.link,
     required this.photo,
     required this.docExt,
