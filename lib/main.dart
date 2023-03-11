@@ -11,6 +11,7 @@ import 'package:vk_app/entities/models/get_user_friends_list_model.dart';
 import 'package:vk_app/entities/models/get_user_info_model.dart';
 import 'package:vk_app/entities/models/get_user_photos_model.dart';
 import 'package:vk_app/entities/models/get_user_wall_model.dart';
+import 'package:vk_app/entities/models/join_to_group.dart';
 import 'package:vk_app/entities/models/user_search_model.dart';
 import 'package:vk_app/routes/routes.dart';
 import 'package:vk_app/routes/bottom-menu/bottom-menu-model.dart';
@@ -32,6 +33,8 @@ void main() {
       ChangeNotifierProvider(create: (_) => SearchScreenModel()),
       ChangeNotifierProvider(create: (_) => GetGroupsModel()),
       ChangeNotifierProvider(create: (_) => GetGroupInfoModel()),
+      ChangeNotifierProvider(create: (_) => JoinToGroupModel()),
+      ChangeNotifierProvider(create: (_) => LeaveFromGroupModel()),
     ],
     child: const MyApp(),
   ));

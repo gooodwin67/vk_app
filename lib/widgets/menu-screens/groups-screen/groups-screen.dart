@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_app/constants/constants.dart';
 import 'package:vk_app/entities/models/get_groups_model.dart';
+import 'package:vk_app/entities/models/join_to_group.dart';
 
 class GroupsScreenWidget extends StatefulWidget {
   const GroupsScreenWidget({Key? key}) : super(key: key);
@@ -178,13 +179,33 @@ class _GroupsScreenWidgetState extends State<GroupsScreenWidget> {
                             ),
                             const Spacer(),
                             items[index].isMember == 0
-                                ? Icon(
-                                    Icons.add,
-                                    color: constants.mainColor,
+                                ? InkWell(
+                                    onTap: () {
+                                      context
+                                          .read<JoinToGroupModel>()
+                                          .joinToGroup(
+                                              context, items[index].id);
+                                      items[index].isMember = 1;
+                                      setState(() {});
+                                    },
+                                    child: Icon(
+                                      Icons.add,
+                                      color: constants.mainColor,
+                                    ),
                                   )
-                                : Icon(
-                                    Icons.cancel,
-                                    color: Color.fromARGB(255, 255, 147, 140),
+                                : InkWell(
+                                    onTap: () {
+                                      context
+                                          .read<LeaveFromGroupModel>()
+                                          .leaveFromGroup(
+                                              context, items[index].id);
+                                      items[index].isMember = 0;
+                                      setState(() {});
+                                    },
+                                    child: Icon(
+                                      Icons.cancel,
+                                      color: Color.fromARGB(255, 255, 147, 140),
+                                    ),
                                   )
                           ],
                         ),

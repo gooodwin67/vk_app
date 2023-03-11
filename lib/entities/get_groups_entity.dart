@@ -33,7 +33,7 @@ class Item {
   final String? photo50;
   final String? photo100;
   final String? photo200;
-  final int? isMember;
+  int? isMember;
 
   Item({
     this.id,
